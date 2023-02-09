@@ -6,15 +6,48 @@
     <meta charset="UTF-8">
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link type="text/css" href="{% static '/css/bootstrap.css' %}"  rel="stylesheet">
-
-
-<script src="{% static '/js/bootstrap.min.js' %}" ></script>
+     <link type="text/css" href="{% static '/css/my.css' %}"  rel="stylesheet">
+       <link rel="shortcut icon" href="{% static '/images/box.ico' %}" type="image/x-icon">
+    <script src="{% static '/js/bootstrap.min.js' %}" ></script>
 </head>
-<body>
-<h1 class="bg-info-subtle ">444444444444444</h1>
 
+<body>
+
+<div class="container-fluid border shadow maincontainer">
+    <div class="row">
+        <div class="col-md-12 mb-3 border shadow ">
+
+            Центральный склад АО "ЕНСПК"
+            <div class="user">Пользователь:
+             {% if request.user.is_authenticated %}
+               {{user.first_name}} {{user.last_name}} | <a href="{% url 'UserOut' %}" style="font-size:16px;margin-top:12px;">Выйти</a>
+            {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+<div class="row">
+    <div class="col-md-2 mb-1 linkarea">
+        {% block LinkArea %}
+        LinkArea
+        {% endblock LinkArea %}
+    </div>
+    <div class="col-md-10  shadow ">
+        {% block DataArea %}
+        DataArea
+        {% endblock DataArea %}
+
+    </div>
+
+</div>
+ <div class="row">
+    <div class="col-md-12 logo" >
+       АО "ЕнСПК" - 2023
+    </div>
+</div>
+</div>
 
 </body>
 </html>

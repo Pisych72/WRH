@@ -1,0 +1,16 @@
+{% extends 'store/base.html' %}
+{% block LinkArea %}
+
+{% endblock LinkArea %}
+{% block DataArea %}
+
+<div class="login border shadow  col-md-6 mx-auto loginform mt-5 ">
+<h4 class="mb-2">Вход в программу:</h4>
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+   <div class="text-right"> <button type="submit" class="btn btn-primary mb-2 mx-auto ">ОК</button></div>
+</form>
+</div>
+    {% endblock DataArea %}
