@@ -5,9 +5,9 @@
 {% if request.user.username == "Кладовщик" %}
 
 <a href="{% url 'DocMenu' %}" class="btn btn-light border border-white  nav-link mb-2 shadow  ">Документы</a>
-<a href="{% url 'OperMenu' %}" class="btn btn-light border border-white  nav-link mb-2 shadow ">Операции</a>
-<a href="#" class="btn btn-light border border-white  nav-link mb-2 shadow ">Отчеты</a>
-<a href="#" class="btn btn-light border border-white  nav-link mb-1 shadow ">Справочники</a>
+
+<a href="{% url 'ReportMenu' %}" class="btn btn-light border border-white  nav-link mb-2 shadow ">Отчеты</a>
+<a href="{% url 'SpravMenu' %}" class="btn btn-light border border-white  nav-link mb-1 shadow ">Справочники</a>
 
 {% else %}
  <a href="#" class="btn btn-light border border-white  nav-link mb-2 shadow ">Отчеты</a>

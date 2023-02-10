@@ -14,14 +14,17 @@ from .models import *
 # Create your views here.
 
 def index(request):
-   return render(request, 'store/menu.html' )
+   return render(request, 'store/menu.html',{'title':'Центральный склад'} )
 
 
 def DocMenu(request):
-   return render(request,'store/menu/Docs.html')
+   return render(request,'store/menu/Docs.html',{'title':'Документы'})
 
-def OperMenu(request):
-   return render(request,'store/menu/OperMenu.html')
+def SpravMenu(request):
+   return render(request,'store/menu/SpravMenu.html',{'title':'Справочники'})
+
+def ReportMenu(request):
+   return render(request,'store/menu/ReportMenu.html',{'title':'Отчеты'})
 
 
 def loginUser(request):

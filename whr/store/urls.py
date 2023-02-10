@@ -7,6 +7,7 @@ urlpatterns=[
    path('main/',index,name='home'),
    path('out/',UserOut,name='UserOut'),
    path ('docs/',DocMenu,name='DocMenu'),
-   path ('oper/',OperMenu,name='OperMenu'),
+   path ('sprav/',SpravMenu,name='SpravMenu'),
+   path('report/', ReportMenu, name='ReportMenu'),
 
 ]

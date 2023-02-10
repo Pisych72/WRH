@@ -1,5 +1,69 @@
 {% extends 'store/menu.html' %}
 {% load static %}
 {% block DataArea %}
-<h4 class=" float=left"> <img src="{% static '/images/report3.png' %}" class="miniature"> Документы</h4>
+<h4 class="mb-4"> <img src="{% static '/images/report3.png' %}" class="miniature"> Документы</h4>
+
+<div class="row ">
+
+<div class="col-md-3">
+    <div class="card shadow" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">Начальные остатки</h5>
+     <img class="card-img-top miniature" src="{% static '/images/report3.png' %}" >
+    <p class="card-text">Создание,редактирование, удаление документов для ввода начальных остатков</p>
+    <a href="#" class="btn btn-primary">Журнал документов</a>
+    </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card shadow" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">Поступление</h5>
+     <img class="card-img-top miniature" src="{% static '/images/report3.png' %}" >
+    <p class="card-text">Создание,редактирование, удаление документов при поступлении ТМЦ</p>
+    <a href="#" class="btn btn-primary">Журнал документов</a>
+    </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card shadow" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">Перемещение</h5>
+     <img class="card-img-top miniature" src="{% static '/images/report3.png' %}" >
+    <p class="card-text">Создание,редактирование, удаление документов при передаче ТМЦ</p>
+    <a href="#" class="btn btn-primary">Журнал документов</a>
+    </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card shadow" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">Списание</h5>
+     <img class="card-img-top miniature" src="{% static '/images/report3.png' %}" >
+    <p class="card-text">Создание,редактирование, удаление документов при списании ТМЦ</p>
+    <a href="#" class="btn btn-primary">Журнал документов</a>
+    </div>
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock DataArea %}
