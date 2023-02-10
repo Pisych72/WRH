@@ -26,6 +26,11 @@ def SpravMenu(request):
 def ReportMenu(request):
    return render(request,'store/menu/ReportMenu.html',{'title':'Отчеты'})
 
+#Единицы измерения (UnitList)
+def UnitList(request):
+   unit=Unit.objects.all()
+   return render(request,'store/spr/UnitList.html',{'title':"Единицы измерения",'unit':unit})
+
 
 def loginUser(request):
    if request.method == 'POST':

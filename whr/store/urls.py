@@ -9,5 +9,6 @@ urlpatterns=[
    path ('docs/',DocMenu,name='DocMenu'),
    path ('sprav/',SpravMenu,name='SpravMenu'),
    path('report/', ReportMenu, name='ReportMenu'),
+   path('unit/', UnitList, name='UnitList'),
 
 ]
