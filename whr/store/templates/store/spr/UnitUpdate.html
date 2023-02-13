@@ -11,7 +11,7 @@
 <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p}}</th>
-      <th class="text-end pt-4 "> <button type="submit" class="btn btn-success btn btn-sm mb-3 pt-2 pb-2" >Добавить</button>
+      <th class="text-end pt-4 myinput"> <button type="submit" class="btn btn-primary btn btn-sm mb-3 pt-2 pb-2" >Изменить</button>
        <a href="{% url 'UnitList' %}" class="btn btn-secondary btn btn-sm mb-3 pt-2 pb-2" >X<a>
 </form>
 </th>
@@ -24,7 +24,7 @@
     {% for item in unit %}
 <tr>
 <td>
-<a href="{% url 'UnitUpdate' item.pk %}" class="lead text-dark">{{item.title}}</a>
+<a href="{% url 'UnitUpdate' item.pk %}" data-bs-toggle="modal" class="lead text-dark">{{item.title}}</a>
 </td>
 <td class="text-center"><img src="{% static '/images/del.png' %}" class="miniature2">
 </td>

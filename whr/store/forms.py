@@ -10,6 +10,11 @@ class UnitForm(forms.ModelForm):
    class Meta:
       model = Unit
       fields = ['title']
+
       widgets = {
-      'title': forms.TextInput(attrs={'class':'form-input','style':'width:804px;border-radius:5px;border:none'}),
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:822px'}),
       }
+
+   def __init__(self, *args, **kwargs):
+       super(UnitForm, self).__init__(*args, **kwargs)
+       self.fields['title'].label = ""

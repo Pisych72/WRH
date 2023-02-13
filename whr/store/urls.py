@@ -10,5 +10,6 @@ urlpatterns=[
    path ('sprav/',SpravMenu,name='SpravMenu'),
    path('report/', ReportMenu, name='ReportMenu'),
    path('unit/', UnitList, name='UnitList'),
+   path('unit/<str:pk>',UnitUpdate,name='UnitUpdate'),
 
 ]

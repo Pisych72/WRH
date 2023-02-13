@@ -27,9 +27,41 @@ def ReportMenu(request):
    return render(request,'store/menu/ReportMenu.html',{'title':'Отчеты'})
 
 #Единицы измерения (UnitList)
+#def UnitList(request):
+#   unit=Unit.objects.all()
+#   return render(request,'store/spr/UnitList.html',{'title':"Единицы измерения",'unit':unit})
+
+#Создание единицы измерения
 def UnitList(request):
-   unit=Unit.objects.all()
-   return render(request,'store/spr/UnitList.html',{'title':"Единицы измерения",'unit':unit})
+   unit = Unit.objects.all()
+   if request.method == 'POST':
+      form = UnitForm(request.POST)
+
+      if form.is_valid():
+
+         form.save()
+         return redirect("UnitList")
+
+   else:
+
+         form=UnitForm()
+   return render(request,'store/spr/UnitList.html',{'title':"Единицы измерения",'unit':unit,'form':form})
+
+# редактирование единицы измерения
+
+def UnitUpdate(request,pk):
+
+     unit=Unit.objects.all()
+     current_unit = Unit.objects.get(pk=pk)
+     if request.method == 'POST':
+         form=UnitForm(request.POST,instance=current_unit)
+         if form.is_valid():
+           form.save()
+           return redirect('UnitList')
+     else:
+        form=UnitForm(instance=current_unit)
+        return render(request,'store/spr/UnitUpdate.html',{'title':"Единицы измерения",'unit':unit,'form':form})
+
 
 
 def loginUser(request):

@@ -25,3 +25,12 @@ width:20px;
 a {
 text-decoration:none;
 }
+.scrolltable{
+display:block;
+overflow-y: auto;
+height:70vh;
+}
+
+.miniature_sprav{
+width:25px;
+}
