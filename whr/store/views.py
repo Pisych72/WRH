@@ -34,6 +34,7 @@ def ReportMenu(request):
 #Создание единицы измерения
 def UnitList(request):
    unit = Unit.objects.all()
+   formmessage='Новая единица измерения:'
    if request.method == 'POST':
       form = UnitForm(request.POST)
 
@@ -45,12 +46,11 @@ def UnitList(request):
    else:
 
          form=UnitForm()
-   return render(request,'store/spr/UnitList.html',{'title':"Единицы измерения",'unit':unit,'form':form})
+   return render(request,'store/spr/UnitList.html',{'title':"Единицы измерения",'unit':unit,'form':form,})
 
 # редактирование единицы измерения
 
 def UnitUpdate(request,pk):
-
      unit=Unit.objects.all()
      current_unit = Unit.objects.get(pk=pk)
      if request.method == 'POST':
@@ -60,10 +60,23 @@ def UnitUpdate(request,pk):
            return redirect('UnitList')
      else:
         form=UnitForm(instance=current_unit)
-        return render(request,'store/spr/UnitUpdate.html',{'title':"Единицы измерения",'unit':unit,'form':form})
+        return render(request,'store/spr/UnitUpdate.html',{'title':"Единицы измерения",'unit':unit,'form':form,})
+
+# удаление единицы измерения:
+def UnitDelete(request, pk):
+   unit = Unit.objects.all()
+   current_unit = Unit.objects.get(pk=pk)
+   if request.method == 'POST':
+      form = UnitForm(request.POST, instance=current_unit)
+      if form.is_valid():
+         current_unit.delete()
+         return redirect('UnitList')
+   else:
+      form = UnitForm(instance=current_unit)
+      return render(request, 'store/spr/UnitDelete.html', {'title': "Единицы измерения", 'unit': unit, 'form': form, })
 
 
-
+# Логин
 def loginUser(request):
    if request.method == 'POST':
       form = UserLoginForm(data=request.POST)

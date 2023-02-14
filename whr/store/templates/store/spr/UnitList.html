@@ -1,17 +1,21 @@
 {% extends 'store/menu.html' %}
 {% load static %}
 {% block DataArea %}
-<h6 class="mb-2 "> <img src="{% static '/images/report.png' %}" class="miniature_sprav"> Единицы измерения</h6>
+
 <div class="row">
-<div class="col-md-10 mx-auto">
+    <div class="col-md-1  "><img src="{% static '/images/report.png' %}" class="miniature_sprav mt-1 ">Единицы измерения</div>
+<div class="col-md-11 mx-auto shadow">
 <table class="table  shadow ">
+
  <thead>
+
     <tr>
-      <th >Наименование
+
+      <th >
 <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p}}</th>
-      <th class="text-end pt-4 "> <button type="submit" class="btn btn-success btn btn-sm mb-3 pt-2 pb-2" >Добавить</button>
+<th class="pt-4"> <button type="submit" class="btn btn-primary btn btn-sm mb-3 pt-2 pb-2 " >Добавить</button>
        <a href="{% url 'UnitList' %}" class="btn btn-secondary btn btn-sm mb-3 pt-2 pb-2" >X<a>
 </form>
 </th>
@@ -19,15 +23,17 @@
   </thead>
 </table>
 <div class="scrolltable">
-<table class="table  shadow table-bordered">
+<table class="table shadow table-bordered">
 <tbody>
     {% for item in unit %}
 <tr>
-<td>
-<a href="{% url 'UnitUpdate' item.pk %}" class="lead text-dark">{{item.title}}</a>
+<td style="width:960px;">
+<a href="{% url 'UnitUpdate' item.pk %}" class=" text-dark  ">{{item.title}}</a>
 </td>
-<td class="text-center"><img src="{% static '/images/del.png' %}" class="miniature2">
-</td>
+<td class="text-center">
+    <a href="{% url 'UnitDelete' item.pk %}" class="lead text-dark  ">
+    <img src="{% static '/images/del.png' %}" class="miniature2"></td></a>
+
 </tr>
 {% endfor %}
 </tbody>
@@ -35,4 +41,12 @@
 </div>
 </div>
 </div>
+
+
+
+
+
+
+
+
 {% endblock DataArea %}

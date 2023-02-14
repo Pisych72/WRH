@@ -12,9 +12,9 @@ class UnitForm(forms.ModelForm):
       fields = ['title']
 
       widgets = {
-      'title': forms.TextInput(attrs={'class':'form-control','style':'width:822px'}),
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:950px;'}),
       }
 
-   def __init__(self, *args, **kwargs):
-       super(UnitForm, self).__init__(*args, **kwargs)
-       self.fields['title'].label = ""
+   #def __init__(self, *args, **kwargs):
+    #   super(UnitForm, self).__init__(*args, **kwargs)
+     #  self.fields['title'].label = ""

@@ -28,9 +28,12 @@ text-decoration:none;
 .scrolltable{
 display:block;
 overflow-y: auto;
-height:70vh;
+height:75vh;
 }
 
 .miniature_sprav{
-width:25px;
+width:45px;
+float:left;
+
+
 }
