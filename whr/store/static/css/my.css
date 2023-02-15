@@ -20,7 +20,7 @@ padding-right:30px;
 width:45px;
 }
 .miniature2{
-width:20px;
+width:25px;
 }
 a {
 text-decoration:none;
@@ -30,10 +30,21 @@ display:block;
 overflow-y: auto;
 height:75vh;
 }
-
+.scrolltable2{
+display:block;
+overflow-y: auto;
+height:72.5vh;
+}
 .miniature_sprav{
 width:45px;
 float:left;
+}
 
-
+.borderdiv{
+border-radius:10px;
+}
+.btnupdate{
+width:40px;
+padding:0;
+margin-bottom:15px;
 }

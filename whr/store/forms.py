@@ -10,11 +10,68 @@ class UnitForm(forms.ModelForm):
    class Meta:
       model = Unit
       fields = ['title']
-
       widgets = {
-      'title': forms.TextInput(attrs={'class':'form-control','style':'width:950px;'}),
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
       }
 
    #def __init__(self, *args, **kwargs):
     #   super(UnitForm, self).__init__(*args, **kwargs)
      #  self.fields['title'].label = ""
+class CategoryForm(forms.ModelForm):
+   class Meta:
+      model = Category
+      fields = ['title']
+      widgets = {
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
+      }
+
+class PostavForm(forms.ModelForm):
+   class Meta:
+      model = Postav
+      fields = ['title']
+      widgets = {
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
+      }
+
+class SpisForm(forms.ModelForm):
+   class Meta:
+      model = Spis
+      fields = ['title']
+      widgets = {
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
+      }
+
+class PodrazForm(forms.ModelForm):
+   class Meta:
+      model = Podraz
+      fields = ['title']
+      widgets = {
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:945px;'}),
+         }
+
+class FioForm(forms.ModelForm):
+   class Meta:
+      model = Fio
+      fields = ['title']
+      widgets = {
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:945px;'}),
+         }
+
+class ObctForm(forms.ModelForm):
+   class Meta:
+      model = Obct
+      fields = ['title']
+      widgets = {
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:945px;'}),
+         }
+
+class NomForm(forms.ModelForm):
+   class Meta:
+      model = Nom
+      fields = ['title','izm','category','srok']
+      widgets = {
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:450px;'}),
+    'izm': forms.Select(attrs={'class': 'form-control', 'style': 'width:150px;'}),
+    'category': forms.Select(attrs={'class': 'form-control', 'style': 'width:150px;'}),
+     'srok': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:50px;'}),
+         }

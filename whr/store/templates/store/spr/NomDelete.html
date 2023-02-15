@@ -1,0 +1,61 @@
+{% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+<form action="" method="post" >
+        {% csrf_token %}
+<div class="row">
+    <div class="col-md-1  "><img src="{% static '/images/report.png' %}" class="miniature_sprav mt-1 ">Номенклат.</div>
+<div class="col-md-11 mx-auto shadow ">
+<table class="table  shadow ">
+ <thead>
+    <tr>
+        <th>Наименование</th>
+        <th>Ед.изм.</th>
+        <th>Категория</th>
+        <th title="Только для спецодежды">Срок,мес.</th>
+        <th colspan="2"></th>
+    </tr>
+ </thead>
+    <tr>
+    <td class=" border-danger " > {{ form.title}}</td>
+     <td class=" border-danger " > {{ form.izm}}</td>
+     <td class=" border-danger " > {{ form.category}}</td>
+     <td class=" border-danger readonly " title="Только для спецодежды" > {{ form.srok}}</td>
+
+<td class="pt-2 border-danger "> <button type="submit" class="btn btn-danger btn btn-sm mb-3 pt-2 pb-2 bt-3 " >Удалить</button>
+       <a href="{% url 'NomList' %}"  ><img src="{% static '/images/update.png' %}" class="btnupdate"><a>
+</form>
+</td>
+    </tr>
+
+</table>
+<div class="scrolltable2">
+<table class="table shadow table-bordered">
+<tbody>
+    {% for item in unit %}
+<tr>
+<td style="width:510px;">
+<a href="{% url 'NomUpdate' item.pk %}" class=" text-dark  ">{{item.title}}</a>
+</td>
+ <td style="width:180px;">
+{{item.izm}}
+</td>
+<td style="width:175px;">
+{{item.category}}
+</td>
+  <td style="width:65px;">
+{% if item.srok != 0 %}
+      {{item.srok}}
+      {% endif %}
+</td>
+<td class="text-center">
+    <a href="{% url 'NomDelete' item.pk %}" class="lead text-dark  ">
+    <img src="{% static '/images/del.png' %}" class="miniature2"></td></a>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</div>
+{% endblock DataArea %}
