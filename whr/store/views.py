@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from .forms import *
-from django.db.models import Sum
+from django.db.models import Sum, ProtectedError
 from django.contrib import messages
 import datetime
 from django.db.models import Q
@@ -69,8 +69,11 @@ def UnitDelete(request, pk):
    if request.method == 'POST':
       form = UnitForm(request.POST, instance=current_unit)
       if form.is_valid():
-            current_unit.delete()
-            return redirect('UnitList')
+            try:
+                current_unit.delete()
+                return redirect('UnitList')
+            except ProtectedError:
+                return HttpResponse('Oib,re ')
 
 
    else:
