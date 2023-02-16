@@ -41,4 +41,7 @@ urlpatterns=[
    path('obct/', ObctList, name='ObctList'),
    path('obct/<str:pk>',ObctUpdate,name='ObctUpdate'),
    path('obctdelete/<str:pk>', ObctDelete, name='ObctDelete'),
+# Обработка ошибки удаления
+   path('error/', ErrorDelete, name='ErrorDelete'),
+
 ]

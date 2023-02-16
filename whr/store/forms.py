@@ -14,6 +14,13 @@ class UnitForm(forms.ModelForm):
       'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
       }
 
+class UnitFormSprav(forms.ModelForm):
+   class Meta:
+      model = Unit
+      fields = ['title']
+      widgets = {
+      'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:200px;'}),
+      }
    #def __init__(self, *args, **kwargs):
     #   super(UnitForm, self).__init__(*args, **kwargs)
      #  self.fields['title'].label = ""

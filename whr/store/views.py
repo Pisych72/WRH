@@ -26,10 +26,10 @@ def SpravMenu(request):
 def ReportMenu(request):
    return render(request,'store/menu/ReportMenu.html',{'title':'Отчеты'})
 
-#Единицы измерения (UnitList)
-#def UnitList(request):
-#   unit=Unit.objects.all()
-#   return render(request,'store/spr/UnitList.html',{'title':"Единицы измерения",'unit':unit})
+# Обработка ошибки удаления
+def ErrorDelete(request):
+    return render(request,'store/spr/ErrorDelete.html',{'title':'Ошибка удаления'})
+
 
 #Создание единицы измерения
 def UnitList(request):
@@ -73,7 +73,7 @@ def UnitDelete(request, pk):
                 current_unit.delete()
                 return redirect('UnitList')
             except ProtectedError:
-                return HttpResponse('Oib,re ')
+                return redirect('ErrorDelete')
 
 
    else:
@@ -123,8 +123,11 @@ def CategoryDelete(request, pk):
    if request.method == 'POST':
       form = CategoryForm(request.POST, instance=current_unit)
       if form.is_valid():
-         current_unit.delete()
-         return redirect('CategoryList')
+          try:
+              current_unit.delete()
+              return redirect('CategoryList')
+          except ProtectedError:
+              return redirect('ErrorDelete')
    else:
       form = CategoryForm(instance=current_unit)
       return render(request,'store/spr/SprList.html',{'title':"Категории",'unit':unit,'form':form,
@@ -172,8 +175,11 @@ def PostavDelete(request, pk):
    if request.method == 'POST':
       form = PostavForm(request.POST, instance=current_unit)
       if form.is_valid():
-         current_unit.delete()
-         return redirect('PostavList')
+          try:
+              current_unit.delete()
+              return redirect('PostavList')
+          except ProtectedError:
+              return redirect('ErrorDelete')
    else:
       form = PostavForm(instance=current_unit)
       return render(request,'store/spr/SprList.html',{'title':"Поставщики",'unit':unit,'form':form,
@@ -221,8 +227,11 @@ def SpisDelete(request, pk):
    if request.method == 'POST':
       form = SpisForm(request.POST, instance=current_unit)
       if form.is_valid():
-         current_unit.delete()
-         return redirect('SpisList')
+          try:
+              current_unit.delete()
+              return redirect('SpisList')
+          except ProtectedError:
+              return redirect('ErrorDelete')
    else:
       form = SpisForm(instance=current_unit)
       return render(request,'store/spr/SprList.html',{'title':"Списание",'unit':unit,'form':form,
@@ -270,8 +279,11 @@ def PodrazDelete(request, pk):
    if request.method == 'POST':
       form = PodrazForm(request.POST, instance=current_unit)
       if form.is_valid():
-         current_unit.delete()
-         return redirect('PodrazList')
+          try:
+              current_unit.delete()
+              return redirect('PodrazList')
+          except ProtectedError:
+              return redirect('ErrorDelete')
    else:
       form = PodrazForm(instance=current_unit)
       return render(request,'store/spr/SprList.html',{'title':"Подразделения",'unit':unit,'form':form,
@@ -295,7 +307,7 @@ def FioList(request):
                      'btn_class':'btn-primary','pic_label': 'Подотчет',
                      'base_url': 'FioList', 'update_url': 'FioUpdate',
                      'delete_url': 'FioDelete'})
-# редактирование подразделения
+# редактирование подотчета
 
 def FioUpdate(request,pk):
      unit=Fio.objects.all()
@@ -312,15 +324,18 @@ def FioUpdate(request,pk):
                      'btn_class':'btn-primary','pic_label': 'Подотчет',
                      'base_url': 'FioList', 'update_url': 'FioUpdate',
                      'delete_url': 'FioDelete'})
-# удаление подразделения:
+# удаление подотчета:
 def FioDelete(request, pk):
    unit = Fio.objects.all()
    current_unit = Fio.objects.get(pk=pk)
    if request.method == 'POST':
       form = FioForm(request.POST, instance=current_unit)
       if form.is_valid():
-         current_unit.delete()
-         return redirect('FioList')
+          try:
+              current_unit.delete()
+              return redirect('FioList')
+          except ProtectedError:
+              return redirect('ErrorDelete')
    else:
       form = FioForm(instance=current_unit)
       return render(request,'store/spr/FioList.html',{'title':"Подотчет",'unit':unit,'form':form,
@@ -332,15 +347,26 @@ def FioDelete(request, pk):
 # Номенклатура
 #Создание номенклатуры
 def NomList(request):
-   unit = Nom.objects.all()
+   unit=Nom.objects.all()
+
    if request.method == 'POST':
-      form = NomForm(request.POST)
-      if form.is_valid():
-         form.save()
-         return redirect("NomList")
+       form=NomForm(request.POST)
+       form2=UnitForm(request.POST)
+       print(request.POST)
+       if form.is_valid():
+           form.save()
+           return redirect('NomList')
+       if form2.is_valid():
+           form2.save()
+           return redirect('NomList')
    else:
-         form=NomForm()
-   return render(request,'store/spr/NomList.html',{'title':"Номенклатура",'unit':unit,'form':form,})
+       form=NomForm()
+       form2=UnitForm()
+       return render(request,'store/spr/NomList.html',{'title':"Номенклатура",'unit':unit,'form':form,'form2':form2,
+   'btn_caption': 'Добавить', 'brd_class': 'border-secondary',
+   'btn_class': 'btn-primary', 'pic_label': 'Номенкл.',
+   'base_url': 'NomList', 'update_url': 'NomUpdate',
+   'delete_url': 'NomDelete'})
 
 # редактирование номенклатуры
 
@@ -354,7 +380,12 @@ def NomUpdate(request,pk):
            return redirect('NomList')
      else:
         form=NomForm(instance=current_unit)
-        return render(request,'store/spr/NomUpdate.html',{'title':"Номенклатура",'unit':unit,'form':form,})
+        return render(request,'store/spr/NomList.html',{'title':"Номенклатура",'unit':unit,'form':form,
+        'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
+        'btn_class': 'btn-primary', 'pic_label': 'Номенкл.',
+        'base_url': 'NomList', 'update_url': 'NomUpdate',
+        'delete_url': 'NomDelete'
+                                                          })
 
 # удаление номенклатуры:
 def NomDelete(request, pk):
@@ -363,11 +394,19 @@ def NomDelete(request, pk):
    if request.method == 'POST':
       form = NomForm(request.POST, instance=current_unit)
       if form.is_valid():
-         current_unit.delete()
-         return redirect('NomList')
+          try:
+              current_unit.delete()
+              return redirect('NomList')
+          except ProtectedError:
+              return redirect('ErrorDelete')
    else:
       form = NomForm(instance=current_unit)
-      return render(request, 'store/spr/NomDelete.html', {'title': "Номенклатура", 'unit': unit, 'form': form, })
+      return render(request, 'store/spr/NomList.html', {'title': "Номенклатура", 'unit': unit, 'form': form,
+      'btn_caption': 'Удалить', 'brd_class': 'border-danger',
+      'btn_class': 'btn-danger', 'pic_label': 'Номенкл.',
+      'base_url': 'NomList', 'update_url': 'NomUpdate',
+      'delete_url': 'NomDelete'
+      })
 
 # Объекты
 #Создание объекта
@@ -375,6 +414,7 @@ def ObctList(request):
    unit = Obct.objects.all()
    if request.method == 'POST':
       form = ObctForm(request.POST)
+
       if form.is_valid():
          form.save()
          return redirect("ObctList")
@@ -411,8 +451,11 @@ def ObctDelete(request, pk):
    if request.method == 'POST':
       form = ObctForm(request.POST, instance=current_unit)
       if form.is_valid():
-         current_unit.delete()
-         return redirect('ObctList')
+          try:
+              current_unit.delete()
+              return redirect('ObctList')
+          except ProtectedError:
+              return redirect('ErrorDelete')
    else:
       form = ObctForm(instance=current_unit)
       return render(request, 'store/spr/SprList.html', {'title': "Объекты", 'unit': unit, 'form': form,
@@ -420,6 +463,8 @@ def ObctDelete(request, pk):
                   'btn_class':'btn-danger','pic_label': 'Объекты',
                   'base_url': 'ObctList', 'update_url': 'ObctUpdate',
                   'delete_url': 'ObctDelete'})
+
+#подбор единицы измерения из модального окна
 
 
 

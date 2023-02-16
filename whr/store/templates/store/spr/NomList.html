@@ -1,10 +1,15 @@
 {% extends 'store/menu.html' %}
 {% load static %}
 {% block DataArea %}
-<form action="" method="post" >
+<form action="" method="post" id="mainform">
         {% csrf_token %}
 <div class="row">
-    <div class="col-md-1  "><img src="{% static '/images/report.png' %}" class="miniature_sprav mt-1 ">Номенклат.</div>
+    <div class="col-md-1  "><img src="{% static '/images/report.png' %}" class="miniature_sprav mt-1 ">{{pic_label}}
+<div class="linkdiv">
+        <a href="#" class="btn btn-secondary  btn-sm mb-2 mt-5 linkbtn" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">  Ед.изм.</a>
+        <a href="#" class="btn btn-secondary btn-sm linkbtn">Категории</a>
+</div>
+    </div>
 <div class="col-md-11 mx-auto shadow ">
 <table class="table  shadow ">
  <thead>
@@ -17,13 +22,14 @@
     </tr>
  </thead>
     <tr>
-    <td class=" border-secondary " > {{ form.title}}</td>
-     <td class=" border-secondary " > {{ form.izm}}</td>
-     <td class=" border-secondary " > {{ form.category}}</td>
-     <td class=" border-secondary " title="Только для спецодежды" > {{ form.srok}}</td>
+    <td class=" {{brd_class}} " > {{ form.title}}</td>
+     <td class=" {{brd_class}} " > {{ form.izm}}</td>
+     <td class=" {{brd_class}} " > {{ form.category}}</td>
+     <td class=" {{brd_class}} " title="Только для спецодежды" > {{ form.srok}}</td>
 
-<td class="pt-2 border-secondary "> <button type="submit" class="btn btn-primary btn btn-sm mb-3 pt-2 pb-2 bt-3 " >Добавить</button>
-       <a href="{% url 'NomList' %}"  ><img src="{% static '/images/update.png' %}" class="btnupdate"><a>
+<td class="pt-2 border-secondary "> <button type="submit" class="btn {{btn_class}} btn btn-sm mb-3 pt-2 pb-2 bt-3 " form="mainform" >
+    {{btn_caption}}</button>
+       <a href="{% url base_url %}"  ><img src="{% static '/images/update.png' %}" class="btnupdate"><a>
 </form>
 </td>
     </tr>
@@ -35,7 +41,7 @@
     {% for item in unit %}
 <tr>
 <td style="width:510px;">
-<a href="{% url 'NomUpdate' item.pk %}" class=" text-dark  ">{{item.title}}</a>
+<a href="{% url update_url item.pk %}" class=" text-dark  ">{{item.title}}</a>
 </td>
  <td style="width:180px;">
 {{item.izm}}
@@ -49,7 +55,7 @@
       {% endif %}
 </td>
 <td class="text-center">
-    <a href="{% url 'NomDelete' item.pk %}" class="lead text-dark  ">
+    <a href="{% url delete_url item.pk %}" class="lead text-dark  ">
     <img src="{% static '/images/del.png' %}" class="miniature2"></td></a>
 </tr>
 {% endfor %}
@@ -58,4 +64,30 @@
 </div>
 </div>
 </div>
+
+
+
+<!-- Модальное окно -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content ">
+      <div class="modal-header ">
+        <h5 class="modal-title " id="exampleModalLabel"><span class="text-danger">Новая запись</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+          <form action="" method="post" id="podbor_izm">
+             {% csrf_token %}
+{{form2.title}}
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+<button type="submit" class="btn btn-secondary"  form="podbor_izm">Добавить</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock DataArea %}
+
