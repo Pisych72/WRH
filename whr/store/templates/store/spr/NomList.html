@@ -11,23 +11,28 @@
 </div>
     </div>
 <div class="col-md-11 mx-auto shadow ">
-<table class="table  shadow ">
+<table class="table  shadow mb-1">
  <thead>
-    <tr>
-        <th>Наименование</th>
-        <th>Ед.изм.</th>
-        <th>Категория</th>
-        <th title="Только для спецодежды">Срок,мес.</th>
-        <th colspan="2"></th>
+    <tr class="">
+        <th class="border border-dark" >Наименование</th>
+        <th colspan="2" class="border border-dark border-end-0" >Ед.изм.</th>
+        <th class="border border-dark border-start-0" ></th>
+        <th class="border border-dark border-end-0" >Категория</th>
+        <th class="border border-dark border-start-0" ></th>
+        <th class="border border-dark" title="Только для спецодежды" style="width:40px;">Срок,мес.</th>
+        <th class=" border border-dark" colspan="2">Действие</th>
     </tr>
  </thead>
-    <tr>
-    <td class=" {{brd_class}} " > {{ form.title}}</td>
-     <td class=" {{brd_class}} " > {{ form.izm}}</td>
-     <td class=" {{brd_class}} " > {{ form.category}}</td>
-     <td class=" {{brd_class}} " title="Только для спецодежды" > {{ form.srok}}</td>
+    <div>
+    <td class=" {{brd_class}} border border-end-0 " style="padding-right:0px;"  > {{ form.title}} </td>
+    <td class="{{brd_class}}  border border-end-0" colspan="2" style="padding-right:0px;"> {{form.izm}}</td>
+        <td style="padding-left:0; " class=" {{brd_class}} border border-start-0"><a href="#" class="btn btn-secondary btn-sm mt-1" style="height:30px;" >+</a></td>
+     <td class=" {{brd_class}} border border-end-0" style="padding-right:0px;"> {{ form.category}}</td>
+     <td style="padding-left:0;" class=" {{brd_class}} border border-start-0"><a href="#" class="btn btn-secondary btn-sm mt-1" style="height:30px;" >+</a></td>
+     <td style="padding-right:0;" class=" {{brd_class}} border text-center pr-0" title="Только для спецодежды" > {{ form.srok}}</td>
 
-<td class="pt-2 border-secondary "> <button type="submit" class="btn {{btn_class}} btn btn-sm mb-3 pt-2 pb-2 bt-3 " form="mainform" >
+
+<td class="pt-2 border {{brd_class}} "> <button type="submit" class="btn {{btn_class}} btn btn-sm mb-3 pt-2 pb-2 bt-3 " form="mainform"  >
     {{btn_caption}}</button>
        <a href="{% url base_url %}"  ><img src="{% static '/images/update.png' %}" class="btnupdate"><a>
 </form>
@@ -36,20 +41,16 @@
 
 </table>
 <div class="scrolltable2">
-<table class="table shadow table-bordered">
+<table class="table shadow table-bordered mt-0">
 <tbody>
     {% for item in unit %}
 <tr>
-<td style="width:510px;">
+<td style="width:460px;">
 <a href="{% url update_url item.pk %}" class=" text-dark  ">{{item.title}}</a>
 </td>
- <td style="width:180px;">
-{{item.izm}}
-</td>
-<td style="width:175px;">
-{{item.category}}
-</td>
-  <td style="width:65px;">
+<td style="width:208px;">{{item.izm}}</td>
+ <td style="width:208px;">{{item.category}}</td>
+ <td style="width:95px;">
 {% if item.srok != 0 %}
       {{item.srok}}
       {% endif %}
@@ -69,7 +70,7 @@
 
 <!-- Модальное окно -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog ">
+  <div class="modal-dialog modal-xl ">
     <div class="modal-content ">
       <div class="modal-header ">
         <h5 class="modal-title " id="exampleModalLabel"><span class="text-danger">Новая запись</span></h5>

@@ -11,6 +11,7 @@ from django.db.models import Q
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import *
 from .models import *
+from django.http import JsonResponse
 # Create your views here.
 
 def index(request):
@@ -402,7 +403,7 @@ def NomDelete(request, pk):
    else:
       form = NomForm(instance=current_unit)
       return render(request, 'store/spr/NomList.html', {'title': "Номенклатура", 'unit': unit, 'form': form,
-      'btn_caption': 'Удалить', 'brd_class': 'border-danger',
+      'btn_caption': ' Удаление ', 'brd_class': 'border-danger',
       'btn_class': 'btn-danger', 'pic_label': 'Номенкл.',
       'base_url': 'NomList', 'update_url': 'NomUpdate',
       'delete_url': 'NomDelete'
