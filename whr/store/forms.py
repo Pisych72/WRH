@@ -11,7 +11,7 @@ class UnitForm(forms.ModelForm):
       model = Unit
       fields = ['title']
       widgets = {
-      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;','id':'idtitle'}),
       }
 
 class UnitFormSprav(forms.ModelForm):

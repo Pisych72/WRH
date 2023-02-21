@@ -1,0 +1,43 @@
+{% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+
+<div class="row">
+<div class="col-md-4">
+
+</div>
+<div class="col-md-7 mx-auto shadow">
+<table class="table  shadow ">
+ <thead>
+    <tr>
+      <th class="{{brd_class}}" >
+<form action="" method="post" id="post-form">
+        {% csrf_token %}
+        {{ form.as_p}}</th>
+<th class="pt-4 {{brd_class}}"> <button type="submit" class="btn {{btn_class}} btn btn-sm mb-3 pt-2 pb-2 " id="savebtn">{{btn_caption}}</button>
+       <a href="{% url base_url %}" ><img src="{% static '/images/update.png' %}" class="btnupdate"><a>
+
+</form>
+</th>
+    </tr>
+  </thead>
+</table>
+<div class="scrolltable">
+<table class="table shadow table-bordered">
+<tbody>
+    {% for item in unit %}
+<tr>
+<td style="width:960px;">
+<a href="{% url update_url item.pk %}" class=" text-dark  ">{{item.title}}</a>
+</td>
+<td class="text-center">
+    <a href="{% url delete_url item.pk %}" class="lead text-dark  ">
+    <img src="{% static '/images/del.png' %}" class="miniature2"></td></a>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</div>
+{% endblock DataArea %}

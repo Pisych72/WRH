@@ -11,8 +11,8 @@ urlpatterns=[
    path('report/', ReportMenu, name='ReportMenu'),
    # Справочник единиц измерения
    path('unit/', UnitList, name='UnitList'),
-   path('unit/<str:pk>',UnitUpdate,name='UnitUpdate'),
-   path('unitdelete/<str:pk>', UnitDelete, name='UnitDelete'),
+   #path('unit/<str:pk>',UnitUpdate,name='UnitUpdate'),
+   #path('unitdelete/<str:pk>', UnitDelete, name='UnitDelete'),
    # Справочник категорий
    path('category/', CategoryList, name='CategoryList'),
    path('category/<str:pk>',CategoryUpdate,name='CategoryUpdate'),
@@ -43,5 +43,6 @@ urlpatterns=[
    path('obctdelete/<str:pk>', ObctDelete, name='ObctDelete'),
 # Обработка ошибки удаления
    path('error/', ErrorDelete, name='ErrorDelete'),
+   path('spr_save/',SprSave,name='SprSave')
 
 ]

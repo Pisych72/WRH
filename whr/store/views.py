@@ -12,6 +12,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import *
 from .models import *
 from django.http import JsonResponse
+import json
+
 # Create your views here.
 
 def index(request):
@@ -33,57 +35,77 @@ def ErrorDelete(request):
 
 
 #Создание единицы измерения
+
 def UnitList(request):
    unit = Unit.objects.all()
-   if request.method == 'POST':
-      form = UnitForm(request.POST)
-      if form.is_valid():
-         form.save()
-         return redirect("UnitList")
-   else:
-         form=UnitForm()
+   #if request.method == 'POST':
+    #  form = UnitForm(request.POST)
+     # if form.is_valid():
+      #   n_title=request.POST['title']
+       #  unit_new=Unit(title = n_title,)
+        # unit_new.save()
+         #return JsonResponse({'status':"Save"})
+      #else:
+       #  return JsonResponse({'status':0})
+         #form.save()
+         #return redirect("UnitList")
+   #else:
+   form=UnitForm()
    return render(request,'store/spr/SprList.html',{'title':"Единицы измерения",'unit':unit,'form':form,
-                     'btn_caption': 'Добавить', 'brd_class': 'border-secondary',
-                     'btn_class':'btn-primary','pic_label': 'Единицы измерения',
-                     'base_url':'UnitList','update_url':'UnitUpdate','delete_url':'UnitDelete'})
+                    })
 # редактирование единицы измерения
 
-def UnitUpdate(request,pk):
-     unit=Unit.objects.all()
-     current_unit = Unit.objects.get(pk=pk)
-     if request.method == 'POST':
-         form=UnitForm(request.POST,instance=current_unit)
-         if form.is_valid():
-           form.save()
-           return redirect('UnitList')
-     else:
-        form=UnitForm(instance=current_unit)
-        return render(request,'store/spr/SprList.html',{'title':"Единицы измерения",'unit':unit,'form':form,
-                     'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
-                     'btn_class':'btn-primary','pic_label': 'Единицы измерения',
-                     'base_url': 'UnitList', 'update_url': 'UnitUpdate',
-                     'delete_url': 'UnitDelete'})
-# удаление единицы измерения:
-def UnitDelete(request, pk):
-   unit = Unit.objects.all()
-   current_unit = Unit.objects.get(pk=pk)
-   if request.method == 'POST':
-      form = UnitForm(request.POST, instance=current_unit)
-      if form.is_valid():
-            try:
-                current_unit.delete()
-                return redirect('UnitList')
-            except ProtectedError:
-                return redirect('ErrorDelete')
+# сохранение на ajax:
+def SprSave(request):
+    if request.method=='POST':
+        form=UnitForm(request.POST)
+        if form.is_valid():
+            title=request.POST['title']
+            newrecord=Unit(title=title)
+            newrecord.save()
+            un=Unit.objects.values()
+            unit_data=list(un)
 
+            return JsonResponse({'status':'Save','unit_data':unit_data})
+        else:
+            return JsonResponse({'status':0})
 
-   else:
-      form = UnitForm(instance=current_unit)
-      return render(request,'store/spr/SprList.html',{'title':"Единицы измерения",'unit':unit,'form':form,
-                     'btn_caption': 'Удалить', 'brd_class': 'border-danger',
-                     'btn_class':'btn-danger','pic_label': 'Единицы измерения',
-                     'base_url':'UnitList', 'update_url': 'UnitUpdate',
-                     'delete_url': 'UnitDelete'})
+# def UnitUpdate(request,pk):
+#      unit=Unit.objects.all()
+#      current_unit = Unit.objects.get(pk=pk)
+#      if request.method == 'POST':
+#          form=UnitForm(request.POST,instance=current_unit)
+#          if form.is_valid():
+#            form.save()
+#            return redirect('UnitList')
+#      else:
+#         form=UnitForm(instance=current_unit)
+#         return render(request,'store/spr/SprList.html',{'title':"Единицы измерения",'unit':unit,'form':form,
+#                      'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
+#                      'btn_class':'btn-primary','pic_label': 'Единицы измерения',
+#                      'base_url': 'UnitList', 'update_url': 'UnitUpdate',
+#                      'delete_url': 'UnitDelete'})
+# # удаление единицы измерения:
+# def UnitDelete(request, pk):
+#    unit = Unit.objects.all()
+#    current_unit = Unit.objects.get(pk=pk)
+#    if request.method == 'POST':
+#       form = UnitForm(request.POST, instance=current_unit)
+#       if form.is_valid():
+#             try:
+#                 current_unit.delete()
+#                 return redirect('UnitList')
+#             except ProtectedError:
+#                 return redirect('ErrorDelete')
+#
+#
+#    else:
+#       form = UnitForm(instance=current_unit)
+#       return render(request,'store/spr/SprList.html',{'title':"Единицы измерения",'unit':unit,'form':form,
+#                      'btn_caption': 'Удалить', 'brd_class': 'border-danger',
+#                      'btn_class':'btn-danger','pic_label': 'Единицы измерения',
+#                      'base_url':'UnitList', 'update_url': 'UnitUpdate',
+#                      'delete_url': 'UnitDelete'})
 # Категории
 #Создание категории
 def CategoryList(request):
