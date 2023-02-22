@@ -43,6 +43,7 @@ urlpatterns=[
    path('obctdelete/<str:pk>', ObctDelete, name='ObctDelete'),
 # Обработка ошибки удаления
    path('error/', ErrorDelete, name='ErrorDelete'),
-   path('spr_save/',SprSave,name='SprSave')
+   path('spr_save/',SprSave,name='SprSave'),
+   path('category_save/',SaveCategory,name='Savecategory'),
 
 ]

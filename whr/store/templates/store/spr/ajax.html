@@ -1,8 +1,8 @@
 <script>
-output='';
-$('#savebtn').click(function(){
+ output='';
+$('#post-form').on('submit',function(e){
 event.preventDefault();
-console.log("Click!");
+var self = this;
 let _tlt=$("#idtitle").val();
 let csr=$("input[name=csrfmiddlewaretoken]").val();
 
@@ -12,7 +12,7 @@ csrfmiddlewaretoken:csr,
 }
 
 $.ajax({
-url:"{% url 'SprSave' %}",
+url:$(this).attr('action'),
 method:"POST",
 data:mydata,
 dataType:"json",
@@ -21,17 +21,14 @@ success:function(data){
     x=data.unit_data;
     if (data.status=='Save'){
     for(i=0;i<x.length;i++){
-
         output +='<tr><td class="align-middle" style="width:960px;">'+ x[i].title+'</td>'+
     '<td class="text-center align-middle">'+'<img src="../static/images/update.png" style="width:25px;">'+'</td>'+
-
     '<td class="text-center align-middle">'+'<img src="../static/images/del.png" style="width:28px;">'+'</td></tr>'
-
     }
+
     $('#tbody').html(output)
     output='';
     $("form")[0].reset();
-
     }
     if (data.status == 0){
     alert('Запись не добавлена. Возможно, такая уже есть в справочнике...');
