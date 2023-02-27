@@ -8,7 +8,7 @@
 <table class="table  shadow ">
  <thead>
 
-    <tr>
+    <tr class="mt-0">
         <th style="width:400px;" class="border" >Наименование объекта</th>
         <th style="width:400px;" class="border border-end-0" >Подразделение</th>
         <th></th>
@@ -21,7 +21,7 @@
      <td class="pt-3 border"> {{ form.title}}</td>
      <td class="pt-3 border border-end-0" style="widht:400px;" >{{form.podraz}}</td>
      <td class="text-start border border-start-0" style="padding-left:0;"><a href="#" class="btn btn-secondary btn-sm mt-2 " style="height:36px;margin-left:5px;" >+</a></td>
-    <th class="pt-3 text-center"> <button type="submit" class="btn  btn-primary btn-sm mb-1 pt-2 pb-2 mt-0 " id="savebtn"><img class="img_btnsave" src="{% static '/images/check2.png' %}" ></button></td>
+    <th class="pt-3 text-center"> <button type="submit" class="btn  btn-primary btn-sm mb-0 pt-2 pb-2 mt-0 " id="savebtn"><img class="img_btnsave" src="{% static '/images/check2.png' %}" ></button></td>
 
     </tr>
 
@@ -37,9 +37,9 @@
 <tbody id="tbody">
     {% for item in unit %}
 <tr>
-<td style="width:960px; " class="align-middle">{{item.title}}</td>
-
-<td class="text-center align-middle" ><input data-sid="{{item.pk}}"  value="Update" type="image" src="{% static '/images/update.png' %}" width="25px" > </td>
+<td style="width:810px; " class="align-middle">{{item.title}}</td>
+<td style="width:940px; " class="align-middle">{{item.podraz.title}}</td>
+<td class="text-center align-middle" style="width:65px;"><input data-sid="{{item.pk}}"  value="Update" type="image" src="{% static '/images/update.png' %}" width="25px" > </td>
 <td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="28px"> </td>
 </tr>
 {% endfor %}

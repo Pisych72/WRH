@@ -188,9 +188,11 @@ def SaveObct(request):
             podraz=request.POST['podraz']
             newrecord=Obct(title=title,podraz_id=podraz)
             newrecord.save()
-            un=Obct.objects.values()
+            un=Obct.objects.values('id','title','podraz__title')
+
+
             unit_data=list(un)
-            print(un)
+            print(unit_data)
             return JsonResponse({'status':'Save','unit_data':unit_data})
         else:
             return JsonResponse({'status':0})

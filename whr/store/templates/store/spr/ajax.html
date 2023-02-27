@@ -68,7 +68,7 @@ success:function(data){
     if (data.status=='Save'){
     for(i=0;i<x.length;i++){
     output +='<tr><td class="align-middle" style="width:460px;">'+ x[i].title+'</td>'+
-    '<td class="align-middle" style="width:460px;">'+ x[i].title+'</td>'+
+    '<td class="align-middle" style="width:460px;">'+ x[i].podraz__title+'</td>'+
     '<td class="text-center align-middle">'+'<input data-sid="{{item.pk}}" value="Update" type="image" src="../static/images/update.png" style="width:25px;">'+'</td>'
     +
     '<td class="text-center align-middle">'+'<input data-sid='+x[i].id+' data-del="{{url_delete}}" class="btn-del" value="Delete" type="image" src="../static/images/del.png" style="width:28px;">'+'</td></tr>'
