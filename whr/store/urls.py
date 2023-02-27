@@ -20,7 +20,7 @@ urlpatterns=[
 # Справочник поставщиков
    path('postav/', PostavList, name='PostavList'),
    path('postav/<str:pk>',PostavUpdate,name='PostavUpdate'),
-   path('postavdelete/<str:pk>', PostavDelete, name='PostavDelete'),
+
 # Справочник списания
    path('spis/', SpisList, name='SpisList'),
    path('spis/<str:pk>',SpisUpdate,name='SpisUpdate'),
@@ -43,7 +43,22 @@ urlpatterns=[
    path('obctdelete/<str:pk>', ObctDelete, name='ObctDelete'),
 # Обработка ошибки удаления
    path('error/', ErrorDelete, name='ErrorDelete'),
-   path('spr_save/',SprSave,name='SprSave'),
-   path('category_save/',SaveCategory,name='Savecategory'),
+# сохранение данных справочников через AJAX
+   path('spr_Save/',SprSave,name='SprSave'),
+   path('category_save/',SaveCategory,name='SaveCategory'),
+   path('postav_save/',SavePostav,name='SavePostav'),
+   path('spis_save/',SaveSpis,name='SaveSpis'),
+   path('podraz_save/',SavePodraz,name='SavePodraz'),
+   path('fio_save/',SaveFio,name='SaveFio'),
+   path('obct_save/',SaveObct,name='SaveObct'),
 
+# удаление строк из справочников
+   path('SprDelete/',SprDelete,name='SprDelete'),
+   path('CatDelete/',CatDelete,name='CatDelete'),
+   path('PodrazDelete/',PodrazDelete,name='PodrazDelete'),
+   path('FioDelete/',FioDelete,name='FioDelete'),
+   path('PostavDelete/',PostavDelete,name='PostavDelete'),
+   path('FioDelete/',FioDelete,name='FioDelete'),
+   path('SpisDelete/',SpisDelete,name='SpisDelete'),
+   path('ObctDelete/',ObctDelete,name='ObctDelete'),
 ]

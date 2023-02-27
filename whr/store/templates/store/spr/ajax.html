@@ -21,9 +21,10 @@ success:function(data){
     x=data.unit_data;
     if (data.status=='Save'){
     for(i=0;i<x.length;i++){
-        output +='<tr><td class="align-middle" style="width:960px;">'+ x[i].title+'</td>'+
-    '<td class="text-center align-middle">'+'<img src="../static/images/update.png" style="width:25px;">'+'</td>'+
-    '<td class="text-center align-middle">'+'<img src="../static/images/del.png" style="width:28px;">'+'</td></tr>'
+    output +='<tr><td class="align-middle" style="width:960px;">'+ x[i].title+'</td>'+
+    '<td class="text-center align-middle">'+'<input data-sid="{{item.pk}}" value="Update" type="image" src="../static/images/update.png" style="width:25px;">'+'</td>'
+    +
+    '<td class="text-center align-middle">'+'<input data-sid='+x[i].id+' data-del="{{url_delete}}" class="btn-del" value="Delete" type="image" src="../static/images/del.png" style="width:28px;">'+'</td></tr>'
     }
 
     $('#tbody').html(output)
@@ -37,4 +38,84 @@ success:function(data){
 });
 }
 );
+///////////////////////////////////////////////////////////////////////////////
+////////////Добавление в справочник "Объекты"//////////////////////////////////
+
+
+$('#obct-form').on('submit',function(e){
+event.preventDefault();
+var self = this;
+let _tlt=$("#idtitle").val();
+let _pdrz=$("#idpodraz").val();
+
+
+let csr=$("input[name=csrfmiddlewaretoken]").val();
+
+mydata={
+title:_tlt,
+podraz:_pdrz,
+csrfmiddlewaretoken:csr,
+}
+
+$.ajax({
+url:$(this).attr('action'),
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+    x=data.unit_data;
+    if (data.status=='Save'){
+    for(i=0;i<x.length;i++){
+    output +='<tr><td class="align-middle" style="width:460px;">'+ x[i].title+'</td>'+
+    '<td class="align-middle" style="width:460px;">'+ x[i].title+'</td>'+
+    '<td class="text-center align-middle">'+'<input data-sid="{{item.pk}}" value="Update" type="image" src="../static/images/update.png" style="width:25px;">'+'</td>'
+    +
+    '<td class="text-center align-middle">'+'<input data-sid='+x[i].id+' data-del="{{url_delete}}" class="btn-del" value="Delete" type="image" src="../static/images/del.png" style="width:28px;">'+'</td></tr>'
+    }
+
+    $('#tbody').html(output)
+    output='';
+    $("form")[0].reset();
+    }
+    if (data.status == 0){
+    alert('Запись не добавлена. Возможно, такая уже есть в справочнике...');
+    }
+}
+});
+}
+);
+
+
+
+/////////////////Конец "Объекты"////////////////////////////////////////////////
+
+
+
+/////////////////////////////Delete SPR
+$('#tbody').on('click','.btn-del',function(e){
+event.preventDefault();
+let id=$(this).attr('data-sid');
+let pth=$(this).attr('data-del');
+let csr=$("input[name=csrfmiddlewaretoken]").val();
+
+mydata={sid:id, csrfmiddlewaretoken:csr,};
+mythis=$(this);
+$.ajax({
+url:pth,
+
+method:'GET',
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status =='Del'){$(mythis).closest("tr").fadeOut();}
+if (data.status == 0){
+    alert('Запись не удалена, потому что она используется в других документах...' );
+    }
+},
+});
+});
+
+
 </script>

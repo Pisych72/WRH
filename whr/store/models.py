@@ -76,7 +76,7 @@ class Fio(models.Model):
 # Объекты
 class Obct(models.Model):
     title = models.CharField(max_length=150, verbose_name='Объект', unique=True)
-
+    podraz=models.ForeignKey(Podraz,verbose_name='Подразделение',on_delete=models.PROTECT)
     def __str__(self):
         return self.title
 

@@ -1,20 +1,17 @@
 {% extends 'store/menu.html' %}
 {% load static %}
 {% block DataArea %}
-<form action="" method="post" id="mainform">
+<form action="" method="post" id="nom-form">
         {% csrf_token %}
 <div class="row">
     <div class="col-md-1  "><img src="{% static '/images/report.png' %}" class="miniature_sprav mt-1 ">{{pic_label}}
-<div class="linkdiv">
-        <a href="#" class="btn btn-secondary  btn-sm mb-2 mt-5 linkbtn" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">  Ед.изм.</a>
-        <a href="#" class="btn btn-secondary btn-sm linkbtn">Категории</a>
-</div>
+
     </div>
 <div class="col-md-11 mx-auto shadow ">
 <table class="table  shadow mb-1">
  <thead>
-    <tr class="">
-        <th class="border border-dark" >Наименование</th>
+    <tr >
+        <th class="border border-dark" style="width:435px;" >Наименование</th>
         <th colspan="2" class="border border-dark border-end-0" >Ед.изм.</th>
         <th class="border border-dark border-start-0" ></th>
         <th class="border border-dark border-end-0" >Категория</th>
@@ -29,12 +26,12 @@
         <td style="padding-left:0; " class=" {{brd_class}} border border-start-0"><a href="#" class="btn btn-secondary btn-sm mt-1" style="height:30px;" >+</a></td>
      <td class=" {{brd_class}} border border-end-0" style="padding-right:0px;"> {{ form.category}}</td>
      <td style="padding-left:0;" class=" {{brd_class}} border border-start-0"><a href="#" class="btn btn-secondary btn-sm mt-1" style="height:30px;" >+</a></td>
-     <td style="padding-right:0;" class=" {{brd_class}} border text-center pr-0" title="Только для спецодежды" > {{ form.srok}}</td>
+     <td style="padding-right:0;padding-left:10px;" class=" {{brd_class}} border text-center " title="Только для спецодежды" > {{ form.srok}}</td>
 
 
 <td class="pt-2 border {{brd_class}} "> <button type="submit" class="btn {{btn_class}} btn btn-sm mb-3 pt-2 pb-2 bt-3 " form="mainform"  >
     {{btn_caption}}</button>
-       <a href="{% url base_url %}"  ><img src="{% static '/images/update.png' %}" class="btnupdate"><a>
+
 </form>
 </td>
     </tr>
@@ -45,19 +42,19 @@
 <tbody>
     {% for item in unit %}
 <tr>
-<td style="width:460px;">
+<td style="width:435px;">
 <a href="{% url update_url item.pk %}" class=" text-dark  ">{{item.title}}</a>
 </td>
-<td style="width:208px;">{{item.izm}}</td>
- <td style="width:208px;">{{item.category}}</td>
- <td style="width:95px;">
+<td style="width:237px;">{{item.izm}}</td>
+ <td style="width:237px;">{{item.category}}</td>
+ <td style="width:95px;" class="text-center">
 {% if item.srok != 0 %}
       {{item.srok}}
       {% endif %}
 </td>
-<td class="text-center">
-    <a href="{% url delete_url item.pk %}" class="lead text-dark  ">
-    <img src="{% static '/images/del.png' %}" class="miniature2"></td></a>
+
+    <td class="text-center align-middle" ><input data-sid="{{item.pk}}"  value="Update" type="image" src="{% static '/images/update.png' %}" width="25px" > </td>
+<td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="28px"> </td>
 </tr>
 {% endfor %}
 </tbody>

@@ -29,7 +29,7 @@ class CategoryForm(forms.ModelForm):
       model = Category
       fields = ['title']
       widgets = {
-      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:955px;','id':'idtitle'}),
       }
 
 class PostavForm(forms.ModelForm):
@@ -37,7 +37,7 @@ class PostavForm(forms.ModelForm):
       model = Postav
       fields = ['title']
       widgets = {
-      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:955px;','id':'idtitle'}),
       }
 
 class SpisForm(forms.ModelForm):
@@ -45,7 +45,7 @@ class SpisForm(forms.ModelForm):
       model = Spis
       fields = ['title']
       widgets = {
-      'title': forms.TextInput(attrs={'class':'form-control','style':'width:945px;'}),
+      'title': forms.TextInput(attrs={'class':'form-control','style':'width:955px;','id':'idtitle'}),
       }
 
 class PodrazForm(forms.ModelForm):
@@ -53,7 +53,7 @@ class PodrazForm(forms.ModelForm):
       model = Podraz
       fields = ['title']
       widgets = {
-    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:945px;'}),
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style':'width:955px;','id':'idtitle'}),
          }
 
 class FioForm(forms.ModelForm):
@@ -61,15 +61,16 @@ class FioForm(forms.ModelForm):
       model = Fio
       fields = ['title']
       widgets = {
-    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:945px;'}),
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style':'width:955px;','id':'idtitle'}),
          }
 
 class ObctForm(forms.ModelForm):
    class Meta:
       model = Obct
-      fields = ['title']
+      fields = ['title','podraz']
       widgets = {
-    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:945px;'}),
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style':'width:455px;','id':'idtitle'}),
+    'podraz': forms.Select(attrs={'class': 'form-control', 'style': 'width:455px;', 'id': 'idpodraz'}),
          }
 
 class NomForm(forms.ModelForm):
@@ -77,8 +78,8 @@ class NomForm(forms.ModelForm):
       model = Nom
       fields = ['title','izm','category','srok']
       widgets = {
-    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:420px;'}),
-    'izm': forms.Select(attrs={'class': 'form-control', 'style': 'width:150px;margin:0;'}),
-    'category': forms.Select(attrs={'class': 'form-control', 'style': 'width:150px;'}),
-     'srok': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:45px;padding-right:0'}),
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:410px;','id':'idtitle'}),
+    'izm': forms.Select(attrs={'class': 'form-control', 'style': 'width:150px;margin:0;','id':'idizm'}),
+    'category': forms.Select(attrs={'class': 'form-control', 'style': 'width:150px;','id':'idcat'}),
+     'srok': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:45px;padding-right:0;margin-left:15px;','id':'idsrok'}),
          }

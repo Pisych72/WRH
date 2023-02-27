@@ -7,18 +7,30 @@
 <div class="col-md-11 mx-auto shadow">
 <table class="table  shadow ">
  <thead>
+
     <tr>
-      <th >
-<form action={{url_name}} method="post" id="post-form">
-        {% csrf_token %}
-        {{ form.as_p}}</th>
-<th class="pt-4 "> <button type="submit" class="btn  btn-primary btn-sm mb-3 pt-2 pb-2 " id="savebtn"><img class="img_btnsave" src="{% static '/images/check2.png' %}" ></button>
-
-
-</form>
-</th>
+        <th style="width:400px;" class="border" >Наименование объекта</th>
+        <th style="width:400px;" class="border border-end-0" >Подразделение</th>
+        <th></th>
+        <th class="border"></th>
     </tr>
   </thead>
+<form action={{url_name}} method="post" id="obct-form">
+        {% csrf_token %}
+     <tr>
+     <td class="pt-3 border"> {{ form.title}}</td>
+     <td class="pt-3 border border-end-0" style="widht:400px;" >{{form.podraz}}</td>
+     <td class="text-start border border-start-0" style="padding-left:0;"><a href="#" class="btn btn-secondary btn-sm mt-2 " style="height:36px;margin-left:5px;" >+</a></td>
+    <th class="pt-3 text-center"> <button type="submit" class="btn  btn-primary btn-sm mb-1 pt-2 pb-2 mt-0 " id="savebtn"><img class="img_btnsave" src="{% static '/images/check2.png' %}" ></button></td>
+
+    </tr>
+
+</form>
+
+
+
+
+
 </table>
 <div class="scrolltable">
 <table class="table shadow table-bordered table-hover" id="data-table">
