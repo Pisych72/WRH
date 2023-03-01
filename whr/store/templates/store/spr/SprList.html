@@ -11,7 +11,9 @@
       <th >
 <form action={{url_name}} method="post" id="post-form">
         {% csrf_token %}
+    <input type="hidden" name="unit_id " id="unit_id">
         {{ form.as_p}}</th>
+
 <th class="pt-4 "> <button type="submit" class="btn  btn-primary btn-sm mb-3 pt-2 pb-2 " id="savebtn"><img class="img_btnsave" src="{% static '/images/check2.png' %}" ></button>
 
 
@@ -27,7 +29,8 @@
 <tr>
 <td style="width:960px; " class="align-middle">{{item.title}}</td>
 
-<td class="text-center align-middle" ><input data-sid="{{item.pk}}"  value="Update" type="image" src="{% static '/images/update.png' %}" width="25px" > </td>
+<td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-update" src="{% static '/images/update.png' %}" width="25px" > </td>
+
 <td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="28px"> </td>
 </tr>
 {% endfor %}

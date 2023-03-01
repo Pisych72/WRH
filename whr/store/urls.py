@@ -15,24 +15,20 @@ urlpatterns=[
    #path('unitdelete/<str:pk>', UnitDelete, name='UnitDelete'),
    # Справочник категорий
    path('category/', CategoryList, name='CategoryList'),
-   path('category/<str:pk>',CategoryUpdate,name='CategoryUpdate'),
-   path('categorydelete/<str:pk>', CategoryDelete, name='CategoryDelete'),
+
 # Справочник поставщиков
    path('postav/', PostavList, name='PostavList'),
-   path('postav/<str:pk>',PostavUpdate,name='PostavUpdate'),
+
 
 # Справочник списания
    path('spis/', SpisList, name='SpisList'),
-   path('spis/<str:pk>',SpisUpdate,name='SpisUpdate'),
-   path('spisdelete/<str:pk>', SpisDelete, name='SpisDelete'),
+
 # Справочник подразделения
    path('podraz/', PodrazList, name='PodrazList'),
-   path('podraz/<str:pk>',PodrazUpdate,name='PodrazUpdate'),
-   path('podrazdelete/<str:pk>', PodrazDelete, name='PodrazDelete'),
+
 # Справочник подотчетники
    path('fio/', FioList, name='FioList'),
-   path('fio/<str:pk>',FioUpdate,name='FioUpdate'),
-   path('fiodelete/<str:pk>', FioDelete, name='FioDelete'),
+
 # Справочник номенклатура
    path('nom/', NomList, name='NomList'),
    path('nom/<str:pk>',NomUpdate,name='NomUpdate'),
@@ -51,6 +47,7 @@ urlpatterns=[
    path('podraz_save/',SavePodraz,name='SavePodraz'),
    path('fio_save/',SaveFio,name='SaveFio'),
    path('obct_save/',SaveObct,name='SaveObct'),
+   path('podraz_save2/', SavePodraz2, name='SavePodraz2'),
 
 # удаление строк из справочников
    path('SprDelete/',SprDelete,name='SprDelete'),
@@ -61,4 +58,12 @@ urlpatterns=[
    path('FioDelete/',FioDelete,name='FioDelete'),
    path('SpisDelete/',SpisDelete,name='SpisDelete'),
    path('ObctDelete/',ObctDelete,name='ObctDelete'),
+
+# Редактирование справочников
+   path('SprUpdate/',SprUpdate,name='SprUpdate'),
+   path('CatUpdate/',CatUpdate,name='CatUpdate'),
+   path('PodrazUpdate/',PodrazUpdate,name='PodrazUpdate'),
+   path('PostavUpdate/',PostavUpdate,name='PostavUpdate'),
+   path('FioUpdate/',FioUpdate,name='FioUpdate'),
+   path('SpisUpdate/',SpisUpdate,name='SpisUpdate'),
 ]

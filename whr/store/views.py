@@ -19,7 +19,6 @@ import json
 def index(request):
    return render(request, 'store/menu.html',{'title':'Центральный склад'} )
 
-
 def DocMenu(request):
    return render(request,'store/menu/Docs.html',{'title':'Документы'})
 
@@ -33,7 +32,6 @@ def ReportMenu(request):
 def ErrorDelete(request):
     return render(request,'store/spr/ErrorDelete.html',{'title':'Ошибка удаления'})
 
-
 # 'Справочник единицы измерения'
 
 def UnitList(request):
@@ -41,7 +39,7 @@ def UnitList(request):
    form=UnitForm()
    return render(request,'store/spr/SprList.html',{'title':"Единицы измерения",
    'unit':unit,'form':form,'pic_label':'Единицы измерения','url_name': reverse('SprSave'),
-   'url_delete': reverse('SprDelete'),})
+   'url_delete': reverse('SprDelete'),'url_update':reverse('SprUpdate')})
 
 # 'Справочник категории'
 def CategoryList(request):
@@ -51,6 +49,7 @@ def CategoryList(request):
                                                       'unit': unit, 'form': form, 'pic_label': 'Категории',
                                                       'url_name': reverse('SaveCategory'),
                                                       'url_delete': reverse('CatDelete'),
+                                                      'url_update': reverse('CatUpdate')
                                                       })
 # 'Справочник Поставщики'
 def PostavList(request):
@@ -59,7 +58,8 @@ def PostavList(request):
     return render(request, 'store/spr/SprList.html', {'title': "Поставщики",
                                                       'unit': unit, 'form': form, 'pic_label': 'Поставщики',
                                                       'url_name': reverse('SavePostav'),
-                                                      'url_delete': reverse('PostavDelete')})
+                                                      'url_delete': reverse('PostavDelete'),
+                                                      'url_update':reverse('PostavUpdate')})
 # 'Справочник Списание'
 def SpisList(request):
     unit = Spis.objects.all()
@@ -67,15 +67,20 @@ def SpisList(request):
     return render(request, 'store/spr/SprList.html', {'title': "Списание",
                                                       'unit': unit, 'form': form, 'pic_label': 'Причины списания',
                                                       'url_name': reverse('SaveSpis'),
-                                                      'url_delete': reverse('SpisDelete'),  })
+                                                      'url_delete': reverse('SpisDelete'),
+                                                      'url_update':reverse('SpisUpdate')})
 # 'Справочник Подразделения'
 def PodrazList(request):
     unit = Podraz.objects.all()
     form = PodrazForm()
+
     return render(request, 'store/spr/SprList.html', {'title': "Подраз.",
                                                       'unit': unit, 'form': form, 'pic_label': 'Подраз.',
                                                       'url_delete': reverse('PodrazDelete'),
-                                                      'url_name': reverse('SavePodraz'), })
+                                                      'url_name': reverse('SavePodraz'),
+                                                      'url_update': reverse('PodrazUpdate')
+
+                                                      })
 # 'Справочник Подотчетники'
 def FioList(request):
     unit = Fio.objects.all()
@@ -83,15 +88,20 @@ def FioList(request):
     return render(request, 'store/spr/SprList.html', {'title': "Подотчет.",
                                                       'unit': unit, 'form': form, 'pic_label': 'Подотчет.',
                                                       'url_name': reverse('SaveFio'),
-                                                      'url_delete': reverse('FioDelete')})
+                                                      'url_delete': reverse('FioDelete'),
+                                                      'url_update':reverse('FioUpdate')})
 # 'Справочник Объекты'
 def ObctList(request):
     unit = Obct.objects.all()
     form = ObctForm()
+    form2=PodrazForm2()
     return render(request, 'store/spr/SprObct.html', {'title': "Объекты",
                                                       'unit': unit, 'form': form, 'pic_label': 'Объекты',
                                                       'url_name': reverse('SaveObct'),
-                                                      'url_delete': reverse('ObctDelete') })
+                                                      'url_delete': reverse('ObctDelete'),
+                                                      'url_name2': reverse('SavePodraz2'),
+                                                      'form2': form2, })
+
 
 # '****************************************AJAX************************************'
 # сохранение на ajax (Единица измерения):
@@ -101,7 +111,12 @@ def SprSave(request):
 
         if form.is_valid():
             title=request.POST['title']
-            newrecord=Unit(title=title)
+            uid = request.POST['unitid']
+            if uid=='':
+                newrecord = Unit(title=title)
+            else:
+                newrecord = Unit(title=title,id=uid)
+
             newrecord.save()
             print(newrecord.id,title)
             un=Unit.objects.values()
@@ -111,13 +126,16 @@ def SprSave(request):
             return JsonResponse({'status':0})
 
 #'сохранение Категорий'
-
 def SaveCategory(request):
     if request.method=='POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
             title = request.POST['title']
-            newrecord=Category(title=title)
+            uid = request.POST['unitid']
+            if uid == '':
+                newrecord = Category(title=title)
+            else:
+                newrecord = Category(title=title, id=uid)
             newrecord.save()
             un=Category.objects.values()
             unit_data=list(un)
@@ -131,7 +149,11 @@ def SavePostav(request):
         form = PostavForm(request.POST)
         if form.is_valid():
             title = request.POST['title']
-            newrecord=Postav(title=title)
+            uid = request.POST['unitid']
+            if uid == '':
+                newrecord = Postav(title=title)
+            else:
+                newrecord = Postav(title=title, id=uid)
             newrecord.save()
             un=Postav.objects.values()
             unit_data=list(un)
@@ -145,7 +167,11 @@ def SaveSpis(request):
         form = SpisForm(request.POST)
         if form.is_valid():
             title = request.POST['title']
-            newrecord=Spis(title=title)
+            uid = request.POST['unitid']
+            if uid == '':
+                newrecord = Spis(title=title)
+            else:
+                newrecord = Spis(title=title, id=uid)
             newrecord.save()
             un=Spis.objects.values()
             unit_data=list(un)
@@ -159,20 +185,48 @@ def SavePodraz(request):
         form = PodrazForm(request.POST)
         if form.is_valid():
             title = request.POST['title']
-            newrecord=Podraz(title=title)
+            uid = request.POST['unitid']
+            if uid == '':
+                newrecord = Podraz(title=title)
+            else:
+                newrecord = Podraz(title=title, id=uid)
             newrecord.save()
             un=Podraz.objects.values()
             unit_data=list(un)
             return JsonResponse({'status':'Save','unit_data':unit_data})
         else:
             return JsonResponse({'status':0})
+
+    # 'сохранение Подразделения2'
+def SavePodraz2(request):
+    if request.method == 'POST':
+        form2 = PodrazForm2(request.POST)
+        if form2.is_valid():
+            print('YES')
+            title = request.POST['title']
+            newrecord = Podraz(title=title)
+            newrecord.save()
+            un = Obct.objects.values('id', 'title', 'podraz__title')
+            unit_data = list(un)
+            pd=Podraz.objects.values()
+            podraz_data=list(pd)
+            print(podraz_data)
+            return JsonResponse({'status': 'Save', 'unit_data': unit_data,'podraz_data':podraz_data})
+        else:
+            print('NO')
+            return JsonResponse({'status': 0})
+
 #'сохранение Подотчетники'
 def SaveFio(request):
     if request.method=='POST':
         form = FioForm(request.POST)
         if form.is_valid():
             title = request.POST['title']
-            newrecord=Fio(title=title)
+            uid = request.POST['unitid']
+            if uid == '':
+                newrecord = Fio(title=title)
+            else:
+                newrecord = Fio(title=title, id=uid)
             newrecord.save()
             un=Fio.objects.values()
             unit_data=list(un)
@@ -286,128 +340,78 @@ def ObctDelete(request):
     else:
         return JsonResponse({'status':0,})
 
-
-
-
-
+# Редактирование////////////////////////////////////////////////////////////////
+#///////////// Редактирование единицы измерения//////////////////
+def SprUpdate(request):
+    if request.method=='POST':
+        id=request.POST.get('sid')
+        unit=Unit.objects.get(pk=id)
+        unit_data={'id':unit.id,'title':unit.title}
+        print(unit_data)
+        return JsonResponse(unit_data)
+    else:
+        return JsonResponse({'status':0,})
 
 # редактирование категории
-
-def CategoryUpdate(request,pk):
-     unit=Category.objects.all()
-     current_unit = Category.objects.get(pk=pk)
-     if request.method == 'POST':
-         form=CategoryForm(request.POST,instance=current_unit)
-         if form.is_valid():
-           form.save()
-           return redirect('CategoryList')
-     else:
-        form=CategoryForm(instance=current_unit)
-        return render(request,'store/spr/SprList.html',{'title':"Категории",'unit':unit,'form':form,
-                     'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
-                     'btn_class':'btn-primary','pic_label': 'Категории',
-                      'base_url': 'CategoryList', 'update_url': 'CategoryUpdate',
-                      'delete_url': 'CategoryDelete'})
-# удаление категории:
-def CategoryDelete(request, pk):
-   unit = Category.objects.all()
-   current_unit = Category.objects.get(pk=pk)
-   if request.method == 'POST':
-      form = CategoryForm(request.POST, instance=current_unit)
-      if form.is_valid():
-          try:
-              current_unit.delete()
-              return redirect('CategoryList')
-          except ProtectedError:
-              return redirect('ErrorDelete')
-   else:
-      form = CategoryForm(instance=current_unit)
-      return render(request,'store/spr/SprList.html',{'title':"Категории",'unit':unit,'form':form,
-                     'btn_caption': 'Удалить', 'brd_class': 'border-danger',
-                     'btn_class':'btn-danger','pic_label': 'Категории',
-                     'base_url': 'CategoryList', 'update_url': 'CategoryUpdate',
-                     'delete_url': 'CategoryDelete'})
-# Поставшики
+def CatUpdate(request):
+    if request.method=='POST':
+        id=request.POST.get('sid')
+        print(id)
+        unit=Category.objects.get(pk=id)
+        unit_data={'id':unit.id,'title':unit.title}
+        print(unit_data)
+        return JsonResponse(unit_data)
+    else:
+        return JsonResponse({'status':0,})
 
 # редактирование поставшика
-
-def PostavUpdate(request,pk):
-     unit=Postav.objects.all()
-     current_unit = Postav.objects.get(pk=pk)
-     if request.method == 'POST':
-         form=PostavForm(request.POST,instance=current_unit)
-         if form.is_valid():
-           form.save()
-           return redirect('PostavList')
-     else:
-        form=PostavForm(instance=current_unit)
-        return render(request,'store/spr/SprList.html',{'title':"Поставщики",'unit':unit,'form':form,
-                     'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
-                     'btn_class':'btn-primary','pic_label': 'Поставщики',
-                     'base_url': 'PostavList', 'update_url': 'PostavUpdate',
-                     'delete_url': 'PostavDelete'})
-
-# Списание
-#Создание списания
+def PostavUpdate(request):
+    if request.method=='POST':
+        id=request.POST.get('sid')
+        print(id)
+        unit=Postav.objects.get(pk=id)
+        unit_data={'id':unit.id,'title':unit.title}
+        print(unit_data)
+        return JsonResponse(unit_data)
+    else:
+        return JsonResponse({'status':0,})
 
 # редактирование списания
-
-def SpisUpdate(request,pk):
-     unit=Spis.objects.all()
-     current_unit = Spis.objects.get(pk=pk)
-     if request.method == 'POST':
-         form=SpisForm(request.POST,instance=current_unit)
-         if form.is_valid():
-           form.save()
-           return redirect('SpisList')
-     else:
-        form=SpisForm(instance=current_unit)
-        return render(request,'store/spr/SprList.html',{'title':"Списание",'unit':unit,'form':form,
-                     'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
-                     'btn_class':'btn-primary','pic_label': 'Списание',
-                     'base_url': 'SpisList', 'update_url': 'SpisUpdate',
-                     'delete_url': 'SpisDelete'})
-
-# Подразделения
+def SpisUpdate(request):
+    if request.method=='POST':
+        id=request.POST.get('sid')
+        print(id)
+        unit=Spis.objects.get(pk=id)
+        unit_data={'id':unit.id,'title':unit.title}
+        print(unit_data)
+        return JsonResponse(unit_data)
+    else:
+        return JsonResponse({'status':0,})
 
 # редактирование подразделения
-
-def PodrazUpdate(request,pk):
-     unit=Podraz.objects.all()
-     current_unit = Podraz.objects.get(pk=pk)
-     if request.method == 'POST':
-         form=PodrazForm(request.POST,instance=current_unit)
-         if form.is_valid():
-           form.save()
-           return redirect('PodrazList')
-     else:
-        form=PodrazForm(instance=current_unit)
-        return render(request,'store/spr/SprList.html',{'title':"Подразделения",'unit':unit,'form':form,
-                     'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
-                     'btn_class':'btn-primary','pic_label': 'Подраздел.',
-                     'base_url': 'PodrazList', 'update_url': 'PodrazUpdate',
-                     'delete_url': 'PodrazDelete'})
-
-# Подотчет
+def PodrazUpdate(request):
+    if request.method=='POST':
+        id=request.POST.get('sid')
+        print(id)
+        unit=Podraz.objects.get(pk=id)
+        unit_data={'id':unit.id,'title':unit.title}
+        print(unit_data)
+        return JsonResponse(unit_data)
+    else:
+        return JsonResponse({'status':0,})
 
 # редактирование подотчета
+def FioUpdate(request):
+    if request.method=='POST':
+        id=request.POST.get('sid')
+        print(id)
+        unit=Fio.objects.get(pk=id)
+        unit_data={'id':unit.id,'title':unit.title}
+        print(unit_data)
+        return JsonResponse(unit_data)
+    else:
+        return JsonResponse({'status':0,})
 
-def FioUpdate(request,pk):
-     unit=Fio.objects.all()
-     current_unit = Fio.objects.get(pk=pk)
-     if request.method == 'POST':
-         form=FioForm(request.POST,instance=current_unit)
-         if form.is_valid():
-           form.save()
-           return redirect('FioList')
-     else:
-        form=FioForm(instance=current_unit)
-        return render(request,'store/spr/SprList.html',{'title':"Подотчет",'unit':unit,'form':form,
-                     'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
-                     'btn_class':'btn-primary','pic_label': 'Подотчет',
-                     'base_url': 'FioList', 'update_url': 'FioUpdate',
-                     'delete_url': 'FioDelete'})
-# удаление подотчета:
 
 # Номенклатура
 #Создание номенклатуры

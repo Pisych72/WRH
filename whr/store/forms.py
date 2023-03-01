@@ -55,7 +55,13 @@ class PodrazForm(forms.ModelForm):
       widgets = {
     'title': forms.TextInput(attrs={'class': 'form-control', 'style':'width:955px;','id':'idtitle'}),
          }
-
+class PodrazForm2(forms.ModelForm):
+   class Meta:
+      model = Podraz
+      fields = ['title']
+      widgets = {
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style':'width:460px;','id':'idtitle2'}),
+         }
 class FioForm(forms.ModelForm):
    class Meta:
       model = Fio
