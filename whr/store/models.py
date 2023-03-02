@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Unit(models.Model):
-    title = models.CharField(max_length=100,verbose_name='Наименование',unique=True)
+    title = models.CharField(max_length=100,verbose_name='Наименование',)
 
     def __str__(self):
         return self.title
@@ -15,7 +15,7 @@ class Unit(models.Model):
 
 # Категории
 class Category(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Наименование категории',unique=True)
+    title = models.CharField(max_length=100, verbose_name='Наименование категории',)
 
     def __str__(self):
         return self.title
@@ -27,7 +27,7 @@ class Category(models.Model):
 
     # Поставщики
 class Postav(models.Model):
-    title = models.CharField(max_length=150, verbose_name='Наименование компании', unique=True)
+    title = models.CharField(max_length=150, verbose_name='Наименование компании',)
 
     def __str__(self):
         return self.title
@@ -39,7 +39,7 @@ class Postav(models.Model):
 
 # Причины списания
 class Spis(models.Model):
-    title = models.CharField(max_length=150, verbose_name='Причина списания', unique=True)
+    title = models.CharField(max_length=150, verbose_name='Причина списания', )
 
     def __str__(self):
         return self.title
@@ -51,7 +51,7 @@ class Spis(models.Model):
 
 # Подразделения
 class Podraz(models.Model):
-    title = models.CharField(max_length=150, verbose_name='Название подразделения', unique=True)
+    title = models.CharField(max_length=150, verbose_name='Название подразделения', )
 
     def __str__(self):
         return self.title
@@ -63,7 +63,7 @@ class Podraz(models.Model):
 
     # Подотчетники
 class Fio(models.Model):
-    title = models.CharField(max_length=150, verbose_name='Подотчетное лицо', unique=True)
+    title = models.CharField(max_length=150, verbose_name='Подотчетное лицо', )
 
     def __str__(self):
         return self.title
@@ -75,7 +75,7 @@ class Fio(models.Model):
 
 # Объекты
 class Obct(models.Model):
-    title = models.CharField(max_length=150, verbose_name='Объект', unique=True)
+    title = models.CharField(max_length=150, verbose_name='Объект', )
     podraz=models.ForeignKey(Podraz,verbose_name='Подразделение',on_delete=models.PROTECT)
     def __str__(self):
         return self.title
@@ -83,7 +83,7 @@ class Obct(models.Model):
     class Meta:
         verbose_name = 'Объект'
         verbose_name_plural = 'Объекты'
-        ordering = ['title', ]
+        ordering = ['podraz','title', ]
 
 class Nom(models.Model):
     title = models.CharField(max_length=150, verbose_name='Наименование', unique=True)

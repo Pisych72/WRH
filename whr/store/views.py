@@ -95,12 +95,14 @@ def ObctList(request):
     unit = Obct.objects.all()
     form = ObctForm()
     form2=PodrazForm2()
+    print(reverse('ObctUpdate'))
     return render(request, 'store/spr/SprObct.html', {'title': "Объекты",
                                                       'unit': unit, 'form': form, 'pic_label': 'Объекты',
                                                       'url_name': reverse('SaveObct'),
                                                       'url_delete': reverse('ObctDelete'),
                                                       'url_name2': reverse('SavePodraz2'),
-                                                      'form2': form2, })
+                                                      'form2': form2,'url_update': reverse('ObctUpdate'),
+                                                      })
 
 
 # '****************************************AJAX************************************'
@@ -237,10 +239,19 @@ def SaveFio(request):
 def SaveObct(request):
     if request.method=='POST':
         form = ObctForm(request.POST)
+        print("Мы тут!")
         if form.is_valid():
+            print("Форма валидна")
+            uid = request.POST['unitid']
             title = request.POST['title']
             podraz=request.POST['podraz']
-            newrecord=Obct(title=title,podraz_id=podraz)
+
+            if uid =='':
+
+                newrecord=Obct(title=title,podraz_id=podraz)
+            else:
+
+                newrecord = Obct(title=title, podraz_id=podraz,id=uid)
             newrecord.save()
             un=Obct.objects.values('id','title','podraz__title')
 
@@ -249,6 +260,7 @@ def SaveObct(request):
             print(unit_data)
             return JsonResponse({'status':'Save','unit_data':unit_data})
         else:
+            print("Форма не валидна")
             return JsonResponse({'status':0})
 
 #***********************//AJAX//**********************************************
@@ -481,21 +493,15 @@ def NomDelete(request, pk):
 
 # редактирование объекта
 
-def ObctUpdate(request,pk):
-     unit=Obct.objects.all()
-     current_unit = Obct.objects.get(pk=pk)
-     if request.method == 'POST':
-         form=ObctForm(request.POST,instance=current_unit)
-         if form.is_valid():
-           form.save()
-           return redirect('ObctList')
-     else:
-        form=ObctForm(instance=current_unit)
-        return render(request,'store/spr/SprList.html',{'title':"Объекты",'unit':unit,'form':form,
-                     'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
-                     'btn_class':'btn-primary','pic_label': 'Объекты',
-                     'base_url': 'ObctList', 'update_url': 'ObctUpdate',
-                     'delete_url': 'ObctDelete'})
+def ObctUpdate(request):
+    if request.method=='POST':
+        id=request.POST.get('sid')
+        unit=Obct.objects.get(pk=id)
+        unit_data={'id':unit.id,'title':unit.title,'podraz':unit.podraz.title,'idpodraz':unit.podraz.id}
+        return JsonResponse(unit_data)
+    else:
+        return JsonResponse({'status':0,})
+
 
 
 #подбор единицы измерения из модального окна

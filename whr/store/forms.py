@@ -75,8 +75,8 @@ class ObctForm(forms.ModelForm):
       model = Obct
       fields = ['title','podraz']
       widgets = {
-    'title': forms.TextInput(attrs={'class': 'form-control', 'style':'width:455px;','id':'idtitle'}),
-    'podraz': forms.Select(attrs={'class': 'form-control', 'style': 'width:455px;', 'id': 'idpodraz'}),
+    'title': forms.TextInput(attrs={'class': 'form-control', 'style':'width:443px;','id':'idtitle'}),
+    'podraz': forms.Select(attrs={'class': 'form-control', 'style': 'width:440px;', 'id': 'idpodraz'}),
          }
 
 class NomForm(forms.ModelForm):

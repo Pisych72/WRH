@@ -35,8 +35,8 @@ urlpatterns=[
    path('nomdelete/<str:pk>', NomDelete, name='NomDelete'),
 # Справочник объекты
    path('obct/', ObctList, name='ObctList'),
-   path('obct/<str:pk>',ObctUpdate,name='ObctUpdate'),
-   path('obctdelete/<str:pk>', ObctDelete, name='ObctDelete'),
+
+
 # Обработка ошибки удаления
    path('error/', ErrorDelete, name='ErrorDelete'),
 # сохранение данных справочников через AJAX
@@ -46,7 +46,7 @@ urlpatterns=[
    path('spis_save/',SaveSpis,name='SaveSpis'),
    path('podraz_save/',SavePodraz,name='SavePodraz'),
    path('fio_save/',SaveFio,name='SaveFio'),
-   path('obct_save/',SaveObct,name='SaveObct'),
+   path('SaveObct/',SaveObct,name='SaveObct'),
    path('podraz_save2/', SavePodraz2, name='SavePodraz2'),
 
 # удаление строк из справочников
@@ -66,4 +66,5 @@ urlpatterns=[
    path('PostavUpdate/',PostavUpdate,name='PostavUpdate'),
    path('FioUpdate/',FioUpdate,name='FioUpdate'),
    path('SpisUpdate/',SpisUpdate,name='SpisUpdate'),
+   path('ObctUpdate/',ObctUpdate,name='ObctUpdate'),
 ]

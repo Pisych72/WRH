@@ -17,6 +17,7 @@
   </thead>
 <form action={{url_name}} method="post" id="obct-form">
         {% csrf_token %}
+    <input type="hidden" name="unit_id " id="unit_id">
      <tr>
      <td class="pt-2 border"> {{ form.title}}</td>
      <td class="pt-2 border border-end-0" style="widht:400px;" >{{form.podraz}}</td>
@@ -39,9 +40,9 @@
 <tbody id="tbody">
     {% for item in unit %}
 <tr>
-<td style="width:472px; " class="align-middle">{{item.title}}</td>
-<td style="width:553px; " class="align-middle">{{item.podraz.title}}</td>
-<td class="text-center align-middle" style="width:50px;"><input data-sid="{{item.pk}}"  value="Update" type="image" src="{% static '/images/update.png' %}" width="25px" > </td>
+<td style="width:460px; " class="align-middle fixed">{{item.title}}</td>
+<td style="width:550px; " class="align-middle fixed">{{item.podraz.title}}</td>
+<td class="text-center align-middle" style="width:50px;"><input data-sid="{{item.pk}}" data-update="{{url_update}}" class="btn-podraz-update " value="Update" type="image" src="{% static '/images/update.png' %}" width="25px" > </td>
 <td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="28px"> </td>
 </tr>
 {% endfor %}
