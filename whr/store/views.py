@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .models import *
 from .forms import *
 from django.db.models import Sum, ProtectedError
@@ -95,7 +95,7 @@ def ObctList(request):
     unit = Obct.objects.all()
     form = ObctForm()
     form2=PodrazForm2()
-    print(reverse('ObctUpdate'))
+
     return render(request, 'store/spr/SprObct.html', {'title': "Объекты",
                                                       'unit': unit, 'form': form, 'pic_label': 'Объекты',
                                                       'url_name': reverse('SaveObct'),
@@ -167,6 +167,7 @@ def SavePostav(request):
 def SaveSpis(request):
     if request.method=='POST':
         form = SpisForm(request.POST)
+
         if form.is_valid():
             title = request.POST['title']
             uid = request.POST['unitid']
@@ -280,7 +281,7 @@ def SprDelete(request):
 def CatDelete(request):
     if request.method == 'GET':
         id=request.GET.get('sid')
-        print(id)
+  
         pi=Category.objects.get(pk=id)
         try:
             pi.delete()
@@ -427,67 +428,29 @@ def FioUpdate(request):
 
 # Номенклатура
 #Создание номенклатуры
-def NomList(request):
-   unit=Nom.objects.all()
-
-   if request.method == 'POST':
-       form=NomForm(request.POST)
-       form2=UnitForm(request.POST)
-       print(request.POST)
-       if form.is_valid():
-           form.save()
-           return redirect('NomList')
-       if form2.is_valid():
-           form2.save()
-           return redirect('NomList')
-   else:
-       form=NomForm()
-       form2=UnitForm()
-       return render(request,'store/spr/NomList.html',{'title':"Номенклатура",'unit':unit,'form':form,'form2':form2,
-   'btn_caption': 'Добавить', 'brd_class': 'border-secondary',
-   'btn_class': 'btn-primary', 'pic_label': 'Номенкл.',
-   'base_url': 'NomList', 'update_url': 'NomUpdate',
-   'delete_url': 'NomDelete'})
+def SprNom(request):
+    form=NomForm()
+    unit=Nom.objects.all()
+    return render(request,'store/spr/SprNom.html',{'title':"Номенклатура",'form':form,'unit':unit,
+    'pic_label': 'Номенкл.', })
 
 # редактирование номенклатуры
 
-def NomUpdate(request,pk):
-     unit=Nom.objects.all()
-     current_unit = Nom.objects.get(pk=pk)
-     if request.method == 'POST':
-         form=NomForm(request.POST,instance=current_unit)
-         if form.is_valid():
-           form.save()
-           return redirect('NomList')
-     else:
-        form=NomForm(instance=current_unit)
-        return render(request,'store/spr/NomList.html',{'title':"Номенклатура",'unit':unit,'form':form,
-        'btn_caption': 'Изменить', 'brd_class': 'border-secondary',
-        'btn_class': 'btn-primary', 'pic_label': 'Номенкл.',
-        'base_url': 'NomList', 'update_url': 'NomUpdate',
-        'delete_url': 'NomDelete'
-                                                          })
+def NomSave(request):
+    if request.method =='POST':
+        form=NomForm(request.POST)
 
-# удаление номенклатуры:
-def NomDelete(request, pk):
-   unit = Nom.objects.all()
-   current_unit = Nom.objects.get(pk=pk)
-   if request.method == 'POST':
-      form = NomForm(request.POST, instance=current_unit)
-      if form.is_valid():
-          try:
-              current_unit.delete()
-              return redirect('NomList')
-          except ProtectedError:
-              return redirect('ErrorDelete')
-   else:
-      form = NomForm(instance=current_unit)
-      return render(request, 'store/spr/NomList.html', {'title': "Номенклатура", 'unit': unit, 'form': form,
-      'btn_caption': ' Удаление ', 'brd_class': 'border-danger',
-      'btn_class': 'btn-danger', 'pic_label': 'Номенкл.',
-      'base_url': 'NomList', 'update_url': 'NomUpdate',
-      'delete_url': 'NomDelete'
-      })
+        if form.is_valid():
+            print('Form is valid!!!')
+            return JsonResponse({'status':'Save'})
+        else:
+            print('Not valid form')
+            return JsonResponse({'status':0})
+
+
+
+
+
 
 # Объекты
 

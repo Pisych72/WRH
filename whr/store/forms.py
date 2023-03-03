@@ -85,7 +85,7 @@ class NomForm(forms.ModelForm):
       fields = ['title','izm','category','srok']
       widgets = {
     'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:410px;','id':'idtitle'}),
-    'izm': forms.Select(attrs={'class': 'form-control', 'style': 'width:150px;margin:0;','id':'idizm'}),
-    'category': forms.Select(attrs={'class': 'form-control', 'style': 'width:150px;','id':'idcat'}),
+    'izm': forms.Select(attrs={'class': 'form-control', 'style': 'width:100px;margin:0;','id':'idizm'}),
+    'category': forms.Select(attrs={'class': 'form-control', 'style': 'width:200px;','id':'idcat'}),
      'srok': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:45px;padding-right:0;margin-left:15px;','id':'idsrok'}),
          }

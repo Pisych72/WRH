@@ -30,9 +30,9 @@ urlpatterns=[
    path('fio/', FioList, name='FioList'),
 
 # Справочник номенклатура
-   path('nom/', NomList, name='NomList'),
-   path('nom/<str:pk>',NomUpdate,name='NomUpdate'),
-   path('nomdelete/<str:pk>', NomDelete, name='NomDelete'),
+   path('SprNom/', SprNom, name='SprNom'),
+   path('NomSave/',NomSave,name='NomSave'),
+
 # Справочник объекты
    path('obct/', ObctList, name='ObctList'),
 

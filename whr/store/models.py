@@ -86,7 +86,7 @@ class Obct(models.Model):
         ordering = ['podraz','title', ]
 
 class Nom(models.Model):
-    title = models.CharField(max_length=150, verbose_name='Наименование', unique=True)
+    title = models.CharField(max_length=150, verbose_name='Наименование', )
     izm=models.ForeignKey(Unit,verbose_name='Ед.изм.',on_delete=models.PROTECT)
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.PROTECT)
     srok=models.IntegerField(blank=True,default=0)

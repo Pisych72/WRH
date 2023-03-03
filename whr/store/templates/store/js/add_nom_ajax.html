@@ -1,0 +1,34 @@
+<script>
+////////////////////////////////////////////Добавление строки Номенклатура/////////////////
+$('#nom-form').on('submit',function(e){
+event.preventDefault();
+console.log('Кнопка добавить');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+let _tlt=$('#idtitle').val();
+let _izm=$('#idizm').val();
+let _idc=$('#idcat').val();
+let _srk=$('#idsrok').val();
+
+mydata={
+csrfmiddlewaretoken:_csr,
+title:_tlt,
+izm:_izm,
+cat:_idc,
+srok:_srk
+}
+console.log(mydata);
+$.ajax({
+url:'/NomSave/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if (data.status == 'Save'){console.log('Saved!')};
+if (data.status == 0){alert('NO')};
+}
+});
+
+});
+////////////////////////////////////////Конец добавления строки/////////////////////////////
+</script>
