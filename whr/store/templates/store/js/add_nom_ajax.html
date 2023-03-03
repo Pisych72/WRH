@@ -1,8 +1,10 @@
 <script>
 ////////////////////////////////////////////Добавление строки Номенклатура/////////////////
 $('#nom-form').on('submit',function(e){
+output='';
 event.preventDefault();
 console.log('Кнопка добавить');
+let sid=$('#unit_id').val();
 let _csr=$("input[name=csrfmiddlewaretoken]").val();
 let _tlt=$('#idtitle').val();
 let _izm=$('#idizm').val();
@@ -10,10 +12,11 @@ let _idc=$('#idcat').val();
 let _srk=$('#idsrok').val();
 
 mydata={
+unitid:sid,
 csrfmiddlewaretoken:_csr,
 title:_tlt,
 izm:_izm,
-cat:_idc,
+category:_idc,
 srok:_srk
 }
 console.log(mydata);
@@ -24,7 +27,19 @@ data:mydata,
 dataType:"json",
 
 success:function(data){
-if (data.status == 'Save'){console.log('Saved!')};
+x=data.unit_data;
+if (data.status == 'Save'){
+for(i=0;i<x.length;i++){
+output +='<tr>
+<td style="width:460px; " class="align-middle fixed">'+x[i].title+'</td>
+<td style="width:550px; " class="align-middle fixed">{{item.podraz.title}}</td>
+<td class="text-center align-middle" style="width:50px;"><input data-sid="{{item.pk}}" data-update="{{url_update}}" class="btn-podraz-update " value="Update" type="image" src="../static/images/del.png" style="width:28px;" > </td>
+<td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="../static/images/del.png" style="width:28px;"> </td>
+</tr>'
+};
+$('#tbody').html(output)
+    output='';
+};
 if (data.status == 0){alert('NO')};
 }
 });

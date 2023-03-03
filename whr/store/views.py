@@ -439,12 +439,17 @@ def SprNom(request):
 def NomSave(request):
     if request.method =='POST':
         form=NomForm(request.POST)
-
         if form.is_valid():
-            print('Form is valid!!!')
-            return JsonResponse({'status':'Save'})
+            title=request.POST['title']
+            izm=Unit.objects.get(pk=request.POST['izm'])
+            category = Category.objects.get(pk=request.POST['category'])
+            srok = request.POST['srok']
+            newrecord=Nom(title=title,izm=izm,category=category,srok=srok)
+            newrecord.save()
+            un = Nom.objects.values('id', 'title', 'izm__title','category__title','srok')
+            unit_data = list(un)
+            return JsonResponse({'status':'Save','unit_data':unit_data})
         else:
-            print('Not valid form')
             return JsonResponse({'status':0})
 
 

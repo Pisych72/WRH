@@ -19,6 +19,7 @@
   </thead>
 <form  method="post" id="nom-form">
  {% csrf_token %}
+    <input type="hidden" name="unit_id " id="unit_id">
  <tr>
      <td class="pt-2 border"> {{ form.title}}</td>
      <td class="pt-2 border border-end-0" style="widht:400px;" >{{form.izm}}</td>
