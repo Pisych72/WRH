@@ -30,20 +30,81 @@ success:function(data){
 x=data.unit_data;
 if (data.status == 'Save'){
 for(i=0;i<x.length;i++){
-output +='<tr>
-<td style="width:460px; " class="align-middle fixed">'+x[i].title+'</td>
-<td style="width:550px; " class="align-middle fixed">{{item.podraz.title}}</td>
-<td class="text-center align-middle" style="width:50px;"><input data-sid="{{item.pk}}" data-update="{{url_update}}" class="btn-podraz-update " value="Update" type="image" src="../static/images/del.png" style="width:28px;" > </td>
-<td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="../static/images/del.png" style="width:28px;"> </td>
-</tr>'
+output +='<tr><td style="width:420px;" class="align-middle fixed">'+ x[i].title +'</td>'+
+'<td style="width:180px;" class="align-middle fixed">'+ x[i].izm__title +'</td>'+
+'<td style="width:300px;" class="align-middle fixed">'+ x[i].category__title +'</td>'+
+'<td style="width:90px;" class="align-middle fixed text-center">'+ x[i].srok +'</td>'+
+'<td class="text-center align-middle fixed" style="width:45px;"><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/update.png" style="width:25px;" > </td>'+
+'<td class="text-center align-middle fixed" style="width:50px;"><input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>'
+
+
 };
 $('#tbody').html(output)
     output='';
+    $('#unit_id').val('');
+    $("form")[0].reset();
 };
 if (data.status == 0){alert('NO')};
 }
 });
 
 });
-////////////////////////////////////////Конец добавления строки/////////////////////////////
+////////////////////////////////////////Конец добавления строки Номенклатура/////////////////////////////
+
+////////////////////////////////////////Удаление строки/////////////////////////////////////////////////
+/////////////////////////////Delete SPR
+$('#tbody').on('click','.btn-nom-delete',function(e){
+event.preventDefault();
+console.log('Delete Click');
+let id=$(this).attr('data-sid');
+let csr=$("input[name=csrfmiddlewaretoken]").val();
+mydata={sid:id, csrfmiddlewaretoken:csr,};
+mythis=$(this);
+$.ajax({
+url:'/NomDelete/',
+
+method:'GET',
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status =='Del'){$(mythis).closest("tr").fadeOut();}
+if (data.status == 0){
+    alert('Запись не удалена, потому что она используется в других документах...' );
+    }
+},
+});
+});
+
+///////////////////////////////////////Конец удаления строки/////////////////////////////////////////////
+///////////////////////////////////////Обновление строки Номенклатура////////////////////////////////////
+$('#tbody').on('click','.btn-nom-update',function(e){
+event.preventDefault();
+console.log('Clicked Update');
+
+let id=$(this).attr('data-sid');
+
+let csr=$("input[name=csrfmiddlewaretoken]").val();
+console.log(id);
+
+mydata={sid:id, csrfmiddlewaretoken:csr,};
+mythis=$(this);
+
+$.ajax({
+url:'/NomUpdate/',
+method:'POST',
+data:mydata,
+dataType:"json",
+
+success:function(data){
+$('#unit_id').val(data.id);
+$('#idtitle').val(data.title);
+$("#idcat").val(data.idcat).change();
+$("#idizm").val(data.idizm).change();
+$("#idsrok").val(data.srok);
+},
+});
+});
+///////////////////////////////////////Конец обновления строки Номенклатура//////////////////////////////
+
 </script>

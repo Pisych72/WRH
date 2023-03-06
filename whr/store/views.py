@@ -393,10 +393,8 @@ def PostavUpdate(request):
 def SpisUpdate(request):
     if request.method=='POST':
         id=request.POST.get('sid')
-        print(id)
         unit=Spis.objects.get(pk=id)
         unit_data={'id':unit.id,'title':unit.title}
-        print(unit_data)
         return JsonResponse(unit_data)
     else:
         return JsonResponse({'status':0,})
@@ -439,18 +437,55 @@ def SprNom(request):
 def NomSave(request):
     if request.method =='POST':
         form=NomForm(request.POST)
+        print(request.POST)
         if form.is_valid():
+            uid=request.POST['unitid']
             title=request.POST['title']
             izm=Unit.objects.get(pk=request.POST['izm'])
             category = Category.objects.get(pk=request.POST['category'])
             srok = request.POST['srok']
-            newrecord=Nom(title=title,izm=izm,category=category,srok=srok)
+            if uid=='':
+                newrecord=Nom(title=title,izm=izm,category=category,srok=srok)
+            else:
+                print(uid)
+                newrecord = Nom.objects.get(pk=uid)
+                newrecord.title=title
+                newrecord.izm=izm
+                newrecord.category=category
+                newrecord.srok=srok
             newrecord.save()
             un = Nom.objects.values('id', 'title', 'izm__title','category__title','srok')
             unit_data = list(un)
+            print(unit_data)
+            print('ok')
             return JsonResponse({'status':'Save','unit_data':unit_data})
         else:
+            print('notvalid')
             return JsonResponse({'status':0})
+#Удаление номенклатуры
+def NomDelete(request):
+    if request.method == 'GET':
+        id=request.GET.get('sid')
+        pi=Nom.objects.get(pk=id)
+        try:
+            pi.delete()
+            return JsonResponse({'status': 'Del', })
+        except ProtectedError:
+            return JsonResponse({'status': 0, })
+    else:
+        return JsonResponse({'status':0,})
+# редактирование объекта
+
+def NomUpdate(request):
+    if request.method=='POST':
+        id=request.POST.get('sid')
+        unit=Nom.objects.get(pk=id)
+        unit_data={'id':unit.id,'title':unit.title,'cat':unit.category.title,'idcat':unit.category.id,
+                   'izm':unit.izm.title,'idizm':unit.izm.id,'srok':unit.srok}
+        print(unit_data)
+        return JsonResponse(unit_data)
+    else:
+        return JsonResponse({'status':0,})
 
 
 

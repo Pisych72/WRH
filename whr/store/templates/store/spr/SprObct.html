@@ -24,7 +24,7 @@
      <td class="text-start border border-start-0 pt-2 ml-2 " style="padding-left:0;"><button type="button" class="btn btn-secondary btn-sm  addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
   +
 </button></td>
-    <th class="pt-2 text-center"> <button type="submit" class="btn  btn-primary btn-sm    addbtn " id="savebtn" ><img class="img_btnsave" src="{% static '/images/check2.png' %}" title="Добавить/Сохранить" ></button></td>
+    <th class="pt-2 text-center"> <button type="submit" class="btn  btn-primary btn-sm pb-2 pt-2" id="savebtn" >Сохранить </button></td>
 
     </tr>
 
@@ -41,7 +41,7 @@
     {% for item in unit %}
 <tr>
 <td style="width:460px; " class="align-middle fixed">{{item.title}}</td>
-<td style="width:550px; " class="align-middle fixed">{{item.podraz.title}}</td>
+<td style="width:540px; " class="align-middle fixed">{{item.podraz.title}}</td>
 <td class="text-center align-middle" style="width:50px;"><input data-sid="{{item.pk}}" data-update="{{url_update}}" class="btn-podraz-update " value="Update" type="image" src="{% static '/images/update.png' %}" width="25px" > </td>
 <td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="28px"> </td>
 </tr>

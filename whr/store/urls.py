@@ -58,6 +58,7 @@ urlpatterns=[
    path('FioDelete/',FioDelete,name='FioDelete'),
    path('SpisDelete/',SpisDelete,name='SpisDelete'),
    path('ObctDelete/',ObctDelete,name='ObctDelete'),
+   path('NomDelete/',NomDelete,name='NomDelete'),
 
 # Редактирование справочников
    path('SprUpdate/',SprUpdate,name='SprUpdate'),
@@ -67,4 +68,5 @@ urlpatterns=[
    path('FioUpdate/',FioUpdate,name='FioUpdate'),
    path('SpisUpdate/',SpisUpdate,name='SpisUpdate'),
    path('ObctUpdate/',ObctUpdate,name='ObctUpdate'),
+   path('NomUpdate/',NomUpdate,name='NomUpdate'),
 ]
