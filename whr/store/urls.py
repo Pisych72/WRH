@@ -69,4 +69,6 @@ urlpatterns=[
    path('SpisUpdate/',SpisUpdate,name='SpisUpdate'),
    path('ObctUpdate/',ObctUpdate,name='ObctUpdate'),
    path('NomUpdate/',NomUpdate,name='NomUpdate'),
+   path('NomAddUnit/', NomAddUnit, name='NomAddUnit'),
+   path('NomAddCat/', NomAddCat, name='NomAddCat'),
 ]

@@ -88,6 +88,22 @@ class NomForm(forms.ModelForm):
     'izm': forms.Select(attrs={'class': 'form-control', 'style': 'width:100px;margin:0;','id':'idizm'}),
     'category': forms.Select(attrs={'class': 'form-control', 'style': 'width:200px;','id':'idcat'}),
      'srok': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:45px;padding-right:0;margin-left:15px;','id':'idsrok'}),
-
-
          }
+
+
+class UnitForm2(forms.ModelForm):
+    class Meta:
+        model = Unit
+        fields = ['title']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:460px;', 'id': 'idtitle2'}),
+        }
+
+
+class CategoryForm2(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['title']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:460px;', 'id': 'idtitle3'}),
+        }

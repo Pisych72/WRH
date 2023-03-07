@@ -24,9 +24,9 @@
  <tr>
      <td class="pt-2 border"> {{ form.title}}</td>
      <td class="pt-2 border border-end-0" style="widht:400px;" >{{form.izm}}</td>
-     <td class="text-start border border-start-0 pt-2 ml-2 " style="padding-left:0;"><button type="button" class="btn btn-secondary btn-sm  addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">+</button></td>
+     <td class="text-start border border-start-0 pt-2 ml-2 " style="padding-left:0;"><button type="button" class="btn btn-secondary btn-sm  addbtn"   data-bs-toggle="modal" data-bs-target="#exampleModal5">+</button></td>
      <td class="pt-2 border border-end-0" style="widht:400px;" >{{form.category}}</td>
-     <td class="text-start border border-start-0 pt-2 ml-2 " style="padding-left:0;"><button type="button" class="btn btn-secondary btn-sm  addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">+</button></td>
+     <td class="text-start border border-start-0 pt-2 ml-2 " style="padding-left:0;"><button type="button" class="btn btn-secondary btn-sm  addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal6">+</button></td>
      <td class="pt-2 border " style="widht:80px;" >{{form.srok}}</td>
      <td class="pt-2 text-center" style="widht:100px;"> <button type="submit" class="btn  btn-primary btn-sm pt-2 pb-2    " id="nomsavebtn" >Сохранить</button></td>
  </tr>
@@ -58,26 +58,49 @@
 </div>
 
 
-<!-- Модальное окно -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Модальное окно единица измерения -->
+<div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog ">
     <div class="modal-content ">
       <div class="modal-header ">
-        <h5 class="modal-title " id="exampleModalLabel"><span >Добавление подразделения</span></h5>
+        <h5 class="modal-title " id="exampleModalLabel"><span >Добавление единицы измерения</span></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
       </div>
       <div class="modal-body">
-          <form id="add-podraz" action="#" method="post">
+          <form id="add-izm-nom-form" action="#" method="post">
 {% csrf_token %}
 {{form2.as_p}}
       </div>
       <div class="modal-footer">
-        <button type="submit" class=" btn btn-primary" data-bs-dismiss="modal" id="savebtn2" >Сохранить</button>
+        <button type="submit" class=" btn btn-primary" data-bs-dismiss="modal" id="savebtn5" >Сохранить</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
   </form>
       </div>
     </div>
   </div>
 </div>
+<!-- Модальное окно категории -->
+<div class="modal fade" id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content ">
+      <div class="modal-header ">
+        <h5 class="modal-title " id="exampleModalLabel6"><span >Добавление категории</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+          <form id="add-cat-nom-form" action="#" method="post">
+{% csrf_token %}
+{{form3.as_p}}
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class=" btn btn-primary" data-bs-dismiss="modal" id="savebtn6" >Сохранить</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+  </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock DataArea %}
 

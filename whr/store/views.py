@@ -428,9 +428,11 @@ def FioUpdate(request):
 #Создание номенклатуры
 def SprNom(request):
     form=NomForm()
+    form2=UnitForm2()
+    form3=CategoryForm2()
     unit=Nom.objects.all()
     return render(request,'store/spr/SprNom.html',{'title':"Номенклатура",'form':form,'unit':unit,
-    'pic_label': 'Номенкл.', })
+    'pic_label': 'Номенкл.','form2':form2,'form3':form3 })
 
 # редактирование номенклатуры
 
@@ -486,12 +488,6 @@ def NomUpdate(request):
         return JsonResponse(unit_data)
     else:
         return JsonResponse({'status':0,})
-
-
-
-
-
-
 # Объекты
 
 # редактирование объекта
@@ -505,11 +501,30 @@ def ObctUpdate(request):
     else:
         return JsonResponse({'status':0,})
 
-
-
 #подбор единицы измерения из модального окна
-
-
+def NomAddUnit(request):
+    if request.method=='POST':
+        title=request.POST.get('title')
+        newrecord=Unit(title=title)
+        try:
+            newrecord.save()
+            un=Unit.objects.values('id','title')
+            unit_data = list(un)
+            return JsonResponse({'unit_data':unit_data,'status':1})
+        except:
+            return JsonResponse({'status':0})
+#подбор единицы категории из модального окна
+def NomAddCat(request):
+    if request.method=='POST':
+        title=request.POST.get('title')
+        newrecord=Category(title=title)
+        try:
+            newrecord.save()
+            un=Category.objects.values('id','title')
+            unit_data = list(un)
+            return JsonResponse({'unit_data':unit_data,'status':1})
+        except:
+            return JsonResponse({'status':0})
 
 # Логин
 def loginUser(request):

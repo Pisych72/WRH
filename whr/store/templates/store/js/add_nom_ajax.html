@@ -106,5 +106,72 @@ $("#idsrok").val(data.srok);
 });
 });
 ///////////////////////////////////////Конец обновления строки Номенклатура//////////////////////////////
+///////////////////////////////////////Добавление единицы измерения в список//////////////////////////////
+$('#savebtn5').on('click',function(e){
+output='';
+event.preventDefault();
+console.log('Кнопка добавить единицу измерения');
+let title=$('#idtitle2').val();
+let csr=$("input[name=csrfmiddlewaretoken]").val();
+console.log(title);
+mydata={title:title, csrfmiddlewaretoken:csr,};
+
+$.ajax({
+url:'/NomAddUnit/',
+method:'POST',
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status==1){
+y=data.unit_data;
+$('#idizm option').remove();
+    for(i=0;i<y.length;i++){
+    $('#idizm').append('<option value='+y[i].id+'>'+y[i].title);
+    }
+$('#idtitle2').val('');
+$('#idizm').prepend('<option value="" selected>---------</option>');
+if(data.status==0){
+alert('Нет!')
+}
+}
+}
+});
+});
+//////////////////////////////////////Конец добавления единицы измерения//////////////////////////////////
+///////////////////////////////////////Добавление категории в список//////////////////////////////
+$('#savebtn6').on('click',function(e){
+output='';
+event.preventDefault();
+console.log('Кнопка добавить категорию');
+let title=$('#idtitle3').val();
+let csr=$("input[name=csrfmiddlewaretoken]").val();
+console.log(title);
+mydata={title:title, csrfmiddlewaretoken:csr,};
+
+$.ajax({
+url:'/NomAddCat/',
+method:'POST',
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status==1){
+y=data.unit_data;
+$('#idcat option').remove();
+    for(i=0;i<y.length;i++){
+    $('#idcat').append('<option value='+y[i].id+'>'+y[i].title);
+    }
+$('#idtitle3').val('');
+$('#idcat').prepend('<option value="" selected>---------</option>');
+if(data.status==0){
+alert('Нет!')
+}
+}
+}
+});
+});
+
+//////////////////////////////////////Конец добавления единицы измерения//////////////////////////////////
 
 </script>
