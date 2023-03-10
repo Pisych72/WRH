@@ -107,3 +107,44 @@ class CategoryForm2(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:460px;', 'id': 'idtitle3'}),
         }
+class MyDateInput(forms.DateInput):
+   input_type = 'date'
+   format = '%d-%m-%Y'
+class DocForm(forms.ModelForm):
+   class Meta:
+      model = Jurnal
+      fields = ['nomerdoc','datadoc','postav','podraz','fio','obct','summa','nds','summawithnds',
+                'oper']
+      widgets = {
+    'nomerdoc': forms.TextInput(attrs={'class': 'form-control','id':'id_nomerdoc'}),
+    'datadoc': MyDateInput(attrs={'id':'id_datadoc'}),
+    'postav': forms.Select(attrs={'id':'id_postav','style':"visibility:hidden;"}),
+    'podraz': forms.Select(attrs={'id':'id_podraz','style':"visibility:hidden;"}),
+    'fio': forms.Select(attrs={'id': 'id_fio','value':5,'style':"visibility:hidden;"}),
+    'obct': forms.Select(attrs={'id': 'id_obct','value':180,'style':"visibility:hidden;"}),
+    'summa': forms.NumberInput(attrs={'id': 'id_summa','value':0.0}),
+    'nds': forms.NumberInput(attrs={'id': 'id_nds','value':20}),
+    'summawithnds': forms.NumberInput(attrs={'id': 'id_summawithnds','value':0.0}),
+    'oper':forms.NumberInput(attrs={'id':'id_oper','value':1,'style':"visibility:hidden;"})
+         }
+
+class JurnalForm(forms.ModelForm):
+   class Meta:
+      model = JurnalDoc
+      fields = ['title','price','summa','nds','summawithnds','oper','iddoc','podraz',
+                'postav','obct','fio','spis','uniqfield']
+      widgets = {
+    'title': forms.Select(attrs={'class': 'form-control','id':'id_title'}),
+    'price': forms.NumberInput(attrs={'class':'form-control','id': 'id_price'}),
+    'summa': forms.NumberInput(attrs={'class': 'form-control', 'id': 'id_summa2'}),
+    'nds': forms.NumberInput(attrs={'class': 'form-control', 'id': 'id_nds2'}),
+    'summawithnds': forms.NumberInput(attrs={'class': 'form-control', 'id': 'id_summawithnds2'}),
+    'oper':forms.HiddenInput(attrs={'id':'id_oper2'}),
+    'iddoc':forms.HiddenInput(attrs={'id':'id_iddoc2'}),
+    'podraz': forms.HiddenInput(attrs={'id': 'id_podraz2'}),
+    'postav': forms.HiddenInput(attrs={'id': 'id_postav2'}),
+    'obct': forms.HiddenInput(attrs={'id': 'id_obct2'}),
+    'fio': forms.HiddenInput(attrs={'id': 'id_fio2'}),
+    'spis': forms.HiddenInput(attrs={'id': 'id_spis2'}),
+    'uniqfield': forms.HiddenInput(attrs={'id': 'id_uniqfield'}),
+         }

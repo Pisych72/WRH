@@ -516,10 +516,11 @@ def NomAddUnit(request):
 #подбор единицы категории из модального окна
 def NomAddCat(request):
     if request.method=='POST':
-        title=request.POST.get('title')
-        newrecord=Category(title=title)
+        form=CategoryForm2(request.POST)
+        #title=request.POST.get('title')
+        #newrecord=Category(title=title)
         try:
-            newrecord.save()
+            form.save()
             un=Category.objects.values('id','title')
             unit_data = list(un)
             return JsonResponse({'unit_data':unit_data,'status':1})
@@ -542,3 +543,24 @@ def loginUser(request):
 def UserOut(request):
    logout(request)
    return redirect('loginUser')
+
+def NewOstDoc(request):
+    podraz=Podraz.objects.get(pk=74)
+    postav=Postav.objects.get(pk=9)
+    obct=Obct.objects.get(pk=180)
+    fio=Fio.objects.get(pk=5)
+    form=DocForm(initial={'podraz':podraz,'postav':postav,'obct':obct,'fio':fio})
+    form2=JurnalForm()
+    return render(request,'store/Doc/DocOst.html',{'form':form,'form2':form2,'pic_label':'Начальные остатки'})
+
+def SaveOst(request):
+
+    if request.method=='POST':
+        form=DocForm(request.POST)
+
+        if form.is_valid():
+            newrecord=form.save(commit=False)
+            newrecord.save()
+            last_id=Jurnal.objects.latest('id')
+            print(last_id)
+    return HttpResponse('jrj')

@@ -71,4 +71,10 @@ urlpatterns=[
    path('NomUpdate/',NomUpdate,name='NomUpdate'),
    path('NomAddUnit/', NomAddUnit, name='NomAddUnit'),
    path('NomAddCat/', NomAddCat, name='NomAddCat'),
+
+#Документы
+   path('NewOstDoc/',NewOstDoc,name='NewOstDoc'),
+   path('SaveOst/', SaveOst, name='SaveOst'),
+
+
 ]

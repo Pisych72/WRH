@@ -99,3 +99,55 @@ class Nom(models.Model):
         verbose_name = 'Номенклатура'
         verbose_name_plural = 'Номенклатура'
         ordering = ['title', ]
+
+class Jurnal(models.Model):
+    oper=models.IntegerField(verbose_name="Код операции")
+    nomerdoc=models.CharField(max_length=50,verbose_name='Номер документа')
+    datadoc=models.DateTimeField(verbose_name='Дата документа')
+    postav=models.ForeignKey(Postav,verbose_name='Поставщик',on_delete=models.PROTECT)
+    obct=models.ForeignKey(Obct,verbose_name='Объект',on_delete=models.PROTECT)
+    podraz=models.ForeignKey(Podraz,verbose_name='Подразделение',on_delete=models.PROTECT)
+    fio=models.ForeignKey(Fio,verbose_name='Подотчет',on_delete=models.PROTECT)
+    spis=models.ForeignKey(Spis,blank=True,null=True,verbose_name='Причина списания',on_delete=models.PROTECT)
+    summa=models.FloatField(verbose_name='Сумма',default=0)
+    nds=models.IntegerField(verbose_name='НДС',default=20)
+    summawithnds=models.FloatField(verbose_name='Сумма с НДС',default=0)
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Создан')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Обновлен')
+
+
+
+    class Meta:
+        verbose_name = 'Документ'
+        verbose_name_plural = 'Документы'
+        ordering = ['-datadoc', ]
+
+
+
+class JurnalDoc(models.Model):
+
+    oper=models.IntegerField(max_length=1,verbose_name='Операция')
+    iddoc=models.ForeignKey(Jurnal,on_delete=models.PROTECT)
+    title=models.ForeignKey(Nom,verbose_name='Наименование',on_delete=models.PROTECT)
+    price=models.FloatField(verbose_name='Цена',default=0.0)
+    podraz=models.ForeignKey(Podraz,on_delete=models.PROTECT,verbose_name='Подразделение')
+    postav=models.ForeignKey(Postav,on_delete=models.PROTECT,verbose_name='Поставщик')
+    obct=models.ForeignKey(Obct,on_delete=models.PROTECT,verbose_name='Объект')
+    fio=models.ForeignKey(Fio,on_delete=models.PROTECT,verbose_name='Подотчетник')
+    spis=models.ForeignKey(Spis,on_delete=models.PROTECT,null=True,blank=True,verbose_name='Причина списания')
+    summa=models.FloatField(verbose_name='Сумма')
+    nds=models.IntegerField(default=20,verbose_name='НДС')
+    summawithnds=models.FloatField(verbose_name='Сумма с НДС')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Создан')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Обновлен')
+    uniqfield=models.CharField(max_length=250,verbose_name='Слаг')
+
+
+
+    class Meta:
+        verbose_name = 'Табличная часть'
+        verbose_name_plural = 'Табличные части'
+        ordering = ['-created_at', ]
+
+
+
