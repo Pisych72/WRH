@@ -130,6 +130,7 @@ class JurnalDoc(models.Model):
     iddoc=models.ForeignKey(Jurnal,on_delete=models.PROTECT)
     title=models.ForeignKey(Nom,verbose_name='Наименование',on_delete=models.PROTECT)
     price=models.FloatField(verbose_name='Цена',default=0.0)
+    kol = models.FloatField(verbose_name='Цена', default=0.0)
     podraz=models.ForeignKey(Podraz,on_delete=models.PROTECT,verbose_name='Подразделение')
     postav=models.ForeignKey(Postav,on_delete=models.PROTECT,verbose_name='Поставщик')
     obct=models.ForeignKey(Obct,on_delete=models.PROTECT,verbose_name='Объект')
@@ -141,7 +142,8 @@ class JurnalDoc(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Создан')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Обновлен')
     uniqfield=models.CharField(max_length=250,verbose_name='Слаг')
-
+    def __str__(self):
+        return self.title
 
 
     class Meta:

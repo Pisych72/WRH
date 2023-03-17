@@ -1,18 +1,40 @@
 <script>
 console.log('Script running!');
 $('#ost-form').on('submit',function(e){
+event.preventDefault();
+let _nomerdoc=$('#id_nomerdoc').val();
+let _datadoc=$('#id_datadoc').val();
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
 
-let nomerdoc=$('#id_nomerdoc').val();
-let datadoc=$('#id_datadoc').val();
-let postav=$('#id_postav').val();
+
+mydata={
+nomerdoc:_nomerdoc,
+datadoc:_datadoc,
+csrfmiddlewaretoken:_csr,
+}
+
 
 
 console.log('Pressed');
-console.log(nomerdoc);
-console.log(datadoc);
-console.log(postav);
+console.log(_nomerdoc);
+console.log(_datadoc);
+console.log(mydata);
 
+$.ajax({
+url:'/JurnalOst/',
+method:"POST",
+data:mydata,
+dataType:"json",
 
+success:function(data){
+if (data.status==1){
+console.log(data.unit_data);
+console.log('saved');
+location.href=data.url
 
+}
+}
+
+});
 });
 </script>

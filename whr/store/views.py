@@ -527,6 +527,10 @@ def NomAddCat(request):
         except:
             return JsonResponse({'status':0})
 
+
+
+
+
 # Логин
 def loginUser(request):
    if request.method == 'POST':
@@ -553,14 +557,83 @@ def NewOstDoc(request):
     form2=JurnalForm()
     return render(request,'store/Doc/DocOst.html',{'form':form,'form2':form2,'pic_label':'Начальные остатки'})
 
-def SaveOst(request):
 
+
+def JurnalOst(request):
+    podraz = Podraz.objects.get(pk=74)
+    postav = Postav.objects.get(pk=9)
+    obct = Obct.objects.get(pk=180)
+    fio = Fio.objects.get(pk=5)
+    jurnalost=Jurnal.objects.filter(oper=1)
     if request.method=='POST':
-        form=DocForm(request.POST)
+        nomerdoc1=request.POST['nomerdoc']
+        datadoc1=request.POST['datadoc']
+        print(nomerdoc1,datadoc1)
+        newost=Jurnal()
+        newost.nomerdoc=nomerdoc1
+        newost.datadoc=datadoc1
+        newost.podraz=podraz
+        newost.postav=postav
+        newost.obct=obct
+        newost.fio=fio
+        newost.oper=1
 
-        if form.is_valid():
-            newrecord=form.save(commit=False)
-            newrecord.save()
-            last_id=Jurnal.objects.latest('id')
-            print(last_id)
-    return HttpResponse('jrj')
+        newost.save()
+        un = Jurnal.objects.values()
+        unit_data=list(un)
+        print(newost.id)
+        ur=reverse('AddStringOst',args=[newost.id])
+        print(ur)
+        return JsonResponse({'status':1,'unit_data':unit_data,'url': ur})
+
+
+    else:
+        form=OstDocForm(initial={'podraz':podraz,'postav':postav,'obct':obct,'fio':fio})
+
+    return render(request,'store/Doc/JurnalOst.html',{'jurnalost':jurnalost,'pic_label':'Начальные остатки','form':form,'title':'Журнал начальных остатков'})
+
+def AddStringOst(request,pk):
+    doc=Jurnal.objects.get(pk=pk)
+    nom=Nom.objects.all()
+    print(doc.datadoc)
+    t="Документ № " + doc.nomerdoc +" от "+doc.datadoc.strftime("%d.%m.%Y")
+    return render(request,'store/Doc/AddStringOst.html',{'docost':doc,'nom':nom,'title':t,'pic_label':'Начальные остатки'})
+
+def StringOstSave(request):
+    podraz = Podraz.objects.get(pk=74)
+    postav = Postav.objects.get(pk=9)
+    obct = Obct.objects.get(pk=180)
+    fio = Fio.objects.get(pk=5)
+    jurnalost = Jurnal.objects.filter(oper=1)
+    if request.method=='POST':
+        iddoc=Jurnal.objects.get(pk=request.POST['id'])
+        title=Nom.objects.get(pk=request.POST['title'])
+        kol=request.POST['kol']
+        price=request.POST['price']
+        summa=request.POST['summa']
+        nds=request.POST['nds']
+        total=request.POST['total']
+
+        newost=JurnalDoc()
+        newost.iddoc=iddoc
+        newost.title=title
+        newost.price=price
+        newost.summa=summa
+        newost.kol=kol
+        newost.summawithnds=total
+        newost.nds=nds
+        newost.podraz=podraz
+        newost.postav=postav
+        newost.obct=obct
+        newost.fio=fio
+        newost.oper=1
+        newost.uniqfield=(str(newost.title.id)+'_'+str(newost.price))
+        newost.save()
+        un = JurnalDoc.objects.values('id','title__title','title__izm__title','price','kol',
+                                      'summa','nds','summawithnds')
+
+
+        unit_data = list(un)
+        #a=unit_data[1]['title_id']
+        print(unit_data)
+        return JsonResponse({'status': 1, 'unit_data': unit_data})

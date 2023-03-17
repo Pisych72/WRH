@@ -35,6 +35,12 @@ display:block;
 overflow-y: auto;
 height:74.5vh;
 }
+.scrolltable4{
+display:block;
+overflow-y: auto;
+height:73.5vh;
+}
+
 .miniature_sprav{
 width:45px;
 float:left;

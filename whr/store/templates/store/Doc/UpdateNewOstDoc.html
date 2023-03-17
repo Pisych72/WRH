@@ -1,0 +1,56 @@
+{% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+
+<div class="row">
+<div class="col-md-1">{{pic_label}}</div>
+<div class="col-md-11 mx-auto shadow">
+
+<table class="table shadow ">
+<thead>
+<tr>
+<th style="width:80px;" class="border text-end">Номер документа</th>
+<th style="width:80px;" class="border text-end" >Дата документа</th>
+<th style="width:80px;" class="border text-end" >Сумма</th>
+<th style="width:80px;" class="border text-end" >НДС</th>
+<th style="width:80px;" class="border text-end" >Сумма с НДС</th>
+<th style="width:80px;" class="border text-end"></th>
+</tr>
+</thead>
+    <form method="post">
+ {% csrf_token %}
+    {{form.postav}}  {{form.podraz}}  {{form.nds}}  {{form.fio}}  {{form.summa}}
+    {{form.summawithnds}}{{form.nds}}{{form.oper}}{{form.obct}}
+{{form.as_p}}
+    <tr>
+        <td style="width:80px;" class="border text-end" >{{form.as_p}}</td>
+        <td class="text-end pb-3">{{form.as_p}}</td>
+        <td style="width:80px;" class="border text-end" ></td>
+        <td style="width:80px;" class="border text-end" ></td>
+        <td style="width:80px;" class="border text-end" ></td>
+        <td style="width:50px;" class="border text-center"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Новый документ</button></td>
+    </form>
+    </tr>
+</table >
+
+    <div class="scrolltable">
+    <table class="table shadow table-bordered table-hover ">
+    <tbody>
+    {% for item in jurnalost %}
+    <tr><td style="width:193px;" class="border text-end fixed">{{item.nomerdoc}}</td>
+    <td  style="width:276px;" class="border text-end">{{item.datadoc|date:"d. m. Y г." }}</td>
+    <td  style="width:152px;" class="border text-end">{{item.summa}}</td>
+    <td  style="width:152px;" class="border text-end">{{item.nds}}</td>
+    <td  style="width:152px;" class="border text-end">{{item.summawithnds }}</td>
+    <td class="text-center align-middle border" style="width:80px;"><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-update" src="{% static '/images/edit7.png' %}" width="25px" > </td>
+    <td class="text-center align-middle border" style="width:80px;"><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="28px"> </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</div>
+</div>
+</div>
+{% endblock DataArea %}
+

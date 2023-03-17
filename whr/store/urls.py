@@ -74,7 +74,8 @@ urlpatterns=[
 
 #Документы
    path('NewOstDoc/',NewOstDoc,name='NewOstDoc'),
-   path('SaveOst/', SaveOst, name='SaveOst'),
-
-
+   path('StringOstSave/', StringOstSave, name='StringOstSave'),
+   path('JurnalOst/', JurnalOst, name='JurnalOst'),
+   path('AddStringOst/<str:pk>',AddStringOst,name='AddStringOst'),
+   #path('JurnalOstUpdate/<int:last_id>',JurnalOstUpdate,'JurnalOstUpdate')
 ]

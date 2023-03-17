@@ -148,3 +148,25 @@ class JurnalForm(forms.ModelForm):
     'spis': forms.HiddenInput(attrs={'id': 'id_spis2'}),
     'uniqfield': forms.HiddenInput(attrs={'id': 'id_uniqfield'}),
          }
+
+class OstDocForm(forms.ModelForm):
+    class Meta:
+        model=Jurnal
+        fields = ['nomerdoc', 'datadoc', 'postav', 'podraz', 'fio', 'obct', 'summa', 'nds', 'summawithnds',
+                  'oper']
+        widgets = {
+            'nomerdoc': forms.TextInput(attrs={'class': 'form-control', 'id': 'id_nomerdoc','style':'text-align:right;border-color: grey'}),
+            'datadoc': MyDateInput(attrs={'id': 'id_datadoc','style':'height:40px;border-radius:4px;border-color: grey'}),
+            'postav': forms.HiddenInput(attrs={'id': 'id_postav','value':9, 'style': "visibility:hidden;"}),
+            'podraz': forms.HiddenInput(attrs={'id': 'id_podraz', 'value':74,'style': "visibility:hidden;"}),
+            'fio': forms.HiddenInput(attrs={'id': 'id_fio', 'value': 5, 'style': "visibility:hidden;"}),
+            'obct': forms.HiddenInput(attrs={'id': 'id_obct', 'value': 180, 'style': "visibility:hidden;"}),
+            'summa': forms.HiddenInput(attrs={'id': 'id_summa', 'value': 0.0,'style': "visibility:hidden;"}),
+            'nds': forms.HiddenInput(attrs={'id': 'id_nds', 'value': 20,'style': "visibility:hidden;"}),
+            'summawithnds': forms.HiddenInput(attrs={'id': 'id_summawithnds', 'value': 0.0,'style': "visibility:hidden;"}),
+            'oper': forms.HiddenInput(attrs={'id': 'id_oper', 'value': 1, 'style': "visibility:hidden;"})
+        }
+
+class Ost(forms.Form):
+    nomerdoc=forms.NumberInput()
+    datadoc=MyDateInput()

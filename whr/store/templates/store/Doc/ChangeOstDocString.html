@@ -1,0 +1,93 @@
+<script>
+ output='';
+function GetSumm(){
+let price=$("#idprice").val();
+   let kol=$("#idkol").val();
+   let nds=$("#idnds").val();
+   let summa=price*kol
+   let total=summa*((nds/100)+1);
+   $("#idsumma").val(summa.toFixed(2));
+    $("#idtotal").val(total.toFixed(2));
+}
+
+ $("#idprice").keyup(function(){
+   GetSumm()
+});
+
+$("#idprice").change(function(){
+    GetSumm()
+});
+
+$("#idkol").keyup(function(){
+    GetSumm()
+   });
+
+ $("#idkol").change(function(){
+    GetSumm()
+   });
+$("#idnds").keyup(function(){
+    GetSumm()
+   });
+
+ $("#idnds").change(function(){
+    GetSumm()
+   });
+
+$('#ost-string-form').on('submit',function(e){
+event.preventDefault();
+let _id=$('#id_iddoc').val();
+let _title=$("#idtitle").val();
+let _price=$("#idprice").val();
+let _kol=$("#idkol").val();
+let _summa=$("#idsumma").val();
+let _nds=$("#idnds").val();
+let _total=$('#idtotal').val();
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+console.log(_id,_title,_price,_kol,_summa,_nds,_total);
+
+mydata={
+id:_id,
+title:_title,
+price:_price,
+kol:_kol,
+summa:_summa,
+nds:_nds,
+total:_total,
+csrfmiddlewaretoken:_csr,
+}
+console.log(mydata)
+$.ajax({
+url:'/StringOstSave/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+x=data.unit_data;
+if (data.status==1){
+for(i=0;i<x.length;i++){
+output +='<tr><td  style="width:200px;">'+ x[i]['title__title']+", " + x[i]['title__izm__title']+'</td>'+
+'<td  style="width:120px;" class="text-end fixed">'+ x[i]['price']+'</td>'+
+'<td  style="width:120px;" class="text-end fixed">'+ x[i]['kol']+'</td>'+
+'<td  style="width:120px;" class="text-end fixed">'+ x[i]['summa']+'</td>'+
+'<td  style="width:100px;" class="text-end fixed">'+ x[i]['nds']+'</td>'+
+'<td  style="width:100px;" class="text-end fixed">'+ x[i]['summawithnds']+'</td>'+
+'<td class="text-center align-middle fixed " style="width:45px;"><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/update.png" style="width:25px;" > </td>'+
+'<td class="text-center align-middle fixed" style="width:45px;"><input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>'
+
+}
+
+console.log(x);
+console.log('saved');
+ $('#string-ost').html(output)
+    output='';
+
+}
+}
+
+});
+
+
+
+});
+</script>
