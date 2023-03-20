@@ -7,66 +7,75 @@
 
 <div class="col-md-11 mx-auto shadow">
 
-<table class="table shadow ">
+<table class=" table shadow ">
 <thead>
 <tr>
-<td style="width:350px"></td>
-<td style="width:100px;" class="border text-end">Номер документа</td>
-<td style="width:50px;" class="border text-end" >Дата документа</td>
+<td style="width:75%"></td>
+<td style="width:25%; " class="border text-end "> Номер документа </td>
+<td style="width:25%;" class="border text-end" >Дата документа</td>
 
-<td style="width:50px;" class="border text-end"></td>
+<td style="width:25%;" class="border text-end"></td>
 </tr>
 </thead>
     <form method="post" id="ost-form">
  {% csrf_token %}
-<input  type="hidden" id="id_iddoc" value="{{docost.id}} " >
 
-    <tr><th style="width:350px"></th>
-        <td style="width:50px;" class="border text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required value="{{docost.nomerdoc}}"></td>
-        <td style="width:50px; "class="text-end pb-3"> <input type="date" id="id_datadoc" class="form-control" style="text-align:right" required value="{{docost.datadoc|date:'Y-m-d'}}"></td>
 
-        <td style="width:50px;" class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Сохранить</button></td>
+    <tr><td><input  type="hidden" id="id_iddoc" value="{{docost.id}} " ></th>
+        <td  class="border text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required value="{{docost.nomerdoc}}"></td>
+        <td  "class="text-end pb-3"> <input type="date" id="id_datadoc" class="form-control" style="text-align:right" required value="{{docost.datadoc|date:'Y-m-d'}}"></td>
+
+        <td class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Сохранить</button></td>
     </form>
     </tr>
 </table >
 
 
-    <table class="table shadow table-bordered table-hover" >
+    <table class=" shadow table-bordered table-hover" >
         <thead>
         <form id="ost-string-form" method="post">
              {% csrf_token %}
-        <td >Наименование, ед.изм.
-        <select name="title" id="idtitle" class="form-control  " style="width:200px" required>
+            <th colspan="2" style="width:550px">Наименование, ед.изм.</th>
+
+             <th  class="text-center " style="width:100px">Цена</th>
+             <th  class="text-center " style="width:100px">Кол-во</th>
+             <th  class="text-center " style="width:100px">Сумма</th>
+             <th class="text-center " style="width:100px" >НДС</th>
+            <th  class="text-center " style="width:140px">Сумма с НДС</th>
+  </thead>
+       <td > <select name="title" id="idtitle" class="form-control "style="width:450px"  required
+       style="width:100px; ">
             <option selected></option>
             {% for item in nom %}
             <option value="{{item.id}}">{{item.title}}, {{item.izm}}</option>
             {% endfor %}
-        </select>
-        </td>
-           <td class="text-start  pt-2  " style="padding-left:0;"><button type="button" class="btn btn-secondary btn-sm  addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+       </select></td>
+<td>
+    <button style="margin-left:5px;" type="button" class="btn btn-secondary btn-sm  addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
   +
-</button></td>
-        <td class="text-center">Цена
-            <input type="number" id="idprice" class="form-control text-end" step="any" required >
+    </button></td>
+
+           <td> <input type="number" id="idprice" class="form-control text-end" step="any" required >
+        </td></td>
+
+         <td><input type="number" id="idkol" class="form-control text-end" step="any" required>
         </td>
-        <td class="text-center">Кол-во
-         <input type="number" id="idkol" class="form-control text-end" step="any" required>
+
+       <td> <input type="number" id="idsumma" class="form-control text-end" step="any" required readonly>
         </td>
-        <td class="text-center">Стоимость
-        <input type="number" id="idsumma" class="form-control text-end" step="any" required readonly>
+
+        <td><input type="number" id="idnds" class="form-control text-end" value="20" required>
         </td>
-        <td class="text-center">НДС
-        <input type="number" id="idnds" class="form-control text-end" value="20" required>
-        </td>
-        <td class="text-center">Стоимость с НДС
-            <input type="number" id="idtotal" class="form-control text-end" step="any" required readonly>
-        </td>
+
+           <td> <input type="number" id="idtotal" class="form-control text-end" step="any" required readonly>
+        </th>
+
         <td class="text-center"><button class="btn btn-primary btn-sm" type="submit">Записать</td>
-        </thead>
+
         </form>
     </table>
           <div class="scrolltable">
-              <table class="table shadow table-bordered table-hover " style="table-layout:fixed;">
+              <table class=" shadow table-bordered table-hover "  id="string-table">
     <tbody id="string-ost">
 
     </tbody></table>

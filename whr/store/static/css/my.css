@@ -76,3 +76,5 @@ height:38px;
 
 table.fixed { table-layout:fixed; }
 table.fixed td { overflow: hidden; }
+
+.item {float:left;}

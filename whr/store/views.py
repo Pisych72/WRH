@@ -13,7 +13,9 @@ from django.contrib.auth.models import *
 from .models import *
 from django.http import JsonResponse
 import json
+import math
 
+def ceil(number, digits) -> float: return math.ceil((10.0 ** digits) * number) / (10.0 ** digits)
 # Create your views here.
 
 def index(request):
@@ -629,11 +631,18 @@ def StringOstSave(request):
         newost.oper=1
         newost.uniqfield=(str(newost.title.id)+'_'+str(newost.price))
         newost.save()
-        un = JurnalDoc.objects.values('id','title__title','title__izm__title','price','kol',
-                                      'summa','nds','summawithnds')
+        un=JurnalDoc.objects.filter(pk=newost.id).values('id','title__title','title__izm__title','price','kol',
+                                      'summa','nds','summawithnds','iddoc')
+
+        sum = JurnalDoc.objects.filter(iddoc=iddoc).aggregate(Sum("summa"))
+        sumnds = JurnalDoc.objects.filter(iddoc=iddoc).aggregate(Sum("summawithnds"))
+        s=(sum['summa__sum'])
+        snds=(sumnds['summawithnds__sum'])
+        roundsumma=round(s, 2)
+        roundnds=round(snds,2)
 
 
         unit_data = list(un)
-        #a=unit_data[1]['title_id']
+
         print(unit_data)
-        return JsonResponse({'status': 1, 'unit_data': unit_data})
+        return JsonResponse({'status': 1, 'unit_data': unit_data,'total':roundsumma,'total_nds':roundnds})

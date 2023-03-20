@@ -1,5 +1,6 @@
 <script>
  output='';
+
 function GetSumm(){
 let price=$("#idprice").val();
    let kol=$("#idkol").val();
@@ -64,24 +65,31 @@ dataType:"json",
 
 success:function(data){
 x=data.unit_data;
+s=data.total;
+sn=data.total_nds
+console.log(s.summa__sum)
+
 if (data.status==1){
 for(i=0;i<x.length;i++){
-output +='<tr><td  style="width:200px;">'+ x[i]['title__title']+", " + x[i]['title__izm__title']+'</td>'+
-'<td  style="width:120px;" class="text-end fixed">'+ x[i]['price']+'</td>'+
-'<td  style="width:120px;" class="text-end fixed">'+ x[i]['kol']+'</td>'+
-'<td  style="width:120px;" class="text-end fixed">'+ x[i]['summa']+'</td>'+
-'<td  style="width:100px;" class="text-end fixed">'+ x[i]['nds']+'</td>'+
-'<td  style="width:100px;" class="text-end fixed">'+ x[i]['summawithnds']+'</td>'+
-'<td class="text-center align-middle fixed " style="width:45px;"><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/update.png" style="width:25px;" > </td>'+
-'<td class="text-center align-middle fixed" style="width:45px;"><input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>'
+output +='<tr><td style="width:500px;"> '+ x[i]['title__title']+", " + x[i]['title__izm__title']+'</td>'+
+'<td style="width:97px;" class="text-end" >'+ x[i]['price']+'</td>'+
+'<td style="width:97px;" class="text-end" >'+ x[i]['kol']+'</td>'+
+'<td  style="width:99px;" class="text-end" >'+ x[i]['summa']+'</td>'+
+'<td  style="width:98px;" class="text-end" >'+ x[i]['nds']+'</td>'+
+'<td style="width:138px;" class="text-end" >'+ x[i]['summawithnds']+'</td>'+
+'<td style="width:39px;" class="text-center" ><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/update.png" style="width:25px;" > </td>'+
+'<td style="width:39px;" class="text-center" ><input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>'
 
 }
+itog='<tr style="color:blue"><td colspan=3>Итого:</td> <td class="text-end fixed">'+s+'<td></td><td class="text-end fixed">'+sn+'</td></tr>'
 
 console.log(x);
 console.log('saved');
  $('#string-ost').html(output)
-    output='';
+ $('#string-table tr:last').after(itog);
 
+
+    $("#ost-string-form")[0].reset();
 }
 }
 
