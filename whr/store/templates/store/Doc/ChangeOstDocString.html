@@ -1,5 +1,5 @@
 <script>
- output='';
+ let output=$('#string-ost').html();
 
 function GetSumm(){
 let price=$("#idprice").val();
@@ -44,7 +44,6 @@ let _summa=$("#idsumma").val();
 let _nds=$("#idnds").val();
 let _total=$('#idtotal').val();
 let _csr=$("input[name=csrfmiddlewaretoken]").val();
-console.log(_id,_title,_price,_kol,_summa,_nds,_total);
 
 mydata={
 id:_id,
@@ -56,7 +55,7 @@ nds:_nds,
 total:_total,
 csrfmiddlewaretoken:_csr,
 }
-console.log(mydata)
+
 $.ajax({
 url:'/StringOstSave/',
 method:"POST",
@@ -71,31 +70,88 @@ console.log(s.summa__sum)
 
 if (data.status==1){
 for(i=0;i<x.length;i++){
-output +='<tr><td style="width:500px;"> '+ x[i]['title__title']+", " + x[i]['title__izm__title']+'</td>'+
-'<td style="width:97px;" class="text-end" >'+ x[i]['price']+'</td>'+
-'<td style="width:97px;" class="text-end" >'+ x[i]['kol']+'</td>'+
-'<td  style="width:99px;" class="text-end" >'+ x[i]['summa']+'</td>'+
-'<td  style="width:98px;" class="text-end" >'+ x[i]['nds']+'</td>'+
-'<td style="width:138px;" class="text-end" >'+ x[i]['summawithnds']+'</td>'+
-'<td style="width:39px;" class="text-center" ><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/update.png" style="width:25px;" > </td>'+
-'<td style="width:39px;" class="text-center" ><input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>'
-
+output +='<tr class="align-middle"><td style="width:40%"> '+ x[i]['title__title']+", " + x[i]['title__izm__title']+'</td>'+
+'<td  class="text-end" style="width:10%" >'+ x[i]['price']+'</td>'+
+'<td  class="text-end "style="width:10%" >'+ x[i]['kol']+'</td>'+
+'<td   class="text-end "style="width:10%" >'+ x[i]['summa']+'</td>'+
+'<td   class="text-end " style="width:10%" >'+ x[i]['nds']+'</td>'+
+'<td  class="text-end " style="width:10%" >'+ x[i]['summawithnds']+'</td>'+
+'<td  class="text-center" colspan=2 ><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/edit2.png" style="width:35px;" > '+
+'<input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:35px;" > </td></tr>'
 }
-itog='<tr style="color:blue"><td colspan=3>Итого:</td> <td class="text-end fixed">'+s+'<td></td><td class="text-end fixed">'+sn+'</td></tr>'
-
+itog='<tr style="color:blue"><td colspan=3>Итого:</td> <td class="text-end fixed" id="id_total_summa">'+s+'<td></td><td class="text-end fixed " id="id_total_nds">'+sn+'</td></tr>'
 console.log(x);
 console.log('saved');
  $('#string-ost').html(output)
- $('#string-table tr:last').after(itog);
+ $('#string-ost tr:last').after(itog);
+ $("#ost-string-form")[0].reset();
+}
+}
+});
+});
+
+//////////////////Изменение даты и номера документа, переход в журнал/////////////////
+$('#ost-form2').on('submit',function(e){
+event.preventDefault();
+let _id=$('#id_iddoc').val();
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+let _nomer=$('#id_nomerdoc').val();
+let _data=$('#id_datadoc').val();
 
 
-    $("#ost-string-form")[0].reset();
+console.log('Return to Jurnal')
+
+
+mydata={
+id:_id,
+nomer:_nomer,
+data:_data,
+csrfmiddlewaretoken:_csr,
+}
+
+$.ajax({
+url:'/ReturnToJurnalOst/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status==1){
+console.log('saved record');
+location.href=data.url;
+}
+}
+});
+});
+
+///////////////////////////Редактирование документа остатков//////////////////////
+
+
+$('#ost-doc').on('click','.btn-ost-update',function(e){
+console.log('Pressed button');
+let _id=$(this).attr('data-sid');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+console.log(_id);
+
+mydata={
+id:_id,
+csrfmiddlewaretoken:_csr,
+}
+
+$.ajax({
+url:'/EditOstDoc/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if (data.status==1){
+
+console.log('saved');
+location.href=data.url
 }
 }
 
 });
-
-
-
 });
 </script>

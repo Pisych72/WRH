@@ -3,21 +3,21 @@
 {% block DataArea %}
 
 <div class="row">
-<div class="col-md-1">{{pic_label}}</div>
 
-<div class="col-md-11 mx-auto shadow">
+
+<div class="col-md-12 mx-auto shadow">
 
 <table class=" table shadow ">
 <thead>
 <tr>
-<td style="width:75%"></td>
-<td style="width:25%; " class="border text-end "> Номер документа </td>
-<td style="width:25%;" class="border text-end" >Дата документа</td>
+<td style="width:60%"></td>
+<td style="width:13; " class="border text-end "> Номер документа </td>
+<td style="width:10%;" class="border text-end" >Дата документа</td>
 
-<td style="width:25%;" class="border text-end"></td>
+<td style="width:10%;" class="border text-end"></td>
 </tr>
 </thead>
-    <form method="post" id="ost-form">
+    <form method="post" id="ost-form2" >
  {% csrf_token %}
 
 
@@ -25,35 +25,31 @@
         <td  class="border text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required value="{{docost.nomerdoc}}"></td>
         <td  "class="text-end pb-3"> <input type="date" id="id_datadoc" class="form-control" style="text-align:right" required value="{{docost.datadoc|date:'Y-m-d'}}"></td>
 
-        <td class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Сохранить</button></td>
+        <td class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="returnJurOst">Сохранить</button></td>
     </form>
     </tr>
 </table >
 
 
-    <table class=" shadow table-bordered table-hover" >
-        <thead>
+    <table class=" table shadow table-bordered table-hover" style="width:100%" >
+
         <form id="ost-string-form" method="post">
              {% csrf_token %}
-            <th colspan="2" style="width:550px">Наименование, ед.изм.</th>
+            <td style="width:40%"  >Наименование, ед.изм.</td>
 
-             <th  class="text-center " style="width:100px">Цена</th>
-             <th  class="text-center " style="width:100px">Кол-во</th>
-             <th  class="text-center " style="width:100px">Сумма</th>
-             <th class="text-center " style="width:100px" >НДС</th>
-            <th  class="text-center " style="width:140px">Сумма с НДС</th>
-  </thead>
-       <td > <select name="title" id="idtitle" class="form-control "style="width:450px"  required
-       style="width:100px; ">
+             <td  class="text-center" style="width:10%" >Цена</td>
+             <td  class="text-center "style="width:10%"  >Кол-во</td>
+             <td  class="text-center " style="width:10%">Сумма</td>
+             <td class="text-center  " style="width:10%" >НДС</td>
+            <td  class="text-center " style="width:10%" >Сумма с НДС</td>
+<tr>
+       <td > <select name="title" id="idtitle" class="form-control  " required >
+
             <option selected></option>
             {% for item in nom %}
             <option value="{{item.id}}">{{item.title}}, {{item.izm}}</option>
             {% endfor %}
        </select></td>
-<td>
-    <button style="margin-left:5px;" type="button" class="btn btn-secondary btn-sm  addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  +
-    </button></td>
 
            <td> <input type="number" id="idprice" class="form-control text-end" step="any" required >
         </td></td>
@@ -70,18 +66,29 @@
            <td> <input type="number" id="idtotal" class="form-control text-end" step="any" required readonly>
         </th>
 
-        <td class="text-center"><button class="btn btn-primary btn-sm" type="submit">Записать</td>
-
+        <td class="text-end"><button class="btn btn-primary btn-sm" type="submit" id="save-string">Записать</td>
+</tr>
         </form>
-    </table>
-          <div class="scrolltable">
-              <table class=" shadow table-bordered table-hover "  id="string-table">
+
+
+
     <tbody id="string-ost">
+{% for item in items %}
+    <tr><td>{{item.title}},{{item.title.izm}}</td>
+    <td class="text-end">{{item.price}}</td>
+    <td class="text-end">{{item.kol}}</td>
+    <td class="text-end">{{item.summa}}</td>
 
-    </tbody></table>
+    <td class="text-end">{{item.nds}}</td>
+    <td class="text-end">{{item.summawithnds}}</td>
+      <td  class="text-end" colspan=2 ><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/edit2.png" style="width:35px;" >
+<input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:35px;" > </td></tr>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
 
- </div>
 
 </div>
 </div>

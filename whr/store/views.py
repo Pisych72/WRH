@@ -566,7 +566,7 @@ def JurnalOst(request):
     postav = Postav.objects.get(pk=9)
     obct = Obct.objects.get(pk=180)
     fio = Fio.objects.get(pk=5)
-    jurnalost=Jurnal.objects.filter(oper=1)
+    jurnalost=Jurnal.objects.filter(oper=1).order_by('-created_at')
     if request.method=='POST':
         nomerdoc1=request.POST['nomerdoc']
         datadoc1=request.POST['datadoc']
@@ -596,10 +596,11 @@ def JurnalOst(request):
 
 def AddStringOst(request,pk):
     doc=Jurnal.objects.get(pk=pk)
+    item=JurnalDoc.objects.filter(iddoc=pk)
     nom=Nom.objects.all()
     print(doc.datadoc)
     t="Документ № " + doc.nomerdoc +" от "+doc.datadoc.strftime("%d.%m.%Y")
-    return render(request,'store/Doc/AddStringOst.html',{'docost':doc,'nom':nom,'title':t,'pic_label':'Начальные остатки'})
+    return render(request,'store/Doc/AddStringOst.html',{'docost':doc,'nom':nom,'title':t,'pic_label':'Начальные остатки','items':item})
 
 def StringOstSave(request):
     podraz = Podraz.objects.get(pk=74)
@@ -646,3 +647,34 @@ def StringOstSave(request):
 
         print(unit_data)
         return JsonResponse({'status': 1, 'unit_data': unit_data,'total':roundsumma,'total_nds':roundnds})
+
+def ReturnToJurnalOst(request):
+    if request.method=='POST':
+        items=JurnalDoc.objects.filter(iddoc=request.POST['id'])
+        if items:
+            sum = items.aggregate(Sum("summa"))
+            sumnds=items.aggregate(Sum("summawithnds"))
+
+
+        doc=Jurnal.objects.get(pk=request.POST['id'])
+        doc.nomerdoc=request.POST['nomer']
+        doc.datadoc = request.POST['data']
+        if items:
+            doc.summa=round(sum['summa__sum'],2)
+            doc.summawithnds=round(sumnds['summawithnds__sum'],2)
+        doc.save()
+
+        url = reverse('JurnalOst')
+        return JsonResponse({'status':1,'url':url})
+def EditOstDoc(request):
+    if request.method=='POST':
+        id=request.POST['id']
+        ost=Jurnal.objects.get(pk=id)
+        items=JurnalDoc.objects.filter(iddoc=ost.id).values()
+        un = Jurnal.objects.values()
+        unit_data = list(items)
+        ur = reverse('AddStringOst', args=[ost.id])
+        print(ur)
+        print(unit_data)
+        return JsonResponse({'status': 1,'url': ur,'unit_data':unit_data})
+
