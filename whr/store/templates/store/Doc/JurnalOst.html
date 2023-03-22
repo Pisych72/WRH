@@ -7,7 +7,7 @@
 <div class="col-md-11 mx-auto shadow">
 
 <table class="table shadow table-bordered table-hover">
-<thead>
+<thead class="table-primary">
 <tr>
 <th style="width:16.6%;" class="border text-end">Номер документа</th>
 <th style="width:16.6%;" class="border text-end" >Дата документа</th>
@@ -42,10 +42,11 @@
     <td   class="border text-end">{{item.nds}}</td>
     <td   class="border text-end">{{item.summawithnds }}</td>
     <td class="text-end align-middle border" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-ost-update mr-3" src="{% static '/images/edit2.png' %}" width="35px" >
-   <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="35px"> </td>
+   <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-ost-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="35px"> </td>
     </tr>
     {% endfor %}
     </tbody>
+
 </table>
 
 

@@ -598,9 +598,17 @@ def AddStringOst(request,pk):
     doc=Jurnal.objects.get(pk=pk)
     item=JurnalDoc.objects.filter(iddoc=pk)
     nom=Nom.objects.all()
-    print(doc.datadoc)
+    sum = JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum("summa"))
+    sumnds = JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum("summawithnds"))
+    if item:
+        summa1 = round(sum['summa__sum'], 2)
+        summa2 = round(sumnds['summawithnds__sum'], 2)
+    else:
+        summa1=0.0
+        summa2=0.0
+
     t="Документ № " + doc.nomerdoc +" от "+doc.datadoc.strftime("%d.%m.%Y")
-    return render(request,'store/Doc/AddStringOst.html',{'docost':doc,'nom':nom,'title':t,'pic_label':'Начальные остатки','items':item})
+    return render(request,'store/Doc/AddStringOst.html',{'docost':doc,'nom':nom,'title':t,'pic_label':'Начальные остатки','items':item,'s':summa1,'s2':summa2})
 
 def StringOstSave(request):
     podraz = Podraz.objects.get(pk=74)
@@ -609,6 +617,7 @@ def StringOstSave(request):
     fio = Fio.objects.get(pk=5)
     jurnalost = Jurnal.objects.filter(oper=1)
     if request.method=='POST':
+        idstring=request.POST['idstring']
         iddoc=Jurnal.objects.get(pk=request.POST['id'])
         title=Nom.objects.get(pk=request.POST['title'])
         kol=request.POST['kol']
@@ -616,8 +625,12 @@ def StringOstSave(request):
         summa=request.POST['summa']
         nds=request.POST['nds']
         total=request.POST['total']
-
-        newost=JurnalDoc()
+        if idstring=='':
+            print('equel 0')
+            newost=JurnalDoc()
+        else:
+            newost=JurnalDoc.objects.filter(pr=idstring)
+            print('no 0')
         newost.iddoc=iddoc
         newost.title=title
         newost.price=price
@@ -632,7 +645,7 @@ def StringOstSave(request):
         newost.oper=1
         newost.uniqfield=(str(newost.title.id)+'_'+str(newost.price))
         newost.save()
-        un=JurnalDoc.objects.filter(pk=newost.id).values('id','title__title','title__izm__title','price','kol',
+        un=JurnalDoc.objects.order_by('title_id').filter(pk=newost.id).values('id','title__title','title__izm__title','price','kol',
                                       'summa','nds','summawithnds','iddoc')
 
         sum = JurnalDoc.objects.filter(iddoc=iddoc).aggregate(Sum("summa"))
@@ -654,6 +667,9 @@ def ReturnToJurnalOst(request):
         if items:
             sum = items.aggregate(Sum("summa"))
             sumnds=items.aggregate(Sum("summawithnds"))
+        else:
+            sum=0.0
+            sumnds=0.0
 
 
         doc=Jurnal.objects.get(pk=request.POST['id'])
@@ -662,6 +678,10 @@ def ReturnToJurnalOst(request):
         if items:
             doc.summa=round(sum['summa__sum'],2)
             doc.summawithnds=round(sumnds['summawithnds__sum'],2)
+        else:
+            doc.summa = 0.0
+            doc.summawithnds = 0.0
+
         doc.save()
 
         url = reverse('JurnalOst')
@@ -678,3 +698,29 @@ def EditOstDoc(request):
         print(unit_data)
         return JsonResponse({'status': 1,'url': ur,'unit_data':unit_data})
 
+# удаление строки из таблицы документв Начальные остатки
+def DeleteOstStringTable(request):
+    if request.method=='POST':
+        string=JurnalDoc.objects.get(pk=request.POST['id'])
+        string.delete()
+        return JsonResponse({'status':1})
+# обновление строки таблицы документа Начальные остатки
+def UpdateOstStringTable(request):
+    item=JurnalDoc.objects.filter(pk=request.POST['id']).values()
+    unit_data=list(item)
+    print(unit_data)
+    price = (unit_data[0]['price'])
+    id = (unit_data[0]['id'])
+    iddoc_id = (unit_data[0]['iddoc_id'])
+    kol = (unit_data[0]['kol'])
+    title_id=(unit_data[0]['title_id'])
+    summa = (unit_data[0]['summa'])
+    summawithnds = (unit_data[0]['summawithnds'])
+    nds=(unit_data[0]['nds'])
+    d=JurnalDoc.objects.filter(pk=request.POST['id'])
+    d.delete()
+
+
+
+    return JsonResponse({'price':price,'id':id,'iddoc_id':iddoc_id,'kol':kol,'title_id':title_id,
+                         'summa':summa,'summawithnds':summawithnds,'nds':nds})

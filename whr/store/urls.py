@@ -79,6 +79,8 @@ urlpatterns=[
    path('AddStringOst/<str:pk>',AddStringOst,name='AddStringOst'),
    path('ReturnToJurnalOst/',ReturnToJurnalOst,name='ReturnToJurnalOst'),
    path('EditOstDoc/',EditOstDoc,name='EditOstDoc'),
+   path('DeleteOstStringTable/',DeleteOstStringTable,name='DeleteOstStringTable'),
+   path('UpdateOstStringTable/',UpdateOstStringTable,name='UpdateOstStringTable'),
 
    #path('JurnalOstUpdate/<int:last_id>',JurnalOstUpdate,'JurnalOstUpdate')
 ]

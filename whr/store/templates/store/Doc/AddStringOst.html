@@ -10,11 +10,11 @@
 <table class=" table shadow ">
 <thead>
 <tr>
-<td style="width:60%"></td>
-<td style="width:13; " class="border text-end "> Номер документа </td>
-<td style="width:10%;" class="border text-end" >Дата документа</td>
+<th  style="width:60%" >Документ начальных остатков</th>
+<th style="width:13; " class="border text-end "> Номер документа </th>
+<th style="width:10%;" class="border text-end" >Дата документа</th>
 
-<td style="width:10%;" class="border text-end"></td>
+<th style="width:10%;" class="border text-end"></th>
 </tr>
 </thead>
     <form method="post" id="ost-form2" >
@@ -35,13 +35,14 @@
 
         <form id="ost-string-form" method="post">
              {% csrf_token %}
-            <td style="width:40%"  >Наименование, ед.изм.</td>
+            <input  type="hidden" id="id_string" value="" >
+            <th style="width:40%" class="table-primary" >Наименование, ед.изм.</th>
 
-             <td  class="text-center" style="width:10%" >Цена</td>
-             <td  class="text-center "style="width:10%"  >Кол-во</td>
-             <td  class="text-center " style="width:10%">Сумма</td>
-             <td class="text-center  " style="width:10%" >НДС</td>
-            <td  class="text-center " style="width:10%" >Сумма с НДС</td>
+             <th  class="text-end table-primary" style="width:10%" >Цена</th>
+             <th  class="text-end table-primary"style="width:10%"  >Кол-во</th>
+             <th  class="text-end table-primary" style="width:10%">Сумма</th>
+             <th class="text-end  table-primary" style="width:10%" >НДС</th>
+            <th class="text-end table-primary" style="width:10%" >Сумма с НДС</td>
 <tr>
        <td > <select name="title" id="idtitle" class="form-control  " required >
 
@@ -72,20 +73,23 @@
 
 
 
-    <tbody id="string-ost">
+    <tbody id="string-ost" >
+
 {% for item in items %}
     <tr><td>{{item.title}},{{item.title.izm}}</td>
     <td class="text-end">{{item.price}}</td>
     <td class="text-end">{{item.kol}}</td>
     <td class="text-end">{{item.summa}}</td>
 
-    <td class="text-end">{{item.nds}}</td>
+    <td class="text-end " >{{item.nds}}</td>
     <td class="text-end">{{item.summawithnds}}</td>
-      <td  class="text-end" colspan=2 ><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/edit2.png" style="width:35px;" >
-<input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:35px;" > </td></tr>
+      <td  class="text-end" colspan=2 ><input data-sid={{item.pk}} data-update={{item.pk}} class="btn-string-update " value="Update" type="image" src="../static/images/edit2.png" style="width:25px;" >
+<input data-sid={{item.pk}} data-del="#" class="btn-string-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>
     </tr>
     {% endfor %}
+
     </tbody>
+        <tfoot id="idfoot"><td class="fw-bold">Итого:</td><td colspan="3" class="text-end fw-bold ">{{s}}</td><td colspan="2>" class="text-end fw-bold">{{s2}}</td> </tfoot>
 </table>
 
 
