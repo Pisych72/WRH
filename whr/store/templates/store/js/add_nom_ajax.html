@@ -30,12 +30,12 @@ success:function(data){
 x=data.unit_data;
 if (data.status == 'Save'){
 for(i=0;i<x.length;i++){
-output +='<tr><td style="width:420px;" class="align-middle fixed">'+ x[i].title +'</td>'+
-'<td style="width:180px;" class="align-middle fixed">'+ x[i].izm__title +'</td>'+
-'<td style="width:300px;" class="align-middle fixed">'+ x[i].category__title +'</td>'+
-'<td style="width:90px;" class="align-middle fixed text-center">'+ x[i].srok +'</td>'+
-'<td class="text-center align-middle fixed" style="width:45px;"><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/update.png" style="width:25px;" > </td>'+
-'<td class="text-center align-middle fixed" style="width:50px;"><input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>'
+output +='<tr><td style="width:25%;" class="align-middle">'+ x[i].title +'</td>'+
+'<td style="width:16.3%;" class="align-middle" >'+ x[i].izm__title +'</td>'+
+'<td style="width:25%;" class="align-middle" colspan=3>'+ x[i].category__title +'</td>'+
+'<td style="width:16.3%;" class="align-middle  text-center">'+ x[i].srok +'</td>'+
+'<td class="text-center align-middle " style="width:45px;"><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/update.png" style="width:25px;" > '+
+'<input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>'
 
 
 };

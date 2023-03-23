@@ -1,0 +1,115 @@
+<script>
+ $('#post-form').on('submit',function(e){
+event.preventDefault();
+let nomerdoc=$('#id_nomerdoc').val();
+let datadoc=$('#id_datadoc').val();
+let postav=$('#id_postav').val();
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+////////////////////////////////////////////////////////////
+mydata={
+nomerdoc:nomerdoc,
+datadoc:datadoc,
+postav:postav,
+csrfmiddlewaretoken:_csr,
+}
+///////////////////////////////////////////////////////////
+$.ajax({
+url:'/JurnalPost/',
+method:"POST",
+data:mydata,
+dataType:"json",
+/////////////////////////////////////////////////////////
+success:function(data){
+if (data.status==1){
+console.log(data.unit_data);
+console.log('saved');
+location.href=data.url
+}
+}
+});
+//////////////////////////////////////////////////////////
+ });
+
+ //////////////////Изменение даты и номера документа, переход в журнал/////////////////
+$('#post-form2').on('submit',function(e){
+event.preventDefault();
+let _id=$('#id_iddoc').val();
+let _postav=$('#id_postav').val();
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+let _nomer=$('#id_nomerdoc').val();
+let _data=$('#id_datadoc').val();
+console.log(_postav);
+
+mydata={
+id:_id,
+nomer:_nomer,
+data:_data,
+postav:_postav,
+csrfmiddlewaretoken:_csr,
+}
+
+$.ajax({
+url:'/ReturnToJurnalPost/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status==1){
+console.log('saved record');
+location.href=data.url;
+}
+}
+});
+});
+///////////////////////////Редактирование документа приход//////////////////////
+
+$('#post-doc').on('click','.btn-ost-update',function(e){
+console.log('Pressed button');
+let _id=$(this).attr('data-sid');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+
+mydata={
+id:_id,
+csrfmiddlewaretoken:_csr,
+}
+$.ajax({
+url:'/EditPostDoc/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if (data.status==1){
+location.href=data.url
+}
+}
+});
+});
+
+////////////////////////////////////Удаление документов остатков/////////////////
+$('#post-doc').on('click','.btn-ost-del',function(e){
+let _id=$(this).attr('data-sid');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+mythis=$(this);
+mydata={
+id:_id,
+csrfmiddlewaretoken:_csr,
+}
+console.log(mydata);
+$.ajax({
+url:'/DeleteOstDoc/',
+method:"GET",
+data:mydata,
+dataType:"json",
+success:function(data){
+if(data.status==1){
+$(mythis).closest("tr").fadeOut();
+}
+if(data.status==0){alert('Невозможно удалить документ... Сначала необходимо удалить строки документа')}
+}
+
+
+});
+});
+</script>

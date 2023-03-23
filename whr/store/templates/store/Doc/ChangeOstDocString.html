@@ -179,12 +179,13 @@ if(data.status ==1){location.reload()}
 });
 ////////////////////////////////////Редактирование строки из документа остатков/////////////////
 $('#string-ost').on('click','.btn-string-update',function(e){
-
+    let _idstring=$('#id_sting').val();
 	let _id=$(this).attr('data-sid');
     let _csr=$("input[name=csrfmiddlewaretoken]").val();
-mythis=$(this);
+    mythis=$(this);
 	console.log('Updated!');
 	console.log(_id);
+	console.log(_idstring)
 mydata={id:_id,
 csrfmiddlewaretoken:_csr,}
 $.ajax({
@@ -205,10 +206,31 @@ $(mythis).closest("tr").fadeOut();
 
 }
 });
-
+});
+////////////////////////////////////Удаление документов остатков/////////////////
+$('#ost-doc').on('click','.btn-ost-del',function(e){
+let _id=$(this).attr('data-sid');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+mythis=$(this);
+mydata={
+id:_id,
+csrfmiddlewaretoken:_csr,
+}
+console.log(mydata);
+$.ajax({
+url:'/DeleteOstDoc/',
+method:"GET",
+data:mydata,
+dataType:"json",
+success:function(data){
+if(data.status==1){
+$(mythis).closest("tr").fadeOut();
+}
+if(data.status==0){alert('Невозможно удалить документ... Сначала необходимо удалить строки документа')}
+}
 
 
 });
-
+});
 
 </script>

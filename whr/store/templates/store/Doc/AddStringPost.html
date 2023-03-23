@@ -1,0 +1,106 @@
+{% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+
+<div class="row">
+
+
+<div class="col-md-12 mx-auto shadow">
+
+<table class=" table shadow ">
+<thead>
+<tr>
+<th  style="width:60%" >Приходный документ от: </th>
+<th style="width:13%; " class="border text-end "> Номер документа </th>
+<th style="width:10%;" class="border text-end" >Дата документа</th>
+<th style="width:10%;" class="border text-end"></th>
+</tr>
+</thead>
+    <form method="post" id="post-form2" >
+ {% csrf_token %}
+
+
+    <tr>
+        <td><select name="title" id="id_postav" class="form-control  " required >
+            <option value="{{postav.id}}" selected >{{postav.title}}</option>
+            {% for item in postav_list %}
+            <option value="{{item.id}}" class="text-start">{{item.title}}</option>
+            {% endfor %}
+       </select></th>
+        <input  type="hidden" id="id_iddoc" value="{{docost.id}} " >
+        <td  class="border text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required value="{{docost.nomerdoc}}"></td>
+        <td  "class="text-end pb-3"> <input type="date" id="id_datadoc" class="form-control" style="text-align:right" required value="{{docost.datadoc|date:'Y-m-d'}}"></td>
+        <td class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="returnJurOst">Сохранить</button></td>
+    </form>
+    </tr>
+</table >
+
+
+    <table class=" table shadow table-bordered table-hover" style="width:100%" >
+
+        <form id="ost-string-form" method="post">
+             {% csrf_token %}
+            <input  type="hidden" id="id_string" value="" >
+            <th style="width:40%" class="table-primary" >Наименование, ед.изм.</th>
+
+             <th  class="text-end table-primary" style="width:10%" >Цена</th>
+             <th  class="text-end table-primary"style="width:10%"  >Кол-во</th>
+             <th  class="text-end table-primary" style="width:10%">Сумма</th>
+             <th class="text-end  table-primary" style="width:10%" >НДС</th>
+            <th class="text-end table-primary" style="width:10%" >Сумма с НДС</td>
+<tr>
+       <td > <select name="title" id="idtitle" class="form-control  " required >
+
+            <option selected></option>
+            {% for item in nom %}
+            <option value="{{item.id}}">{{item.title}}, {{item.izm}}</option>
+            {% endfor %}
+       </select></td>
+
+           <td> <input type="number" id="idprice" class="form-control text-end" step="any" required >
+        </td></td>
+
+         <td><input type="number" id="idkol" class="form-control text-end" step="any" required>
+        </td>
+
+       <td> <input type="number" id="idsumma" class="form-control text-end" step="any" required readonly>
+        </td>
+
+        <td><input type="number" id="idnds" class="form-control text-end" value="20" required>
+        </td>
+
+           <td> <input type="number" id="idtotal" class="form-control text-end" step="any" required readonly>
+        </th>
+
+        <td class="text-end"><button class="btn btn-primary btn-sm" type="submit" id="save-string">Записать</td>
+</tr>
+        </form>
+
+
+
+    <tbody id="string-ost" >
+
+{% for item in items %}
+    <tr><td>{{item.title}},{{item.title.izm}}</td>
+    <td class="text-end">{{item.price}}</td>
+    <td class="text-end">{{item.kol}}</td>
+    <td class="text-end">{{item.summa}}</td>
+
+    <td class="text-end " >{{item.nds}}</td>
+    <td class="text-end">{{item.summawithnds}}</td>
+      <td  class="text-end" colspan=2 ><input data-sid={{item.pk}} data-update={{item.pk}} class="btn-string-update " value="Update" type="image" src="../static/images/edit2.png" style="width:25px;" >
+<input data-sid={{item.pk}} data-del="#" class="btn-string-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+        <tfoot id="idfoot"><td class="fw-bold">Итого:</td><td colspan="3" class="text-end fw-bold ">{{s}}</td><td colspan="2>" class="text-end fw-bold">{{s2}}</td> </tfoot>
+</table>
+
+
+
+</div>
+</div>
+
+{% endblock DataArea %}
+
