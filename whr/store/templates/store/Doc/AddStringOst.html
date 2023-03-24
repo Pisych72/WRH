@@ -7,42 +7,45 @@
 
 <div class="col-md-12 mx-auto shadow">
 
-<table class=" table shadow ">
-<thead>
+<table class=" table shadow table-hover ">
+<thead class="bg-primary text-light">
 <tr>
 <th  style="width:60%" >Документ начальных остатков</th>
-<th style="width:13; " class="border text-end "> Номер документа </th>
-<th style="width:10%;" class="border text-end" >Дата документа</th>
+<th style="width:13; " class=" text-end "> Номер документа </th>
+<th style="width:10%;" class=" text-end" >Дата документа</th>
 
-<th style="width:10%;" class="border text-end"></th>
+<th style="width:10%;" class=" text-end"></th>
 </tr>
 </thead>
     <form method="post" id="ost-form2" >
  {% csrf_token %}
 
+<tr>
+    <td><input  type="hidden" id="id_iddoc" value="{{docost.id}} " ></td>
+        <td  class=" text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required value="{{docost.nomerdoc}}"></td>
+        <td "class="text-end pb-3"> <input type="date" id="id_datadoc" class="form-control" style="text-align:right" required value="{{docost.datadoc|date:'Y-m-d'}}"></td>
 
-    <tr><td><input  type="hidden" id="id_iddoc" value="{{docost.id}} " ></th>
-        <td  class="border text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required value="{{docost.nomerdoc}}"></td>
-        <td  "class="text-end pb-3"> <input type="date" id="id_datadoc" class="form-control" style="text-align:right" required value="{{docost.datadoc|date:'Y-m-d'}}"></td>
-
-        <td class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="returnJurOst">Сохранить</button></td>
+        <td class=" text-end"> <button type="submit" class="btn  btn-dark btn-sm mb-1 " id="returnJurOst">Сохранить</button></td>
     </form>
     </tr>
 </table >
 
 
-    <table class=" table shadow table-bordered table-hover" style="width:100%" >
+    <table class=" table  shadow table-bordered table-hover" style="width:100%" >
 
         <form id="ost-string-form" method="post">
              {% csrf_token %}
             <input  type="hidden" id="id_string" value="" >
-            <th style="width:40%" class="table-primary" >Наименование, ед.изм.</th>
+            <thead class="bg-primary">
+            <th style="width:40%" class="text-light" >Наименование, ед.изм.</th>
 
-             <th  class="text-end table-primary" style="width:10%" >Цена</th>
-             <th  class="text-end table-primary"style="width:10%"  >Кол-во</th>
-             <th  class="text-end table-primary" style="width:10%">Сумма</th>
-             <th class="text-end  table-primary" style="width:10%" >НДС</th>
-            <th class="text-end table-primary" style="width:10%" >Сумма с НДС</td>
+             <th  class="text-end text-light " style="width:10%" >Цена</th>
+             <th  class="text-end text-light" style="width:10%"  >Кол-во</th>
+             <th  class="text-end text-light" style="width:10%">Сумма</th>
+             <th class="text-end  text-light" style="width:10%" >НДС</th>
+            <th class="text-end text-light" style="width:10%" >Сумма с НДС</td>
+            <th></th>
+            </thead>
 <tr>
        <td > <select name="title" id="idtitle" class="form-control  " required >
 
@@ -67,7 +70,7 @@
            <td> <input type="number" id="idtotal" class="form-control text-end" step="any" required readonly>
         </th>
 
-        <td class="text-end"><button class="btn btn-primary btn-sm" type="submit" id="save-string">Записать</td>
+        <td class="text-end"><button class="btn btn-secondary btn-sm" type="submit" id="save-string">Записать</td>
 </tr>
         </form>
 

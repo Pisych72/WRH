@@ -7,14 +7,14 @@
 <div class="col-md-11 mx-auto shadow">
 
 <table class="table shadow table-bordered table-hover">
-<thead class="table-primary">
+<thead class=" bg-primary  text-light">
 <tr>
-<th style="width:16.6%;" class="border text-end">Номер документа</th>
-<th style="width:16.6%;" class="border text-end" >Дата документа</th>
-<th style="width:16.6%;" class="border text-end" >Сумма</th>
-<th style="width:16.6%;" class="border text-end" >НДС</th>
-<th style="width:16.6%;" class="border text-end" >Сумма с НДС</th>
-<th style="width:16.6%;" class="border text-end"></th>
+<th style="width:16.6%;" class="text-end">Номер документа</th>
+<th style="width:16.6%;" class=" text-end" >Дата документа</th>
+<th style="width:16.6%;" class=" text-end" >Сумма</th>
+<th style="width:16.6%;" class=" text-end" >НДС</th>
+<th style="width:16.6%;" class=" text-end" >Сумма с НДС</th>
+<th style="width:16.6%;" class=" text-end"></th>
 </tr>
 </thead>
     <form method="post" id="ost-form">
@@ -22,12 +22,12 @@
 
 
     <tr>
-        <td  class="border text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required></td>
+        <td  class=" text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required></td>
         <td class="text-end pb-3"> <input type="date" id="id_datadoc" class="form-control" style="text-align:right" required/></td>
-        <td  class="border text-end" ></td>
-        <td  class="border text-end" ></td>
-        <td  class="border text-end" ></td>
-        <td  class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Новый документ</button></td>
+        <td  class=" text-end" ></td>
+        <td  class=" text-end" ></td>
+        <td  class=" text-end" ></td>
+        <td  class="text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Новый документ</button></td>
     </form>
     </tr>
 
@@ -37,11 +37,11 @@
     <tbody id="ost-doc">
     {% for item in jurnalost %}
     <tr><td  class="border text-end fixed">{{item.nomerdoc}}</td>
-    <td   class="border text-end">{{item.datadoc|date:"d. m. Y г." }}</td>
-    <td   class="border text-end">{{item.summa}}</td>
-    <td   class="border text-end">{{item.nds}}</td>
-    <td   class="border text-end">{{item.summawithnds }}</td>
-    <td class="text-end align-middle border" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-ost-update mr-3" src="{% static '/images/edit2.png' %}" width="35px" >
+    <td   class=" text-end">{{item.datadoc|date:"d. m. Y г." }}</td>
+    <td   class=" text-end">{{item.summa}}</td>
+    <td   class=" text-end">{{item.nds}}</td>
+    <td   class="text-end">{{item.summawithnds }}</td>
+    <td class="text-end align-middle " ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-ost-update mr-3" src="{% static '/images/edit2.png' %}" width="35px" >
    <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-ost-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="35px"> </td>
     </tr>
     {% endfor %}
