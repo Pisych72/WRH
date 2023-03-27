@@ -54,8 +54,8 @@
     <td   class="border text-end">{{item.summa}}</td>
     <td   class="border text-end">{{item.nds}}</td>
     <td   class="border text-end">{{item.summawithnds }}</td>
-    <td class="text-end align-middle border" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-ost-update mr-3" src="{% static '/images/edit2.png' %}" width="35px" >
-   <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-ost-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="35px"> </td>
+    <td class="text-end align-middle border" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-ost-update mr-3" src="{% static '/images/edit2.png' %}" width="25px" >
+   <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-ost-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="25px"> </td>
     </tr>
     {% endfor %}
     </tbody>

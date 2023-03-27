@@ -31,10 +31,10 @@ x=data.unit_data;
 if (data.status == 'Save'){
 for(i=0;i<x.length;i++){
 output +='<tr><td  class="align-middle">'+ x[i].title +'</td>'+
-'<td  class="align-middle" colspan=2 >'+ x[i].izm__title +'</td>'+
-'<td  class="align-middle" colspan=2 >'+ x[i].category__title +'</td>'+
+'<td  class="align-middle"  >'+ x[i].izm__title +'</td>'+
+'<td  class="align-middle"  >'+ x[i].category__title +'</td>'+
 '<td  class="align-middle  text-center">'+ x[i].srok +'</td>'+
-'<td class="text-end align-middle " ><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/update.png" style="width:25px;" > '+
+'<td class="text-end align-middle " ><input data-sid='+x[i].id+' data-update='+x[i].id+' class="btn-nom-update " value="Update" type="image" src="../static/images/edit2.png" style="width:25px;" > '+
 '<input data-sid='+x[i].id+' data-del="#" class="btn-nom-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>'
 
 
@@ -44,7 +44,10 @@ $('#tbody').html(output)
     $('#unit_id').val('');
     $("form")[0].reset();
 };
-if (data.status == 0){alert('NO')};
+if (data.status == 0){
+ alert('Запись не добавлена. Возможно, такая уже есть в справочнике...');
+ $('#idtitle').val('');
+};
 }
 });
 

@@ -88,4 +88,6 @@ urlpatterns=[
    path('AddStringPost/<str:pk>',AddStringPost,name='AddStringPost'), #Добавление строк в новый документ
    path('ReturnToJurnalPost/', ReturnToJurnalPost, name='ReturnToJurnalPost'),#сохранение и возврат в журнад
    path('EditPostDoc/',EditPostDoc,name='EditPostDoc'),
+   # Добавление номенклатуры из документа
+   path('AddNomFromDoc/',AddNomFromDoc,name='AddNomFromDoc',)
 ]

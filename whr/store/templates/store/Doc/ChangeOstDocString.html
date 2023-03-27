@@ -228,9 +228,48 @@ $(mythis).closest("tr").fadeOut();
 }
 if(data.status==0){alert('Невозможно удалить документ... Сначала необходимо удалить строки документа')}
 }
-
-
 });
 });
+////////////////////////////////////Добавление новой номенклатуры в документе остатков
+$('#podbor-nom-form').on('submit',function(e){
+event.preventDefault();
+let title=$('#ostpodbortitle').val();
+let izm=$('#ostpodborizm').val();
+let category=$('#ostpodborcategory').val();
+let srok=$('#ostpodborsrok').val();
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+console.log('Pressed button modal');
+mydata={
+title:title,
+izm:izm,
+category:category,
+srok:srok,
+csrfmiddlewaretoken:_csr,
+}
+console.log(mydata);
 
+$.ajax({
+url:'/AddNomFromDoc/',
+method:"POST",
+data:mydata,
+dataType:"json",
+success:function(data){
+if (data.status==1){
+y=data.unit_data
+console.log(y)
+
+$('#idtitle option').remove();
+    for(i=0;i<y.length;i++){
+    $('#idtitle').append('<option value='+y[i].id+'>'+y[i].title+', '+y[i].izm__title);
+
+    }
+// $('#idtitle').prepend('<option value="" selected></option>');
+$("#idtitle").val(data.lastid).change();
+  $('#ostpodbortitle').val('');
+
+}
+}
+});
+
+});
 </script>

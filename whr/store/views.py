@@ -567,6 +567,8 @@ def JurnalOst(request):
 
 def AddStringOst(request,pk):
     doc=Jurnal.objects.get(pk=pk)
+    izm=Unit.objects.all()
+    category=Category.objects.all()
     item=JurnalDoc.objects.filter(iddoc=pk)
     nom=Nom.objects.all()
     sum = JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum("summa"))
@@ -578,7 +580,8 @@ def AddStringOst(request,pk):
         summa1=0.0
         summa2=0.0
     t="Документ № " + doc.nomerdoc +" от "+doc.datadoc.strftime("%d.%m.%Y")
-    return render(request,'store/Doc/AddStringOst.html',{'docost':doc,'nom':nom,'title':t,'pic_label':'Начальные остатки','items':item,'s':summa1,'s2':summa2})
+    return render(request,'store/Doc/AddStringOst.html',{'docost':doc,'nom':nom,'title':t,'pic_label':'Начальные остатки',
+                                                         'items':item,'s':summa1,'s2':summa2,'izm':izm,'category':category})
 
 def StringOstSave(request):
     podraz = Podraz.objects.get(pk=74)
@@ -723,6 +726,8 @@ def JurnalPost(request):
 
 # Добавление строк в новый документ поступление
 def AddStringPost(request,pk):
+    izm = Unit.objects.all()
+    category = Category.objects.all()
     doc = Jurnal.objects.get(pk=pk)
     postav=Postav.objects.get(pk=doc.postav_id)
     item = JurnalDoc.objects.filter(iddoc=pk)
@@ -740,7 +745,7 @@ def AddStringPost(request,pk):
     t = "Документ № " + doc.nomerdoc + " от " + doc.datadoc.strftime("%d.%m.%Y")
     return render(request, 'store/Doc/AddStringPost.html',
                   {'docost': doc, 'nom': nom, 'title': t, 'pic_label': 'Начальные остатки', 'items': item, 's': summa1,
-                   's2': summa2,'postav':postav,'postav_list':postav_list})
+                   's2': summa2,'postav':postav,'postav_list':postav_list,'izm':izm,'category':category})
 
 
 def ReturnToJurnalPost(request):
@@ -775,3 +780,19 @@ def EditPostDoc(request):
         unit_data = list(items)
         ur = reverse('AddStringPost', args=[ost.id])
         return JsonResponse({'status': 1,'url': ur,'unit_data':unit_data})
+#Добавление номенклатуры из документа
+def AddNomFromDoc(request):
+    if request.method == 'POST':
+        title=request.POST['title']
+        izm=Unit.objects.get(pk=request.POST['izm'])
+
+        category=Category.objects.get(pk=request.POST['category'])
+        srok=request.POST['srok']
+        newNom=Nom(title=title,izm=izm,category=category,srok=srok)
+        newNom.save()
+        un=Nom.objects.values('id','title','izm','izm__title')
+        unit_data=list(un)
+
+        lastid=newNom.pk
+        return JsonResponse({'unit_data':unit_data,'status':1,'lastid':lastid})
+

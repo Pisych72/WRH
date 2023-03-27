@@ -11,7 +11,8 @@ class UnitForm(forms.ModelForm):
       model = Unit
       fields = ['title']
       widgets = {
-      'title': forms.TextInput(attrs={'class':'form-control','style':'width:955px;','id':'idtitle'}),
+      'title': forms.TextInput(attrs={'class':'form-control','id':'idtitle'}),
+
       }
 
 class UnitFormSprav(forms.ModelForm):
@@ -75,8 +76,8 @@ class ObctForm(forms.ModelForm):
       model = Obct
       fields = ['title','podraz']
       widgets = {
-    'title': forms.TextInput(attrs={'class': 'form-control', 'style':'width:443px;','id':'idtitle'}),
-    'podraz': forms.Select(attrs={'class': 'form-control', 'style': 'width:440px;', 'id': 'idpodraz'}),
+    'title': forms.TextInput(attrs={'class': 'form-control', 'id':'idtitle'}),
+    'podraz': forms.Select(attrs={'class': 'form-control', 'id': 'idpodraz'}),
          }
 
 class NomForm(forms.ModelForm):
@@ -84,9 +85,9 @@ class NomForm(forms.ModelForm):
       model = Nom
       fields = '__all__'
       widgets = {
-    'title': forms.TextInput(attrs={'class': 'form-control', 'style': 'width:410px;','id':'idtitle'}),
-    'izm': forms.Select(attrs={'class': 'form-control', 'style': 'width:100px;margin:0;','id':'idizm'}),
-    'category': forms.Select(attrs={'class': 'form-control', 'style': 'width:200px;','id':'idcat'}),
+    'title': forms.TextInput(attrs={'class': 'form-control', 'id':'idtitle'}),
+    'izm': forms.Select(attrs={'class': 'form-control','id':'idizm'}),
+    'category': forms.Select(attrs={'class': 'form-control', 'id':'idcat'}),
      'srok': forms.TextInput(attrs={'class': 'form-control text-center', 'id':'idsrok'}),
          }
 

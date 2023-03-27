@@ -1,0 +1,49 @@
+{% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+
+<div class="row">
+    <div class="col-md-1  ">{{pic_label}}
+    <img src="{% static '/images/printer.png' %}">
+    </div>
+<div class="col-md-11 mx-auto shadow">
+<table class="table shadow table-bordered">
+<thead>
+<th style="width:250px;"></th>
+<th style="width:80px;" class="border text-end">Номер документа</th>
+<th style="width:80px;" class="border text-end" >Дата документа</th>
+<th style="width:80px;" class="border text-end" >Сумма</th>
+<th style="width:80px;" class="border text-end" ></th>
+
+</thead>
+ <form id="ost-form" action="{% url 'SaveOst' %}" method="post">
+    {% csrf_token %}
+
+
+     <tr><td></td>
+         <td class="text-end align-middle" >{{form.nomerdoc}}</td>
+     <td class="text-end align-middle"  >{{form.datadoc}}</td>
+      <td class="text-end align-middle"  ></td>
+<td  class="border text-end" ><button type="submit" class="btn  btn-primary" id="SaveDoc">Сохранить</button></td>
+     </tr>
+
+</form>
+</table>
+    <table>
+        <thead>
+        <th style="width:250px;">Наименование</th>
+        <th style="width:100px;">Количество</th>
+        <Th style="width:80px;">Цена</Th>
+        <th style="width:80px;">Сумма</th>
+        <th style="width:80px;">НДС</th>
+        <th>Сумма с НДС</th>
+        </thead>
+<tr>
+    <td></td>
+</tr>
+
+    </table>
+  </div>
+</div>
+{% endblock DataArea %}
+

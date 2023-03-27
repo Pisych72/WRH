@@ -5,45 +5,47 @@
 <div class="row">
     <div class="col-md-1  ">{{pic_label}}</div>
 <div class="col-md-11 mx-auto shadow">
-<table class="table  shadow ">
- <thead>
-
+<table class="table shadow table-bordered table-hover ">
+ <thead class="bg-primary text-light">
     <tr class="mt-0">
-        <th style="width:400px;" class="border" >Наименование объекта</th>
-        <th style="width:400px;" class="border border-end-0" >Подразделение</th>
-        <th></th>
-        <th class="border"></th>
+        <th style="width:60%;"  >Наименование объекта</th>
+        <th style="width:25%;"  >Подразделение</th>
+        <th style="width:15%"></th>
     </tr>
   </thead>
 <form action={{url_name}} method="post" id="obct-form">
         {% csrf_token %}
     <input type="hidden" name="unit_id " id="unit_id">
      <tr>
-     <td class="pt-2 border"> {{ form.title}}</td>
-     <td class="pt-2 border border-end-0" style="widht:400px;" >{{form.podraz}}</td>
-     <td class="text-start border border-start-0 pt-2 ml-2 " style="padding-left:0;"><button type="button" class="btn btn-secondary btn-sm  addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  +
-</button></td>
-    <th class="pt-2 text-center"> <button type="submit" class="btn  btn-primary btn-sm pb-2 pt-2" id="savebtn" >Сохранить </button></td>
-
+     <td > {{ form.title}}</td>
+     <td  >
+     <div class="input-group">
+     {{form.podraz}}
+     <div class=" input-group-button pr-2">
+     <button type="button" id="show-contact-modal-button2" class="btn btn-primary mr-2" style="margin-left: 5px;" data-bs-toggle="modal" data-bs-target="#exampleModal">...</button>
+     </div>
+     </div>
+     </td>
+    <th class=" text-end"> <button type="submit" class="btn  btn-primary btn-sm pb-2 pt-2" id="savebtn" >Сохранить </button></td>
     </tr>
-
 </form>
-
-
-
-
-
 </table>
 <div class="scrolltable">
-<table class="table shadow table-bordered table-hover fixed" id="data-table">
-<tbody id="tbody">
+<table class="table shadow table-bordered table-hover " id="data-table">
+<thead >
+    <tr class="mt-0">
+        <th style="width:60%;"  ></th>
+        <th style="width:25%;"  ></th>
+        <th style="width:15%"></th>
+    </tr>
+  </thead>
+    <tbody id="tbody">
     {% for item in unit %}
 <tr>
-<td style="width:460px; " class="align-middle fixed">{{item.title}}</td>
-<td style="width:540px; " class="align-middle fixed">{{item.podraz.title}}</td>
-<td class="text-center align-middle" style="width:50px;"><input data-sid="{{item.pk}}" data-update="{{url_update}}" class="btn-podraz-update " value="Update" type="image" src="{% static '/images/update.png' %}" width="25px" > </td>
-<td class="text-center align-middle" ><input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="28px"> </td>
+<td  class="align-middle ">{{item.title}}</td>
+<td  class="align-middle ">{{item.podraz.title}}</td>
+<td class="text-end align-middle" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" class="btn-podraz-update " value="Update" type="image" src="{% static '/images/edit2.png' %}" width="25px" >
+<input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="25px"> </td>
 </tr>
 {% endfor %}
 </tbody>
@@ -57,7 +59,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog ">
     <div class="modal-content ">
-      <div class="modal-header ">
+      <div class="modal-header bg-primary text-light ">
         <h5 class="modal-title " id="exampleModalLabel"><span >Добавление подразделения</span></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
       </div>
