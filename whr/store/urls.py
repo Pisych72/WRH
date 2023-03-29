@@ -89,5 +89,9 @@ urlpatterns=[
    path('ReturnToJurnalPost/', ReturnToJurnalPost, name='ReturnToJurnalPost'),#сохранение и возврат в журнад
    path('EditPostDoc/',EditPostDoc,name='EditPostDoc'),
    # Добавление номенклатуры из документа
-   path('AddNomFromDoc/',AddNomFromDoc,name='AddNomFromDoc',)
+   path('AddNomFromDoc/',AddNomFromDoc,name='AddNomFromDoc'),
+# Добавление поставщика из документа
+   path('AddPostavFromDoc/',AddPostavFromDoc,name='AddPostavFromDoc',),
+# Получене актуальных данных
+   path('GetActualData/',GetActualData,name='GetActualData'),
 ]

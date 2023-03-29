@@ -9,13 +9,12 @@
 <table class="table shadow table-bordered table-hover">
 <thead class="bg-primary text-light">
 <tr>
-<th style="width:14.2%;" class=" text-end">Номер документа</th>
-<th style="width:14.2%;" class=" text-end" >Дата документа</th>
-<th style="width:20.2%;" class=" text-end" >Поставщик</th>
-<th style="width:14.2%;" class=" text-end" >Сумма</th>
-<th style="width:10.2%;" class=" text-end" >НДС</th>
-<th style="width:14.2%;" class=" text-end" >Сумма с НДС</th>
-<th style="width:14.2%;" class=" text-end"></th>
+<th style="width:35%"></th>
+
+<th style="width:14%" class="text-end" >Номер документа</th>
+<th style="width:14%" class="text-end">Дата документа</th>
+<th style="width:25%" class="text-end">Поставщик</th>
+<th style="width:12%" class="text-end"></th>
 </tr>
 </thead>
     <form method="post" id="post-form">
@@ -23,27 +22,36 @@
 
 
     <tr style="align:middle">
+       <td></td>
         <td  class="border text-end" ><input type="text" id="id_nomerdoc" class="form-control" style="text-align:right" required></td>
         <td class="text-end pb-3"> <input type="date" id="id_datadoc" class="form-control" style="text-align:right" required/></td>
-   <td  class="border text-end" >
-    <select name="postav" id="id_postav" class="form-control  " required >
-
+   <td  class="border text-end" > <div class="input-group">
+   <select name="postav" id="id_postav" class="form-control  " required >
             <option selected></option>
             {% for item in postav %}
             <option value="{{item.id}}">{{item.title}}</option>
             {% endfor %}
        </select>
-
+            <div class=" input-group-button pr-2">
+            <button type="button" id="show-contact-modal-button" class="btn btn-primary mr-2" style="margin-left: 5px;" data-bs-toggle="modal" data-bs-target="#ModalPostavPodbor">...</button>
+            </div>
+       </div>
     </td>
-
-        <td  class="border text-end" ></td>
-        <td  class="border text-end" ></td>
-        <td  class="border text-end" ></td>
-        <td  class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Новый документ</button></td>
+    <td  class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Новый документ</button></td>
     </form>
     </tr>
-
-
+</table>
+<div class="scrolltable">
+<table class="table shadow table-bordered table-hover">
+<thead class="bg-primary text-light">
+     <th style="width:14.2%;" class="text-end">Номер документа</th>
+<th style="width:14.0%;" class=" text-end" >Дата документа</th>
+<th style="width:22.2%;" class=" text-end" >Поставщик</th>
+<th style="width:14.2%;" class=" text-end" >Сумма</th>
+<th style="width:10.2%;" class=" text-end" >НДС</th>
+  <th style="width:14.2%;" class=" text-end" >Сумма с НДС</th>
+<th style="width:10.2%;" class=" text-end"></th>
+</thead>
 
 
     <tbody id="post-doc">
@@ -61,9 +69,31 @@
     </tbody>
 
 </table>
-
+</div>
 
 </div>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="ModalPostavPodbor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content ">
+      <div class="modal-header bg-primary text-light ">
+        <h5 class="modal-title " id="exampleModalLabel"><span >Новый поставщик</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+          <form id="add-postav-post"  method="post">
+{% csrf_token %}
+<input type="text" id="id_postav_podbor" required class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class=" btn btn-primary" data-bs-dismiss="modal" id="savebtnpostav" >Сохранить</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+  </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock DataArea %}
 

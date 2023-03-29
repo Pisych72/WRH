@@ -796,3 +796,20 @@ def AddNomFromDoc(request):
         lastid=newNom.pk
         return JsonResponse({'unit_data':unit_data,'status':1,'lastid':lastid})
 
+# Добавление поставщика из документа
+def AddPostavFromDoc(request):
+    if request.method == 'POST':
+        postav=Postav(title=request.POST['title'])
+        postav.save()
+        un = Postav.objects.values('id', 'title',)
+        unit_data = list(un)
+        lastid = postav.pk
+        return JsonResponse({'unit_data': unit_data, 'status': 1, 'lastid': lastid})
+
+
+def GetActualData(request):
+    uniqidset=set(JurnalDoc.objects.group('uniqfield'))
+    print(uniqidset)
+
+
+    return HttpResponse('OK')

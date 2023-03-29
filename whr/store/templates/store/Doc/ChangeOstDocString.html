@@ -266,10 +266,43 @@ $('#idtitle option').remove();
 // $('#idtitle').prepend('<option value="" selected></option>');
 $("#idtitle").val(data.lastid).change();
   $('#ostpodbortitle').val('');
+}
+}
+});
+});
+///////////////////////////Добавление поставщика из документа приход/////////////////////
+$('#add-postav-post').on('submit',function(e){
+event.preventDefault();
+let title=$('#id_postav_podbor').val();
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+console.log('Postav Pressed!');
+console.log(title);
+mydata={
+title:title,
+csrfmiddlewaretoken:_csr,
+}
+$.ajax({
+url:'/AddPostavFromDoc/',
+method:"POST",
+data:mydata,
+dataType:"json",
+success:function(data){
+if (data.status==1){
+y=data.unit_data
+console.log(y)
 
+$('#id_postav option').remove();
+    for(i=0;i<y.length;i++){
+    $('#id_postav').append('<option value='+y[i].id+'>'+y[i].title+'</option>');
+
+    }
+// $('#id_postav').prepend('<option value="" selected></option>');
+$("#id_postav").val(data.lastid).change();
+  $('#id_postav_podbor').val('');
 }
 }
 });
 
 });
+
 </script>
