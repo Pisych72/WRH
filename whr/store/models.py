@@ -130,7 +130,7 @@ class JurnalDoc(models.Model):
     iddoc=models.ForeignKey(Jurnal,on_delete=models.PROTECT)
     title=models.ForeignKey(Nom,verbose_name='Наименование',on_delete=models.PROTECT)
     price=models.FloatField(verbose_name='Цена',default=0.0)
-    kol = models.FloatField(verbose_name='Цена', default=0.0)
+    kol = models.FloatField(verbose_name='Количество', default=0.0)
     podraz=models.ForeignKey(Podraz,on_delete=models.PROTECT,verbose_name='Подразделение')
     postav=models.ForeignKey(Postav,on_delete=models.PROTECT,verbose_name='Поставщик')
     obct=models.ForeignKey(Obct,on_delete=models.PROTECT,verbose_name='Объект')

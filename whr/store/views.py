@@ -7,13 +7,14 @@ from .forms import *
 from django.db.models import Sum, ProtectedError
 from django.contrib import messages
 import datetime
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import *
 from .models import *
 from django.http import JsonResponse
 import json
 import math
+from datetime import date
 
 def ceil(number, digits) -> float: return math.ceil((10.0 ** digits) * number) / (10.0 ** digits)
 # Create your views here.
@@ -808,8 +809,11 @@ def AddPostavFromDoc(request):
 
 
 def GetActualData(request):
-    uniqidset=set(JurnalDoc.objects.group('uniqfield'))
-    print(uniqidset)
+    uniqidset=JurnalDoc.objects.values('title__title','price').annotate(count=Sum('kol')).order_by('title','price')
+    current_date=date.today().strftime("%d.%m.%Y")
+    print(current_date)
+    for i in uniqidset:
+        print(i['title__title'],i['count'])
 
 
     return HttpResponse('OK')
