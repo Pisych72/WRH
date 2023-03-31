@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<script>
+$($('#post-move').on).on('click','#id_podraz_move',function(e){
+console.log('Click');
+$('#id_obct_move option').remove();
+});
+  $($('#post-move').on).on('change','#id_podraz_move',function(e){
+  let idpodraz=$('#id_podraz_move').val();
+  let _csr=$("input[name=csrfmiddlewaretoken]").val();
+  console.log(idpodraz);
+  mydata={
+  idpodraz:idpodraz,
+  csrfmiddlewaretoken:_csr,
+  }
+  $.ajax({
+    url:'/FillMoveSelect/',
+    method:"POST",
+    data:mydata,
+    dataType:"json",
+success:function(data){
+if(data.status==1){
+console.log('Select Data Ready!');
+console.log(data.select_data);
+x=data.select_data;
+$('#id_obct_move option').remove();
+
+
+
+for(i=0;i<data.select_data.length;i++){
+console.log(x[i])
+$('#id_obct_move').append('<option value="x[i].id">'+x[i].title+'</option>');
+}
+
+
+
+}
+}
+});
+});
+</script>

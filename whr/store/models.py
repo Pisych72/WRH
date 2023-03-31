@@ -151,5 +151,9 @@ class JurnalDoc(models.Model):
         verbose_name_plural = 'Табличные части'
         ordering = ['-created_at', ]
 
+class Nomer(models.Model):
+    nomer=models.IntegerField(max_length=6,default=1)
+    def __str__(self):
+        return self.nomer
 
 

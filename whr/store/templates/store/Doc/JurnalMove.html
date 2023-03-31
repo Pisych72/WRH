@@ -1,0 +1,112 @@
+{% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+
+<div class="row">
+<div class="col-md-1">{{pic_label}}</div>
+<div class="col-md-11 mx-auto shadow">
+
+<table class="table shadow table-bordered table-hover">
+<thead class="bg-primary text-light">
+<tr>
+
+<th style="width:16.6%" class="text-start">Подразделение</th>
+<th style="width:16.6%" class="text-start">Объект</th>
+ <th style="width:16.6%" class="text-start">Подотчет</th>
+<th style="width:12%" class="text-start"></th>
+</tr>
+</thead>
+    <form method="post" id="post-move">
+ {% csrf_token %}
+
+
+    <tr style="align:middle">
+
+
+   <td class="border text-end" >
+   <select name="postav" id="id_podraz_move" class="form-control  " required >
+   <option selected></option>
+   {% for item in podraz %}
+   <option value="{{item.id}}">{{item.title}}</option>
+   {% endfor %}
+   </select>
+   </td>
+   <td class="border text-end" >
+   <select name="postav" id="id_obct_move" class="form-control  " required >
+   <option selected></option>
+
+   </select>
+    </td>
+   <td class="border text-start" >
+   <select name="postav" id="id_fio_move" class="form-control  " required >
+   <option selected></option>
+   {% for item in fio %}
+   <option value="{{item.id}}">{{item.title}}</option>
+   {% endfor %}
+   </select>
+    </td>
+
+
+    <td  class="border text-end"> <button type="submit" class="btn  btn-primary btn-sm mb-1 " id="savebtn">Новый документ</button></td>
+    </form>
+    </tr>
+</table>
+<div class="scrolltable">
+<table class="table shadow table-bordered table-hover">
+<thead class="bg-primary text-light">
+     <th style="width:12%;" class="text-end">Номер документа</th>
+<th style="width:12%;" class=" text-end" >Дата документа</th>
+<th style="width:10%;" class=" text-end" >Подраздедение</th>
+<th style="width:12%;" class=" text-end" >Объект</th>
+ <th style="width:12%;" class=" text-end" >Подотчет</th>
+<th style="width:9%;" class=" text-end" >Сумма</th>
+<th style="width:5%;" class=" text-end" >НДС</th>
+  <th style="width:9%;" class=" text-end" >Сумма с НДС</th>
+<th style="width:10.2%;" class=" text-end"></th>
+</thead>
+
+
+    <tbody id="post-doc">
+    {% for item in jurnalpost %}
+    <tr><td  class="border text-end fixed">{{item.nomerdoc}}</td>
+    <td   class="border text-end">{{item.datadoc|date:"d. m. Y г." }}</td>
+     <td   class="border text-end">{{item.postav}}</td>
+    <td   class="border text-end">{{item.summa}}</td>
+    <td   class="border text-end">{{item.nds}}</td>
+    <td   class="border text-end">{{item.summawithnds }}</td>
+    <td class="text-end align-middle border" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-ost-update mr-3" src="{% static '/images/edit2.png' %}" width="25px" >
+   <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-ost-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="25px"> </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+</div>
+
+</div>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="ModalPostavPodbor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content ">
+      <div class="modal-header bg-primary text-light ">
+        <h5 class="modal-title " id="exampleModalLabel"><span >Новый поставщик</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+          <form id="add-postav-post"  method="post">
+{% csrf_token %}
+<input type="text" id="id_postav_podbor" required class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class=" btn btn-primary" data-bs-dismiss="modal" id="savebtnpostav" >Сохранить</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+  </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock DataArea %}
+
+

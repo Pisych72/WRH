@@ -94,4 +94,6 @@ urlpatterns=[
    path('AddPostavFromDoc/',AddPostavFromDoc,name='AddPostavFromDoc',),
 # Получене актуальных данных
    path('GetActualData/',GetActualData,name='GetActualData'),
+   path('JurnalMove/', JurnalMove, name='JurnalMove'),  # Журнал документов перемещения
+   path('FillMoveSelect/',FillMoveSelect,name='FillMoveSelect'), # заполнение селекта объектов
 ]

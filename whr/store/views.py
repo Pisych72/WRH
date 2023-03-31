@@ -814,6 +814,44 @@ def GetActualData(request):
     print(current_date)
     for i in uniqidset:
         print(i['title__title'],i['count'])
-
-
     return HttpResponse('OK')
+
+#////////////////////////////Журнал документов перемещения (oper=3)//////////////////////////////
+#////////////////////////////Шаблон - JurnalMove.html ///////////////////////////////////////////
+def JurnalMove(request):
+    postav=Postav.objects.filter(pk=9)
+    jurnalmove=Jurnal.objects.filter(oper=3).order_by('-created_at')
+    obct = Obct.objects.all()
+    fio = Fio.objects.all()
+    podraz = Podraz.objects.all()
+    if request.method=='POST':
+        movedoc=Jurnal()
+        movedoc.oper=3
+        movedoc.nomerdoc=request.POST['nomerdoc']
+        movedoc.datadoc=request.POST['datadoc']
+        movedoc.postav=postav
+        movedoc.fio=fio
+        movedoc.obct=obct
+        movedoc.podraz=podraz
+        movedoc.save()
+        un = Jurnal.objects.filter(oper=3).values()
+        unit_data = list(un)
+        print(movedoc.id)
+        ur = reverse('AddStringMove', args=[movedoc.id])
+        print(ur)
+        return JsonResponse({'status': 1, 'unit_data': unit_data, 'url': ur})
+    return render(request,'store/Doc/JurnalMove.html',{'podraz':podraz,
+    'jurnalpost':jurnalmove,'pic_label':'Перемещение','title':'Журнал передачи ТМЦ',
+    'obct':obct,'fio':fio,'current_date':date.today().strftime("%d.%m.%Y")})
+
+def FillMoveSelect(request):
+    if request.method=='POST':
+        idpodraz=request.POST['idpodraz']
+        un=Obct.objects.values().filter(podraz=idpodraz)
+        if un:
+            select_data = list(un)
+            print(select_data)
+            return JsonResponse({'status': 1, 'select_data': select_data, })
+        else:
+            print('No Data')
+        return JsonResponse({'status':0,})
