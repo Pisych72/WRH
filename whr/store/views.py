@@ -819,30 +819,44 @@ def GetActualData(request):
 #////////////////////////////Журнал документов перемещения (oper=3)//////////////////////////////
 #////////////////////////////Шаблон - JurnalMove.html ///////////////////////////////////////////
 def JurnalMove(request):
-    postav=Postav.objects.filter(pk=9)
+    postav=Postav.objects.get(pk=9)
     jurnalmove=Jurnal.objects.filter(oper=3).order_by('-created_at')
+    nomer=Nomer.objects.get(pk=1)
     obct = Obct.objects.all()
     fio = Fio.objects.all()
     podraz = Podraz.objects.all()
     if request.method=='POST':
+        podraz_item = Podraz.objects.get(pk=request.POST['podraz'])
+        fio_item = Fio.objects.get(pk=request.POST['fio'])
+        obct_item = Obct.objects.get(pk=request.POST['obct'])
+        print(postav)
+        print(podraz_item)
+        print(fio_item)
+        print(obct_item)
+        print(date.today())
+        print(nomer.nomer)
         movedoc=Jurnal()
         movedoc.oper=3
-        movedoc.nomerdoc=request.POST['nomerdoc']
-        movedoc.datadoc=request.POST['datadoc']
-        movedoc.postav=postav
-        movedoc.fio=fio
-        movedoc.obct=obct
-        movedoc.podraz=podraz
+        movedoc.nomerdoc=nomer.nomer+1
+        movedoc.datadoc=date.today()
+
+        movedoc.fio=fio_item
+        movedoc.obct=obct_item
+        movedoc.podraz=podraz_item
+        movedoc.postav = postav
+        nomer.nomer=nomer.nomer+1
+        nomer.save()
         movedoc.save()
         un = Jurnal.objects.filter(oper=3).values()
         unit_data = list(un)
         print(movedoc.id)
+        print(movedoc)
         ur = reverse('AddStringMove', args=[movedoc.id])
-        print(ur)
-        return JsonResponse({'status': 1, 'unit_data': unit_data, 'url': ur})
+        #print(ur)
+        return JsonResponse({'status': 1, 'unit_data': unit_data, 'url':ur })
     return render(request,'store/Doc/JurnalMove.html',{'podraz':podraz,
     'jurnalpost':jurnalmove,'pic_label':'Перемещение','title':'Журнал передачи ТМЦ',
-    'obct':obct,'fio':fio,'current_date':date.today().strftime("%d.%m.%Y")})
+    'obct':obct,'fio':fio,'current_date':date.today()})
 
 def FillMoveSelect(request):
     if request.method=='POST':
@@ -855,3 +869,29 @@ def FillMoveSelect(request):
         else:
             print('No Data')
         return JsonResponse({'status':0,})
+
+# Добавление строк в новый документ перемещения
+def AddStringMove(request,pk):
+    uniqset = JurnalDoc.objects.values('title','title__title', 'price','title__izm__title').annotate(count=Sum('kol')).order_by('title', 'price')
+    print(uniqset)
+    izm = Unit.objects.all()
+    category = Category.objects.all()
+    doc = Jurnal.objects.get(pk=pk)
+    postav=Postav.objects.get(pk=doc.postav_id)
+    item = JurnalDoc.objects.filter(iddoc=pk)
+    print(postav)
+    postav_list=Postav.objects.all()
+    nom = Nom.objects.all()
+    sum = JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum("summa"))
+    sumnds = JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum("summawithnds"))
+    if item:
+        summa1 = round(sum['summa__sum'], 2)
+        summa2 = round(sumnds['summawithnds__sum'], 2)
+    else:
+        summa1 = 0.0
+        summa2 = 0.0
+    t = "Документ № " + doc.nomerdoc + " от " + doc.datadoc.strftime("%d.%m.%Y")
+    return render(request, 'store/Doc/AddStringMove.html',
+                  {'docmove': doc, 'nom': nom, 'title': t, 'pic_label': 'Перемещение', 'items': item, 's': summa1,
+                   's2': summa2,'postav':postav,'postav_list':postav_list,'izm':izm,'category':category,'uniqset':uniqset})
+

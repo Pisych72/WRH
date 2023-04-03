@@ -60,8 +60,8 @@
 <th style="width:12%;" class=" text-end" >Объект</th>
  <th style="width:12%;" class=" text-end" >Подотчет</th>
 <th style="width:9%;" class=" text-end" >Сумма</th>
-<th style="width:5%;" class=" text-end" >НДС</th>
-  <th style="width:9%;" class=" text-end" >Сумма с НДС</th>
+
+
 <th style="width:10.2%;" class=" text-end"></th>
 </thead>
 
@@ -70,9 +70,9 @@
     {% for item in jurnalpost %}
     <tr><td  class="border text-end fixed">{{item.nomerdoc}}</td>
     <td   class="border text-end">{{item.datadoc|date:"d. m. Y г." }}</td>
-     <td   class="border text-end">{{item.postav}}</td>
-    <td   class="border text-end">{{item.summa}}</td>
-    <td   class="border text-end">{{item.nds}}</td>
+     <td   class="border text-end">{{item.podraz}}</td>
+    <td   class="border text-end">{{item.obct}}</td>
+    <td   class="border text-end">{{item.fio}}</td>
     <td   class="border text-end">{{item.summawithnds }}</td>
     <td class="text-end align-middle border" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-ost-update mr-3" src="{% static '/images/edit2.png' %}" width="25px" >
    <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-ost-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="25px"> </td>

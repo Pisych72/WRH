@@ -96,4 +96,5 @@ urlpatterns=[
    path('GetActualData/',GetActualData,name='GetActualData'),
    path('JurnalMove/', JurnalMove, name='JurnalMove'),  # Журнал документов перемещения
    path('FillMoveSelect/',FillMoveSelect,name='FillMoveSelect'), # заполнение селекта объектов
+   path('AddStringMove/<str:pk>',AddStringMove,name='AddStringMove'), #Добавление строк в новый документ перемещение
 ]

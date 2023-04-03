@@ -153,7 +153,6 @@ class JurnalDoc(models.Model):
 
 class Nomer(models.Model):
     nomer=models.IntegerField(max_length=6,default=1)
-    def __str__(self):
-        return self.nomer
+
 
 
