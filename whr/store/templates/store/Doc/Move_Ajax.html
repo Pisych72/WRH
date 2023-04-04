@@ -1,18 +1,5 @@
 <!DOCTYPE html>
 <script>
-function GetSumm2(){
-let kol=$("#idmovkol").val();
-
-let price=$("#idmoveprice").val();
-
-
-
-   let nds=$("#idmovends").val();
-   let summa=price*kol
-   let total=summa*((nds/100)+1);
-   $("#idmovesum").val(summa.toFixed(2));
-    $("#idmovetotal").val(total.toFixed(2));
-}
 
 
 $('#post-move').on('click','#id_podraz_move',function(e){
@@ -43,7 +30,6 @@ for(i=0;i<data.select_data.length;i++){
 console.log(x[i].id)
 $('#id_obct_move').append('<option value='+x[i].id+'>'+x[i].title+'</option>');
 }
-
 }
 }
 });
@@ -79,28 +65,120 @@ location.href=data.url
 });
 });
 /////////////////////Установка цены из списка////////////
- $('#id_move_rest').on('change',function(e){
- let price=$('#id_move_rest option:selected' ).attr('data-price');
-console.log('Clicked select option');
- console.log(price)
- $('#idmoveprice').val(parseFloat(price).toFixed(2));
+let itemcount=0.0;
+$('#id_move_rest').on('change',function(e){
+let price=$('#id_move_rest option:selected' ).data('price');
+let formatprice=parseFloat(price.replace(',', '.'));
+$("#idmovekol").val(0)
+count=$('#id_move_rest option:selected' ).data('count');
+itemcount=parseFloat(count.replace(',', '.'));
+$('#idmoveprice').val(formatprice);
+let sum= $("#idmovekol").val()* parseFloat($('#idmoveprice').val())
+let sumRound=sum.toFixed(2);
+$('#idmovesum').val(sumRound);
+let total=$('#idmovesum').val()*(($('#idmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#idmovetotal').val(totalRound);
+   $('#idmovesum').val(sumRound);
  });
+$("#idmovekol").keyup(function(){
+let kol=$("#idmovekol").val();
+ console.log(kol);
+ console.log(itemcount);
 
- $("#idmovekol").keyup(function(){
-   console.log($("#idmovekol").val()* $("#idmovepricel").val());
+ if ($("#idmovekol").val()>itemcount){
+alert('Указано большее количество, чем есть на складе')
+$("#idmovekol").val(itemcount)
+}
+let sum= $("#idmovekol").val()* parseFloat($('#idmoveprice').val())
+let sumRound=sum.toFixed(2);
+$('#idmovesum').val(sumRound);
+let total=$('#idmovesum').val()*(($('#idmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#idmovetotal').val(totalRound);
+   $('#idmovesum').val(sumRound);
 
    });
 
- $("#idmolekol").change(function(){
+ $("#idmovekol").change(function(){
+ console.log(itemcount);
+ let kol=$("#idmovekol").val();
+ console.log(kol);
+ console.log(itemcount);
 
+ if ($("#idmovekol").val()>itemcount){
+alert('Указано большее количество, чем есть на складе')
+$("#idmovekol").val(itemcount)
+}
+let sum= $("#idmovekol").val()* parseFloat($('#idmoveprice').val())
+let sumRound=sum.toFixed(2);
+  $('#idmovesum').val(sumRound);
+let total=$('#idmovesum').val()*(($('#idmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#idmovetotal').val(totalRound);
 
    });
+
 $("#idmovends").keyup(function(){
 
+
+let total=$('#idmovesum').val()*(($('#idmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#idmovetotal').val(totalRound);
    });
 
- $("#idmovends").change(function(){
-
+$("#idmovends").change(function(){
+let total=$('#idmovesum').val()*(($('#idmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#idmovetotal').val(totalRound);
    });
+//////////////////////////////////////Добавление строки в документ/////////////////////////
+$("#savemovestring").click(function(){
+event.preventDefault();
+console.log('SaveStringMove is Pressed');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+let _id=$('#movedocid').val();
+let _nomer=$('#nomermovedoc').val();
+let _date=$('#datamovedoc').val();
+let _podraz=$('#movepodraz').val();
+let _fio=$('#movefio').val();
+let _obct=$('#moveobct').val();
 
+let string_id=$('#id_move_rest option:selected').val();
+let string_price=$('#idmoveprice').val();
+let string_kol=$('#idmovekol').val();
+let string_summa=$('#idmovesum').val();
+let string_nds=$('#idmovends').val();
+let string_total=$('#idmovetotal').val();
+
+mydata={
+id:_id,
+nomer:_nomer,
+date:_date,
+podraz:_podraz,
+fio:_fio,
+obct:_obct,
+string_id:string_id,
+string_price:parseFloat(string_price),
+string_kol:parseFloat(string_kol),
+string_summa:string_summa,
+string_nds:string_nds,
+string_total:string_total,
+csrfmiddlewaretoken:_csr,
+
+}
+$.ajax({
+    url:'/SaveMoveString/',
+    method:"POST",
+    data:mydata,
+    dataType:"json",
+success:function(data){
+if (data.status==1){
+console.log('Move String is saved!');
+location.reload();
+}
+}
+});
+});
+///////////////////////////////////////////////////////////////////////////////////////////
 </script>

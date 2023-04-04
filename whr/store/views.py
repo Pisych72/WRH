@@ -895,3 +895,32 @@ def AddStringMove(request,pk):
                   {'docmove': doc, 'nom': nom, 'title': t, 'pic_label': 'Перемещение', 'items': item, 's': summa1,
                    's2': summa2,'postav':postav,'postav_list':postav_list,'izm':izm,'category':category,'uniqset':uniqset})
 
+#Сохранение строки в документ перемещение************************
+def SaveMoveString(request):
+    if request.method=='POST':
+        _iddoc=Jurnal.objects.get(pk=request.POST['id'])
+        print(_iddoc)
+        nom=Nom.objects.get(pk=request.POST['string_id'])
+        _postav=Postav.objects.get(pk=9)
+        _podraz=Podraz.objects.get(pk=request.POST['podraz'])
+        _fio=Fio.objects.get(pk=request.POST['fio'])
+        _obct=Obct.objects.get(pk=request.POST['obct'])
+
+
+        moveitem=JurnalDoc()
+        moveitem.iddoc=_iddoc
+        moveitem.postav=_postav
+        moveitem.oper = 3
+        moveitem.title = nom
+        moveitem.obct = _obct
+        moveitem.podraz=_podraz
+        moveitem.fio=_fio
+        moveitem.price = request.POST['string_price']
+
+        moveitem.kol=float(request.POST['string_kol'])*(-1)
+
+        moveitem.summa = float(request.POST['string_summa'])*(-1)
+        moveitem.nds = float(request.POST['string_nds'])
+        moveitem.summawithnds = float(request.POST['string_total'])*(-1)
+        moveitem.save()
+        return JsonResponse({'status':1})

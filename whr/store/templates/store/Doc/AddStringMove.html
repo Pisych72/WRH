@@ -6,22 +6,39 @@
 <table class=" table shadow table-hover ">
 <thead class="bg-primary text-light">
 <tr>
-<th  style="width:60%" >Передача ТМЦ  в подразделение {{docmove.podraz}},
- объект:{{docmove.obct}}, подoтчет {{docmove.fio}}</th>
-<th style="width:13%; " class=" text-end "> Документ № {{docmove.nomerdoc}}  </th>
-<th style="width:20%;" class=" text-end" >Дата документа {{docmove.datadoc|date:"d. m. Y г." }}</th>
- <th style="width:10%;" class="text-end"><button type="submit" class="btn btn-sm btn-success">Сохранить</></th>
-</tr>
+    <form method="post" id="movedoc">
+        <input type="hidden" value="{{docmove.id}}" id="movedocid">
+        <input type="hidden" value="{{docmove.podraz.pk}}" id="movepodraz">
+        <input type="hidden" value="{{docmove.obct.pk}}" id="moveobct">
+         <input type="hidden" value="{{docmove.fio.pk}}" id="movefio">
+        <th  style="width:70%" >Передача ТМЦ </th>
+
+
+<th style="width:10%; " class=" text-end "> Документ № </th>
+<th style="width:10%;" class=" text-end" >Дата документа</th>
+ <th style="width:10%;" class="text-end"></th>
 </thead>
+</tr>
+
+    <tr>
+    <td class="align-middle">Подразделение: {{docmove.podraz}}, объект: {{docmove.obct}}, подотчетное лицо: {{docmove.fio}} </td>
+    <td class="align-middle text-end"><input type="text" id="nomermovedoc" class="form-control text-end" value="{{docmove.nomerdoc}}"></td>
+    <td class="align-middle text-end"><input type="date" id="datamovedoc" class="form-control align-middle text-end" value="{{docmove.datadoc|date:'Y-m-d'}}"></td>
+    <td class="align-middle text-end"><button type="submit" class="btn btn-sm btn-success ">Сохранить</></td>
+    </tr>
+</form>
+
 </table >
-<table class=" table shadow table-hover ">
+<table class=" table shadow table-hover table-bordered ">
+    <thead class="bg-primary text-white">
   <th style="width:30%"  >Наименование, ед.изм.</th>
-  <th style="width:14%"  >Цена</th>
-  <th style="width:14%"  >Количество</th>
-  <th style="width:14%"  >Сумма</th>
-  <th style="width:8%"  >НДС</th>
-  <th style="width:14%"  >Сумма с НДС</th>
-  <th style="width:14%"  ></th>
+  <th style="width:14%" class="text-end" >Цена</th>
+  <th style="width:14%" class="text-end" >Количество</th>
+  <th style="width:14%" class="text-end" >Сумма</th>
+  <th style="width:8%" class="text-end" >НДС</th>
+  <th style="width:14%" class="text-end" >Сумма с НДС</th>
+  <th style="width:14%" class="text-end" ></th>
+   </thead>
     <tbody>
     <form id="move_string_form">
        {% csrf_token %}
@@ -35,15 +52,29 @@
             {% endfor %}
        </select>
         </td>
-<td><input type="number" id="idmoveprice" class="form-control text-end" step="any" required min="0" readonly></td>
+<td><input type="text" id="idmoveprice" class="form-control text-end"  readonly></td>
 <td><input type="number" id="idmovekol" class="form-control text-end" step="any" required min="0" ></td>
 <td><input type="number" id="idmovesum" class="form-control text-end" step="any" required min="0" readonly></td>
 <td><input type="number" id="idmovends" class="form-control text-end" step="any" required min="0" value="20"></td>
 <td><input type="number" id="idmovetotal" class="form-control text-end" step="any" required min="0" readonly></td>
-<th style="width:10%;" class="text-end"><button type="submit" class="btn btn-sm btn-primary">Записать</></th>
+<th style="width:10%;" class="text-end"><button type="submit" class="btn btn-sm btn-primary" id ="savemovestring">Записать</></th>
     </tr></form>
+{% for item in items %}
+    <tr><td>{{item.title}},{{item.title.izm}}</td>
+    <td class="text-end">{{item.price}}</td>
+    <td class="text-end">{{item.kol}}</td>
+    <td class="text-end">{{item.summa}}</td>
+    <td class="text-end " >{{item.nds}}</td>
+    <td class="text-end">{{item.summawithnds}}</td>
+      <td  class="text-end" colspan=2 ><input data-sid={{item.pk}} data-update={{item.pk}} class="btn-string-update " value="Update" type="image" src="../static/images/edit2.png" style="width:25px;" >
+<input data-sid={{item.pk}} data-del="#" class="btn-string-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>
+    </tr>
+    {% endfor %}
+<tfoot id="idfoot"><td class="fw-bold">Итого:</td><td colspan="3" class="text-end fw-bold ">{{s}}</td><td colspan="2>" class="text-end fw-bold">{{s2}}</td> </tfoot>
     </tbody>
 </table>
+
+
 
   </div>
 </div>
