@@ -308,25 +308,13 @@ if (pr % 1 == 0){
 stprice=stprice + ',0';
 };
 
-console.log(typeof pr);
-console.log(sel);
-console.log(stprice);
-
-
-
-//$('#id_move_update option[value="' + id + '"] ').prop('selected', true)
 $('#id_move_update option[value="' + sel + '"][data-price="'+stprice+'"]').prop('selected', true)
-
-
-
-
-
-
-
-
-
+$('#editmoveprice').val(x[0].price);
+$('#editmovekol').val(Math.abs(x[0].kol));
+$('#editmovesum').val(Math.abs(x[0].summa));
+$('#editmovends').val(Math.abs(x[0].nds));
+$('#editmovetotal').val(Math.abs(x[0].summawithnds));
 }
-
 
 });
 
