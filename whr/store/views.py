@@ -873,13 +873,11 @@ def FillMoveSelect(request):
 # Добавление строк в новый документ перемещения
 def AddStringMove(request,pk):
     uniqset = JurnalDoc.objects.values('title','title__title', 'price','title__izm__title').annotate(count=Sum('kol')).order_by('title', 'price')
-    print(uniqset)
     izm = Unit.objects.all()
     category = Category.objects.all()
     doc = Jurnal.objects.get(pk=pk)
     postav=Postav.objects.get(pk=doc.postav_id)
     item = JurnalDoc.objects.filter(iddoc=pk)
-    print(postav)
     postav_list=Postav.objects.all()
     nom = Nom.objects.all()
     sum = JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum("summa"))
@@ -924,3 +922,63 @@ def SaveMoveString(request):
         moveitem.summawithnds = float(request.POST['string_total'])*(-1)
         moveitem.save()
         return JsonResponse({'status':1})
+
+def ReturnToJurnalMove(request):
+    if request.method == 'POST':
+        items = JurnalDoc.objects.filter(iddoc=request.POST['id'])
+        nomermove=Nomer.objects.get(pk=1)
+        if items:
+            sum = items.aggregate(Sum("summa"))
+            sumnds = items.aggregate(Sum("summawithnds"))
+        else:
+            sum = 0.0
+            sumnds = 0.0
+        doc = Jurnal.objects.get(pk=request.POST['id'])
+        doc.nomerdoc = request.POST['nomer']
+        nomermove.nomer=request.POST['nomer']
+        doc.datadoc = request.POST['data']
+        if items:
+            doc.summa = round(sum['summa__sum'], 2)
+            doc.summawithnds = round(sumnds['summawithnds__sum'], 2)
+        else:
+            doc.summa = 0.0
+            doc.summawithnds = 0.0
+        doc.save()
+        nomermove.save()
+        url = reverse('JurnalMove')
+        return JsonResponse({'status': 1, 'url': url})
+def EditMoveDoc(request):
+    if request.method=='POST':
+        id=request.POST['id']
+        ost=Jurnal.objects.get(pk=id)
+        items=JurnalDoc.objects.filter(iddoc=ost.id).values()
+        un = Jurnal.objects.values()
+        unit_data = list(items)
+        ur = reverse('AddStringMove', args=[ost.id])
+        return JsonResponse({'status': 1,'url': ur,'unit_data':unit_data})
+
+def DeleteMoveDoc(request):
+    if request.method=='GET':
+        print(request.GET['id'])
+        item=Jurnal.objects.filter(pk=request.GET['id'])
+        try:
+            item.delete()
+            return JsonResponse({'status': 1, })
+        except ProtectedError:
+            return JsonResponse({'status': 0, })
+
+
+# удаление строки из таблицы документв Начальные остатки
+def DeleteMoveStringTable(request):
+    if request.method == 'POST':
+        string = JurnalDoc.objects.get(pk=request.POST['id'])
+        string.delete()
+        return JsonResponse({'status': 1})
+# получение текцщей строки для редактирования
+def getDataToModal(request):
+    if request.method == 'POST':
+        string = JurnalDoc.objects.filter(pk=request.POST['id']).values()
+        un=list(string)
+        print(un)
+        return JsonResponse({'status': 1,'current_string':un})
+

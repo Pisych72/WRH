@@ -1,12 +1,15 @@
 {% extends 'store/menu.html' %}
 {% load static %}
 {% block DataArea %}
+{% load store %}
+
 <div class="row">
 <div class="col-md-12 mx-auto shadow">
 <table class=" table shadow table-hover ">
 <thead class="bg-primary text-light">
 <tr>
     <form method="post" id="movedoc">
+          {% csrf_token %}
         <input type="hidden" value="{{docmove.id}}" id="movedocid">
         <input type="hidden" value="{{docmove.podraz.pk}}" id="movepodraz">
         <input type="hidden" value="{{docmove.obct.pk}}" id="moveobct">
@@ -24,11 +27,12 @@
     <td class="align-middle">Подразделение: {{docmove.podraz}}, объект: {{docmove.obct}}, подотчетное лицо: {{docmove.fio}} </td>
     <td class="align-middle text-end"><input type="text" id="nomermovedoc" class="form-control text-end" value="{{docmove.nomerdoc}}"></td>
     <td class="align-middle text-end"><input type="date" id="datamovedoc" class="form-control align-middle text-end" value="{{docmove.datadoc|date:'Y-m-d'}}"></td>
-    <td class="align-middle text-end"><button type="submit" class="btn btn-sm btn-success ">Сохранить</></td>
+    <td class="align-middle text-end"><button type="submit" class="btn btn-sm btn-success " id="returnToJurnalMove">Сохранить</></td>
     </tr>
 </form>
 
 </table >
+   <div class="scrolltable">
 <table class=" table shadow table-hover table-bordered ">
     <thead class="bg-primary text-white">
   <th style="width:30%"  >Наименование, ед.изм.</th>
@@ -44,6 +48,7 @@
        {% csrf_token %}
     <tr><td>
 <select  id="id_move_rest" class="form-control  " required >
+      <option value="" selected ></option>
             {% for item in uniqset %}
             <option value="{{item.title}}" class="text-start"  data-count={{item.count}}
             data-price={{item.price}}
@@ -61,21 +66,68 @@
     </tr></form>
 {% for item in items %}
     <tr><td>{{item.title}},{{item.title.izm}}</td>
-    <td class="text-end">{{item.price}}</td>
-    <td class="text-end">{{item.kol}}</td>
-    <td class="text-end">{{item.summa}}</td>
-    <td class="text-end " >{{item.nds}}</td>
-    <td class="text-end">{{item.summawithnds}}</td>
-      <td  class="text-end" colspan=2 ><input data-sid={{item.pk}} data-update={{item.pk}} class="btn-string-update " value="Update" type="image" src="../static/images/edit2.png" style="width:25px;" >
-<input data-sid={{item.pk}} data-del="#" class="btn-string-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>
+    <td class="text-end">{% abs_tag item.price %}</td>
+    <td class="text-end">{% abs_tag item.kol %}</td>
+    <td class="text-end">{% abs_tag item.summa %}</td>
+    <td class="text-end " >{% abs_tag item.nds %}</td>
+    <td class="text-end">{% abs_tag item.summawithnds %}</td>
+      <td  class="text-end" colspan=2 ><input data-sid={{item.pk}} data-update={{item.pk}} class="btn-movestring-update " value="Update" type="image" src="../static/images/edit2.png" style="width:25px;" data-bs-toggle="modal" data-bs-target="#ModalMoveEdit">
+<input data-sid={{item.pk}} data-del="#" class="btn-movestring-delete " value="Update" type="image" src="../static/images/del.png" style="width:25px;" > </td></tr>
     </tr>
     {% endfor %}
-<tfoot id="idfoot"><td class="fw-bold">Итого:</td><td colspan="3" class="text-end fw-bold ">{{s}}</td><td colspan="2>" class="text-end fw-bold">{{s2}}</td> </tfoot>
+<tfoot id="idfoot"><td class="fw-bold">Итого:</td><td colspan="3" class="text-end fw-bold ">{% abs_tag s %}</td><td colspan="2>" class="text-end fw-bold">{% abs_tag s2 %}</td> </tfoot>
     </tbody>
 </table>
+<!-- Модальное окно -->
+<div class="modal fade" id="ModalMoveEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content ">
+      <div class="modal-header bg-primary text-light ">
+        <h5 class="modal-title " id="exampleModalLabel"><span >Редактирование</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+          <table class="table shadow table-hover table-bordered">
+              <thead class="bg-primary text-light">
+              <th>Наименование</th>
+              <th class="text-end">Цена</th>
+              <th class="text-end">Количество</th>
+              <th class="text-end">Сумма</th>
+              <th class="text-end">НДС</th>
+              <th class="text-end">Сумма с НДС</th>
+              </thead>
+              <tbody>
+              <tr>
+                <td>
+                 <select  id="id_move_update" class="form-control  " required >
+      <option value="" selected ></option>
+            {% for item in uniqset %}
+            <option value="{{item.title}}" class="text-start"  data-count={{item.count}}
+            data-price={{item.price}}
+            >{{item.title__title}} Цена: {{item.price}} руб; На складе {{item.count}} {{item.title__izm__title}}
+            </option>
+            {% endfor %}
+       </select>
+                </td>
+<td><input type="text" id="editmoveprice" class="form-control text-end"  readonly></td>
+<td><input type="number" id="editmovekol" class="form-control text-end" step="any" required min="0" ></td>
+<td><input type="number" id="editmovesum" class="form-control text-end" step="any" required min="0" readonly></td>
+<td><input type="number" id="editmovends" class="form-control text-end" step="any" required min="0" ></td>
+<td><input type="number" id="editmovetotal" class="form-control text-end" step="any" required min="0" readonly></td>
+              </tr>
+              </tbody>
+          </table>
+          <form id="add-postav-post"  method="post">
+{% csrf_token %}
 
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class=" btn btn-primary" data-bs-dismiss="modal" id="savebtnpostav" >Сохранить</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+  </form>
+      </div>
 
-
+</div>
   </div>
 </div>
 {% endblock DataArea %}

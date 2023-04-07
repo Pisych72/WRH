@@ -180,5 +180,152 @@ location.reload();
 }
 });
 });
+
+//////////////////Изменение даты и номера документа, переход в журнал/////////////////
+$("#returnToJurnalMove").click(function(){
+event.preventDefault();
+let _id=$('#movedocid').val();
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+let _nomer=$('#nomermovedoc').val();
+let _data=$('#datamovedoc').val();
+
+
+mydata={
+id:_id,
+nomer:_nomer,
+data:_data,
+csrfmiddlewaretoken:_csr,
+}
+
+$.ajax({
+url:'/ReturnToJurnalMove/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status==1){
+console.log('saved record');
+location.href=data.url;
+}
+}
+});
+});
+
+///////////////////////////Редактирование документа передача//////////////////////
+$(".btn-move-update").click(function(){
+
+console.log('Pressed Move button');
+let _id=$(this).attr('data-sid');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+
+mydata={
+id:_id,
+csrfmiddlewaretoken:_csr,
+}
+$.ajax({
+url:'/EditMoveDoc/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if (data.status==1){
+location.href=data.url
+}
+}
+});
+});
+
+////////////////////////////////////Удаление документов передачи/////////////////
+
+$(".btn-move-del").click(function(){
+let _id=$(this).attr('data-sid');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+mythis=$(this);
+mydata={
+id:_id,
+csrfmiddlewaretoken:_csr,
+}
+
+$.ajax({
+url:'/DeleteMoveDoc/',
+method:"GET",
+data:mydata,
+dataType:"json",
+success:function(data){
+if(data.status==1){
+$(mythis).closest("tr").fadeOut();
+}
+if(data.status==0){alert('Невозможно удалить документ... Сначала необходимо удалить строки документа')}
+}
+});
+});
+
+////////////////////////////////////Удаление строки из документа передачи/////////////////
+
+$(".btn-movestring-delete").click(function(){
+if (confirm('Удалить запись?')) {
+	let _id=$(this).attr('data-sid');
+    let _csr=$("input[name=csrfmiddlewaretoken]").val();
+	mydata={id:_id,csrfmiddlewaretoken:_csr,}
+
+$.ajax({
+url:'/DeleteMoveStringTable/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status ==1){location.reload()}
+}
+});
+}
+});
+//////////////////////Редактирование в модальном окне (получение редактируемой страны)
+
+$(".btn-movestring-update").click(function(){
+event.preventDefault();
+let _id=$(this).attr('data-sid');
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+mydata={id:_id,csrfmiddlewaretoken:_csr,}
+console.log(mydata);
+$.ajax({
+url:'/getDataToModal/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+x=data.current_string;
+for(i=0;i<data.current_string.length;i++){
+let sel=x[i].title_id;
+console.log(typeof sel);
+let pr=x[i].price;
+stprice=String(pr);
+
+
+console.log(typeof pr);
+console.log(sel);
+console.log(stprice);
+
+//$('#id_move_update option[value="' + id + '"] ').prop('selected', true)
+$('#id_move_update option[data-price="'+pr+'"]').prop('selected', true)
+
+
+
+
+
+
+
+
+}
+}
+
+
+});
+
+});
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 </script>

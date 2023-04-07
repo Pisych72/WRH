@@ -98,4 +98,10 @@ urlpatterns=[
    path('FillMoveSelect/',FillMoveSelect,name='FillMoveSelect'), # заполнение селекта объектов
    path('AddStringMove/<str:pk>',AddStringMove,name='AddStringMove'), #табличная часть новый документ перемещение
    path('SaveMoveString/',SaveMoveString,name='SaveMoveString'),
+   path('ReturnToJurnalMove/', ReturnToJurnalMove, name='ReturnToJurnalMove'),  # сохранение и возврат в журнад
+   path('EditMoveDoc/', EditMoveDoc, name='EditMoveDoc'),
+   path('DeleteMoveDoc/', DeleteMoveDoc, name='DeleteMoveDoc'),
+   path('DeleteMoveStringTable/',DeleteMoveStringTable,name='DeleteMoveStringTable'),
+   path('getDataToModal/',getDataToModal,name='getDataToModal'),
+
 ]

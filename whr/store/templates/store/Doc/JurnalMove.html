@@ -1,6 +1,7 @@
 {% extends 'store/menu.html' %}
 {% load static %}
 {% block DataArea %}
+{% load store %}
 
 <div class="row">
 <div class="col-md-1">{{pic_label}}</div>
@@ -66,18 +67,22 @@
 </thead>
 
 
-    <tbody id="post-doc">
+    <tbody id="move-doc">
+<form method="post" id="item-move-form">
+     {% csrf_token %}
     {% for item in jurnalpost %}
     <tr><td  class="border text-end fixed">{{item.nomerdoc}}</td>
     <td   class="border text-end">{{item.datadoc|date:"d. m. Y г." }}</td>
      <td   class="border text-end">{{item.podraz}}</td>
     <td   class="border text-end">{{item.obct}}</td>
     <td   class="border text-end">{{item.fio}}</td>
-    <td   class="border text-end">{{item.summawithnds }}</td>
-    <td class="text-end align-middle border" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-ost-update mr-3" src="{% static '/images/edit2.png' %}" width="25px" >
-   <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-ost-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="25px"> </td>
+    <td   class="border text-end">{% abs_tag item.summawithnds %}</td>
+    <td class="text-end align-middle border" ><input data-sid="{{item.pk}}" data-update="{{url_update}}" value="Update" type="image" class="btn-move-update mr-3" src="{% static '/images/edit2.png' %}" width="25px" >
+   <input data-sid="{{item.pk}}" data-del="{{url_delete}}" class="btn-move-del " value="Delete" type="image" src="{% static '/images/del.png' %}" width="25px"> </td>
     </tr>
+
     {% endfor %}
+    </form>
     </tbody>
 
 </table>
