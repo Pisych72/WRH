@@ -298,19 +298,24 @@ dataType:"json",
 
 success:function(data){
 x=data.current_string;
-for(i=0;i<data.current_string.length;i++){
-let sel=x[i].title_id;
-console.log(typeof sel);
-let pr=x[i].price;
-stprice=String(pr);
 
+let sel=x[0].title_id;
+console.log(typeof sel);
+let pr=x[0].price;
+stprice=String(pr);
+stprice = stprice.replace('.', ',');
+if (pr % 1 == 0){
+stprice=stprice + ',0';
+};
 
 console.log(typeof pr);
 console.log(sel);
 console.log(stprice);
 
+
+
 //$('#id_move_update option[value="' + id + '"] ').prop('selected', true)
-$('#id_move_update option[data-price="'+pr+'"]').prop('selected', true)
+$('#id_move_update option[value="' + sel + '"][data-price="'+stprice+'"]').prop('selected', true)
 
 
 
@@ -319,7 +324,7 @@ $('#id_move_update option[data-price="'+pr+'"]').prop('selected', true)
 
 
 
-}
+
 }
 
 
