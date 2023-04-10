@@ -103,5 +103,6 @@ urlpatterns=[
    path('DeleteMoveDoc/', DeleteMoveDoc, name='DeleteMoveDoc'),
    path('DeleteMoveStringTable/',DeleteMoveStringTable,name='DeleteMoveStringTable'),
    path('getDataToModal/',getDataToModal,name='getDataToModal'),
+path('SaveMoveStringTable/',SaveMoveStringTable,name='SaveMoveStringTable'),
 
 ]

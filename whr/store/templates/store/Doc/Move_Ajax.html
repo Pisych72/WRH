@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <script>
-
+let maxcount=0.0;
 
 $('#post-move').on('click','#id_podraz_move',function(e){
 console.log('Click');
@@ -282,11 +282,11 @@ if(data.status ==1){location.reload()}
 });
 }
 });
-//////////////////////Редактирование в модальном окне (получение редактируемой страны)
-
+//////////////////////Редактирование в модальном окне (получение редактируемой строки)
+let _id=0;
 $(".btn-movestring-update").click(function(){
 event.preventDefault();
-let _id=$(this).attr('data-sid');
+_id=$(this).attr('data-sid');
 let _csr=$("input[name=csrfmiddlewaretoken]").val();
 mydata={id:_id,csrfmiddlewaretoken:_csr,}
 console.log(mydata);
@@ -314,11 +314,120 @@ $('#editmovekol').val(Math.abs(x[0].kol));
 $('#editmovesum').val(Math.abs(x[0].summa));
 $('#editmovends').val(Math.abs(x[0].nds));
 $('#editmovetotal').val(Math.abs(x[0].summawithnds));
+maxcount=$('#id_move_update option:selected' ).data('count');
+strmax=maxcount.replace(',', '.');
+console.log(strmax);
+
+
 }
 
 });
 
 });
+/////////////////////Установка цены из списка2////////////
 
+$('#id_move_update').on('change',function(e){
+let price=$('#id_move_update option:selected' ).data('price');
+let formatprice=parseFloat(price.replace(',', '.'));
+$("#editmovekol").val(0)
+count=$('#id_move_update option:selected' ).data('count');
+itemcount=parseFloat(count.replace(',', '.'));
+$('#editmoveprice').val(formatprice);
+let sum= $("#editmovekol").val()* parseFloat($('#editmoveprice').val())
+let sumRound=sum.toFixed(2);
+$('#editmovesum').val(sumRound);
+let total=$('#editmovesum').val()*(($('#editmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#editmovetotal').val(totalRound);
+   $('#editmovesum').val(sumRound);
+ });
+$("#editmovekol").keyup(function(){
+let kol=$("#editmovekol").val();
+let kol2=parseFloat(kol);
+let strmax2=parseFloat(strmax);
+
+ if (kol2>strmax2){
+
+alert('Указано большее количество, чем есть на складе')
+$("#editmovekol").val(0)
+}
+let sum= $("#editmovekol").val()* parseFloat($('#editmoveprice').val())
+let sumRound=sum.toFixed(2);
+$('#editmovesum').val(sumRound);
+let total=$('#editmovesum').val()*(($('#editmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#editmovetotal').val(totalRound);
+   $('#editmovesum').val(sumRound);
+
+   });
+
+ $("#editmovekol").change(function(){
+ console.log(itemcount);
+ let kol=$("#editmovekol").val();
+ let kol2=parseFloat(kol);
+let strmax2=parseFloat(strmax);
+
+ if (kol2>strmax2){
+alert('Указано большее количество, чем есть на складе')
+$("#editmovekol").val(0)
+}
+let sum= $("#editmovekol").val()* parseFloat($('#editmoveprice').val())
+let sumRound=sum.toFixed(2);
+  $('#editmovesum').val(sumRound);
+let total=$('#editmovesum').val()*(($('#editmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#editmovetotal').val(totalRound);
+
+   });
+
+$("#editmovends").keyup(function(){
+
+
+let total=$('#editmovesum').val()*(($('#editmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#editmovetotal').val(totalRound);
+   });
+
+$("#editmovends").change(function(){
+let total=$('#editmovesum').val()*(($('#editmovends').val()/100)+1)
+let totalRound=total.toFixed(2)
+$('#editmovetotal').val(totalRound);
+   });
+
+//////сохранение изменений в редактируемой строке//////////////////////////////////////////
+   $("#savebtnedit").click(function(){
+   event.preventDefault();
+   let title_id=$('#id_move_update option:selected' ).val();
+   let iddoc=$('#stringiddoc' ).val();
+   let kol=$('#editmovekol' ).val();
+   let price=$('#editmoveprice').val();
+   let summa=$('#editmovesum').val();
+   let nds=$('#editmovends').val();
+   let total=$('#editmovetotal').val();
+   let _csr=$("input[name=csrfmiddlewaretoken]").val();
+    stringdata={
+    title:title_id,
+    id:_id,
+    iddoc:iddoc,
+    kol:kol,
+    price:price,
+    nds:nds,
+    summa:summa,
+    total:total,
+    csrfmiddlewaretoken:_csr,
+        }
+        console.log(stringdata);
+$.ajax({
+url:'/SaveMoveStringTable/',
+method:"POST",
+data:stringdata,
+dataType:"json",
+
+success:function(data){
+if(data.status ==1){location.reload()}
+}
+});
+
+   });
 ///////////////////////////////////////////////////////////////////////////////////////////
 </script>

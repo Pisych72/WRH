@@ -982,3 +982,21 @@ def getDataToModal(request):
         print(un)
         return JsonResponse({'status': 1,'current_string':un})
 
+def SaveMoveStringTable(request):
+    if request.method == 'POST':
+
+        #nom=Nom.objects.get(pk=request.POST['title'])
+
+        current_string = JurnalDoc.objects.get(pk=request.POST['id'])
+        current_nom=Nom.objects.get(pk=request.POST['title'])
+        current_string.title=current_nom
+        current_string.price=request.POST['price']
+        current_string.kol = float(request.POST['kol'])*(-1)
+
+        current_string.summa= float(request.POST['summa'])*(-1)
+        current_string.nds = request.POST['nds']
+        current_string.summawithnds = float(request.POST['total'])*(-1)
+        current_string.save()
+
+
+        return JsonResponse({'status':1})
