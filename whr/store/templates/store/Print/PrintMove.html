@@ -1,0 +1,64 @@
+ {% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+{% load store %}
+ <div class="bg-primary text-end pt-1 pb-1">
+ <a href="" class="d-print-none"><img src="../static/images/print.png" style="width:30px;margin-right:65px;" id="print-button" ></a>
+ </div>
+{{senderfio.title}}
+ {% for d in doc %}
+     <h3 class="text-center">Накладная на перемещение № {{d.nomerdoc}} от {{d.datadoc|date:"d.m.Y г."}}</h3>
+  {% endfor %}
+
+{% for s in sender %}
+ <h6>Отправитель: {{s.title}}
+{% endfor %}
+ {% for s1 in fio %}
+    ({{s1.title}})
+ {% endfor %}
+</h6>
+ {% for d in doc %}
+ <h6>Получатель: {{d.fio.title}}, подразделение {{d.podraz.title}}, объект {{d.obct.title}}</h6>
+ {% endfor %}
+ <table class="table table-bordered">
+     <thead>
+     <th>Наименование</th>
+     <th class="text-end">Ед.изм</th>
+     <th class="text-end">Цена</th>
+     <th class="text-end">Количество</th>
+     <th class="text-end">Стоимость</th>
+     <th class="text-end">НДС</th>
+     <th class="text-end">Итого</th>
+     </thead>
+
+<tbody>
+    {% for item in items %}
+<tr>
+<td>{{item.title.title}}</td>
+<td class="text-end">{{item.title.izm}}</td>
+<td class="text-end">{{item.price}}</td>
+ <td class="text-end">{% abs_tag item.kol %}</td>
+  <td class="text-end">{% abs_tag item.summa %}</td>
+    <td class="text-end">{% abs_tag item.percent %}</td>
+     <td class="text-end">{% abs_tag item.summawithnds %}</td>
+</tr>   {% endfor %}
+<tr>
+    <td colspan="4">Итого:</td>
+
+    <td class="text-end">{% abs_tag summa %}</td>
+    <td></td>
+    <td class="text-end">{% abs_tag summands %}</td>
+
+</tr>
+
+</tbody>
+ </table>
+ <script>
+    const printButton = document.getElementById('print-button')
+
+    printButton.addEventListener('click', () => {
+      window.print()
+    })
+  </script>
+
+{% endblock DataArea %}

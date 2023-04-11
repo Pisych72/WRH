@@ -240,6 +240,7 @@ location.href=data.url
 ////////////////////////////////////Удаление документов передачи/////////////////
 
 $(".btn-move-del").click(function(){
+event.preventDefault();
 let _id=$(this).attr('data-sid');
 let _csr=$("input[name=csrfmiddlewaretoken]").val();
 mythis=$(this);

@@ -14,12 +14,12 @@
         <input type="hidden" value="{{docmove.podraz.pk}}" id="movepodraz">
         <input type="hidden" value="{{docmove.obct.pk}}" id="moveobct">
          <input type="hidden" value="{{docmove.fio.pk}}" id="movefio">
-        <th  style="width:70%" >Передача ТМЦ </th>
+        <th  style="width:70%" class="  align-middle" >Передача ТМЦ </th>
 
 
-<th style="width:10%; " class=" text-end "> Документ № </th>
-<th style="width:10%;" class=" text-end" >Дата документа</th>
- <th style="width:10%;" class="text-end"></th>
+<th style="width:10%; " class=" text-end align-middle"> Документ № </th>
+<th style="width:10%;" class=" text-end align-middle" >Дата документа</th>
+        <th style="width:10%;" class="align-middle pl-4"><a href="{% url 'PrintMoveDoc' docmove.id %}"><img src="../static/images/print.png" style="width:30px;margin-left:65px;" ></a></th>
 </thead>
 </tr>
 
@@ -27,7 +27,9 @@
     <td class="align-middle">Подразделение: {{docmove.podraz}}, объект: {{docmove.obct}}, подотчетное лицо: {{docmove.fio}} </td>
     <td class="align-middle text-end"><input type="text" id="nomermovedoc" class="form-control text-end" value="{{docmove.nomerdoc}}"></td>
     <td class="align-middle text-end"><input type="date" id="datamovedoc" class="form-control align-middle text-end" value="{{docmove.datadoc|date:'Y-m-d'}}"></td>
-    <td class="align-middle text-end"><button type="submit" class="btn btn-sm btn-success " id="returnToJurnalMove">Сохранить</></td>
+    <td class="align-middle text-end">
+
+    <button type="submit" class="btn btn-sm btn-success " id="returnToJurnalMove">Сохранить</></td>
     </tr>
 </form>
 
@@ -62,7 +64,8 @@
 <td><input type="number" id="idmovesum" class="form-control text-end" step="any" required min="0" readonly></td>
 <td><input type="number" id="idmovends" class="form-control text-end" step="any" required min="0" value="20"></td>
 <td><input type="number" id="idmovetotal" class="form-control text-end" step="any" required min="0" readonly></td>
-<th style="width:10%;" class="text-end"><button type="submit" class="btn btn-sm btn-primary" id ="savemovestring">Записать</></th>
+<th style="width:10%;" class="text-end">
+    <button type="submit" class="btn btn-sm btn-primary" id ="savemovestring">Записать</></th>
     </tr></form>
 {% for item in items %}
     <tr><td>{{item.title}},{{item.title.izm}}</td>

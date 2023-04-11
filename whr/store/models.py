@@ -145,6 +145,9 @@ class JurnalDoc(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def percent(self):
+        return round((self.summa *((self.nds/100))),2)
 
     class Meta:
         verbose_name = 'Табличная часть'

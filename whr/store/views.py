@@ -967,7 +967,6 @@ def DeleteMoveDoc(request):
         except ProtectedError:
             return JsonResponse({'status': 0, })
 
-
 # удаление строки из таблицы документв Начальные остатки
 def DeleteMoveStringTable(request):
     if request.method == 'POST':
@@ -984,19 +983,32 @@ def getDataToModal(request):
 
 def SaveMoveStringTable(request):
     if request.method == 'POST':
-
         #nom=Nom.objects.get(pk=request.POST['title'])
-
         current_string = JurnalDoc.objects.get(pk=request.POST['id'])
         current_nom=Nom.objects.get(pk=request.POST['title'])
         current_string.title=current_nom
         current_string.price=request.POST['price']
         current_string.kol = float(request.POST['kol'])*(-1)
-
         current_string.summa= float(request.POST['summa'])*(-1)
         current_string.nds = request.POST['nds']
         current_string.summawithnds = float(request.POST['total'])*(-1)
         current_string.save()
-
-
         return JsonResponse({'status':1})
+# распесатка акта передачи
+def PrintMoveDoc(request,pk):
+    items=JurnalDoc.objects.filter(iddoc=pk)
+    sender=Podraz.objects.filter(pk=74).values('title')
+    senderfio=Fio.objects.filter(pk=5).values('title')
+    doc=Jurnal.objects.filter(pk=pk)
+    s=JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum('summa'))
+    s2=JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum('summawithnds'))
+    print(s['summa__sum'])
+
+
+
+
+
+
+
+    return render(request,'store/Print/PrintMove.html',{'items':items,'doc':doc,
+    'summands': s2['summawithnds__sum'], 'summa':s['summa__sum'],'sender':sender,'fio':senderfio})

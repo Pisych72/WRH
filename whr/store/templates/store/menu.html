@@ -2,6 +2,7 @@
 {% extends 'store/base.html' %}
 {% load static %}
 {% block LinkArea %}
+<div class="d-print-none">
 {% if request.user.username == "Кладовщик" %}
 
 <a href="{% url 'DocMenu' %}" class="btn btn-secondary text-white nav-link mb-2 shadow  ">Документы</a>
@@ -12,7 +13,7 @@
 {% else %}
  <a href="#" class="btn btn-light border border-white  nav-link mb-2 shadow ">Отчеты</a>
 {% endif %}
-
+</div>
 {% endblock LinkArea %}
 {% block DataArea %}<div class="text-center align-middle mt-5 pt-5">
 <img src="{% static '/images/store.jpg' %}" width="1000px"></div>
