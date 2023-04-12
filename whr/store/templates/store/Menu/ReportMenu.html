@@ -2,4 +2,50 @@
 {% load static %}
 {% block DataArea %}
 <h4 class=" float=left"> <img src="{% static '/images/report4.png' %}" class="miniature"> Отчеты</h4>
+<div class="row ">
+
+<div class="col-md-3">
+    <div class="card shadow" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">Наличие ТМЦ на складе</h5>
+     <img class="card-img-top miniature" src="{% static '/images/report4.png' %}" >
+    <p class="card-text">Наличие ТМЦ на складе, движение ТМЦ</p>
+    <a href="{% url 'ReportOst' %}" class="btn btn-primary">Просмотр</a>
+    </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card shadow" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title ">ТМЦ по подразделениям</h5>
+     <img class="card-img-top miniature" src="{% static '/images/report4.png' %}" >
+    <p class="card-text">Отчет о движении ТМЦ по подразделениям</p>
+    <a href="{% url 'JurnalPost' %}" class="btn btn-primary">Просмотр</a>
+    </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card shadow" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">ТМЦ по объектам</h5>
+     <img class="card-img-top miniature" src="{% static '/images/report4.png' %}" >
+    <p class="card-text">Отчет о движении ТМЦ по объектам</p>
+    <a href="{% url 'JurnalMove' %}" class="btn btn-primary">Просмотр</a>
+    </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card shadow" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title">ТМЦ по подотчету</h5>
+     <img class="card-img-top miniature" src="{% static '/images/report3.png' %}" >
+    <p class="card-text">Отчет о движении ТМЦ по подотчету</p>
+    <a href="#" class="btn btn-primary">Просмотр</a>
+    </div>
+    </div>
+</div>
+</div>
 {% endblock DataArea %}

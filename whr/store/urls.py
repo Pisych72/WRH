@@ -105,5 +105,7 @@ urlpatterns=[
    path('getDataToModal/',getDataToModal,name='getDataToModal'),
    path('SaveMoveStringTable/',SaveMoveStringTable,name='SaveMoveStringTable'),
    path('PrintMoveDoc/<str:pk>',PrintMoveDoc,name='PrintMoveDoc'),
+   # Отчеты
+   path('ReportOst/',ReportOst,name='ReportOst'),
 
 ]

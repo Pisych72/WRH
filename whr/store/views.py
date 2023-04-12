@@ -1003,12 +1003,14 @@ def PrintMoveDoc(request,pk):
     s=JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum('summa'))
     s2=JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum('summawithnds'))
     print(s['summa__sum'])
-
-
-
-
-
-
-
     return render(request,'store/Print/PrintMove.html',{'items':items,'doc':doc,
-    'summands': s2['summawithnds__sum'], 'summa':s['summa__sum'],'sender':sender,'fio':senderfio})
+    'summands': s2['summawithnds__sum'], 'summa':s['summa__sum'],'sender':sender,'fio':senderfio,'title':'Печать документа'})
+
+# ///////////////////Отчеты/////////////////////////
+def ReportOst(request):
+    category=Category.objects.all()
+    uniqset = JurnalDoc.objects\
+        .values('title', 'title__title', 'price', 'title__izm__title',
+                'title__category__title','title__category')\
+        .annotate(count=Sum('kol')).order_by('title', 'price')
+    return render(request,'store/Print/ReportOst.html',{'ost':uniqset,'category':category,'title':'Наличие ТМЦ на складе'})
