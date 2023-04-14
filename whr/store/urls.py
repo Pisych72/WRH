@@ -106,6 +106,8 @@ urlpatterns=[
    path('SaveMoveStringTable/',SaveMoveStringTable,name='SaveMoveStringTable'),
    path('PrintMoveDoc/<str:pk>',PrintMoveDoc,name='PrintMoveDoc'),
    # Отчеты
-   path('ReportOst/',ReportOst,name='ReportOst'),
+   path('ReportOst/',ReportOst,name='ReportOst'), # Меню отчетов
+   path('Kartochka/<str:pk>/<str:price>',Kartochka,name='Kartochka'),
+
 
 ]

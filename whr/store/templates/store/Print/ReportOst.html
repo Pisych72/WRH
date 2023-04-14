@@ -5,12 +5,14 @@
 
  <div class="bg-primary  " style="position:relative;height:45px;">
      <div style="position:relative; float:left;"><img src="../static/images/back.png" width="45px" onclick="history.back();" class="d-print-none"></div>
- <div style="position:relative; float:right;"><a href="" class="d-print-none"><img src="../static/images/print.png" style="width:40px;margin-right:10px" id="print-button" ></a>
- </div>
+
+     <div style="position:relative; float:right;"><a href="#" class="d-print-none"><img src="../static/images/print.png" style="width:40px;margin-right:10px;margin-left:10px" id="print-button" ></a>
+ <div style="position:relative; float:left;" class="d-print-none"><button class="btn btn-primary mt-1 " id="toggle-btn">Скрыть нулевые остатки</button></div>
+     </div>
  </div>
 <h3> ТМЦ на складе на {% now "d.m.Y" %} г.</h3>
 <div class="form-group ">
-    <input type="text" class="form-control pull-right " id="search" placeholder="Поиск по таблице">
+    <input type="text" class="form-control pull-right d-print-none " id="search" placeholder="Поиск по таблице">
 </div>
 <table class="table table-bordered" id="mytable">
      <thead>
@@ -32,13 +34,13 @@
        <td class="text-end text-danger">{{item.title__izm__title}}</td>
      <td class="text-end text-danger">{{item.price}}</td>
      <td class="text-end text-danger">{{item.count}}</td>
-    <td class="text-end d-print-none"><a href=""><img src="../static/images/report3.png" width="30"></a> </td>
+    <td class="text-end d-print-none"><a href="{% url 'Kartochka' item.title item.price%}"><img src="../static/images/report3.png" width="30"></a> </td>
     {% else %}
       <td>{{item.title__title}}</td>
        <td class="text-end">{{item.title__izm__title}}</td>
      <td class="text-end">{{item.price}}</td>
      <td class="text-end">{{item.count}}</td>
-    <td class="text-end d-print-none"><a href=""><img src="../static/images/report3.png" width="30"></a> </td>
+    <td class="text-end d-print-none"><a href="{% url 'Kartochka' item.title item.price%}"><img src="../static/images/report3.png" width="30"></a> </td>
     {% endif %}
 
 
@@ -75,4 +77,23 @@
             });
         });
         </script>
+<script>
+   $(document).ready(function(){
+  var toggleBtn = $("#toggle-btn");
+
+  toggleBtn.click(function(){
+    var zeroRowsToggler = $("tbody tr").filter(function() {
+      return $(this).find("td").eq(3).text() == '0,0';
+    });
+
+    if (zeroRowsToggler.is(":visible")) {
+      zeroRowsToggler.hide();
+      toggleBtn.text("Показать нулевые остатки");
+    } else {
+      zeroRowsToggler.show();
+      toggleBtn.text("Скрыть нулевые остатки");
+    }
+  });
+});
+</script>
 {% endblock DataArea %}

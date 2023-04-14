@@ -1,0 +1,167 @@
+{% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+{% load store %}
+
+ <div class="bg-primary  " style="position:relative;height:45px;">
+     <div style="position:relative; float:left;"><img src="../../static/images/back.png" width="45px" onclick="history.back();" class="d-print-none"></div>
+
+     <div style="position:relative; float:right;"><a href="#" class="d-print-none"><img src="../../static/images/print.png" style="width:40px;margin-right:10px;margin-left:10px" id="print-button" ></a>
+
+     </div>
+ </div>
+<h3> Карточка учета ТМЦ на {% now "d.m.Y" %} г.</h3>
+<h3> Наименование: {{naimen.title}}, цена: {{price}} руб.</h3>
+
+<table class="table table-bordered table-sm" id="mytable">
+     <thead>
+     <th style="width:8%">Дата</th>
+     <th  style="width:5%">Номер</th>
+     <th >Поставщик</th>
+     <th >Подразделение</th>
+     <th >Подотчет</th>
+     <th >Объект</th>
+     <th style="width:8%" class="text-end">Кол-во,{{naimen.izm}}</th>
+
+
+     </thead>
+    <tbody>
+
+{% for item in kart_data %}
+<tr>
+{% if item.oper == 1 %}
+<td colspan="7"  style="background-color:Gainsboro;">Начальные остатки</td>
+    {% for item in kart_data %}
+{% if item.oper == 1 %}
+<tr class="begin">
+<td>{{item.iddoc.datadoc|date:"d.m.Y"}}</td>
+<td class="text-end">{{item.iddoc.nomerdoc}}</td>
+<td ></td>
+<td >{{item.iddoc.podraz}}</td>
+<td >{{item.iddoc.fio}}</td>
+ <td ></td>
+<td class="text-end kol1">{{item.kol}}</td>
+</tr>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+    {% endfor %}
+
+  {% for item in kart_data %}
+<tr>
+{% if item.oper == 2 %}
+<td colspan="7" class="text-primary" style="background-color:Gainsboro;">Поступление</td>
+    {% for item in kart_data %}
+{% if item.oper == 2 %}
+<tr class="prihod">
+<td>{{item.iddoc.datadoc|date:"d.m.Y"}}</td>
+<td class="text-end">{{item.iddoc.nomerdoc}}</td>
+<td >{{item.iddoc.postav}}</td>
+<td >{{item.iddoc.podraz}}</td>
+<td >{{item.iddoc.fio}}</td>
+ <td ></td>
+<td class="text-end text-primary kol">{{item.kol}}</td>
+</tr>
+
+    {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+
+    {% endfor %}
+
+
+ {% for item in kart_data %}
+<tr>
+{% if item.oper == 3 %}
+<td colspan="7" class="text-danger" style="background-color:Gainsboro;">Передача</td>
+    {% for item in kart_data %}
+{% if item.oper == 3 %}
+<tr class="move">
+<td>{{item.iddoc.datadoc|date:"d.m.Y"}}</td>
+<td class="text-end">{{item.iddoc.nomerdoc}}</td>
+<td ></td>
+<td >{{item.iddoc.podraz}}</td>
+<td >{{item.iddoc.fio}}</td>
+ <td >{{item.iddoc.obct}}</td>
+<td class="text-end text-danger kol2">{{item.kol}}</td>
+</tr>
+
+
+
+
+
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+    {% endfor %}
+<tr>
+
+    <td colspan="7" class=" text-end" id="prihod" ></td>
+</tr>
+<tr>
+ <td colspan="7" class=" text-end" id="move" ></td>
+</tr>
+<tr>
+ <td colspan="7" class=" text-end" id="rest"></td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </tbody>
+</table>
+
+
+
+<script>
+    const printButton = document.getElementById('print-button')
+    printButton.addEventListener('click', () => {
+      window.print()
+    });
+
+</script>
+ <script>
+var oststok=0;
+var per=0;
+var prihod = 0;
+var rest=0;
+var begin=0;
+$('tr.prihod td.kol').each(function() {
+    var num = $(this).text().replace(',', '.');
+    prihod += parseFloat(num);
+});
+$('#prihod').text('Всего поступило на склад: ' + prihod);
+
+$('tr.move td.kol2').each(function() {
+    var num = $(this).text().replace(',', '.');
+    per += parseFloat(num);
+});
+$('#move').text('Всего передано в подотчет: ' + per);
+
+
+$('tr.begin td.kol1').each(function() {
+    var num = $(this).text().replace(',', '.');
+    begin += parseFloat(num);
+});
+rest=begin+prihod+per
+console.log(rest);
+$('#rest').text('Остаток на складе: ' + rest);
+
+ </script>
+
+{% endblock DataArea %}

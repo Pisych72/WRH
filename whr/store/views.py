@@ -732,7 +732,10 @@ def AddStringPost(request,pk):
     doc = Jurnal.objects.get(pk=pk)
     postav=Postav.objects.get(pk=doc.postav_id)
     item = JurnalDoc.objects.filter(iddoc=pk)
-    print(postav)
+    for i in item:
+        i.oper=2
+        i.save()
+
     postav_list=Postav.objects.all()
     nom = Nom.objects.all()
     sum = JurnalDoc.objects.filter(iddoc=pk).aggregate(Sum("summa"))
@@ -829,12 +832,6 @@ def JurnalMove(request):
         podraz_item = Podraz.objects.get(pk=request.POST['podraz'])
         fio_item = Fio.objects.get(pk=request.POST['fio'])
         obct_item = Obct.objects.get(pk=request.POST['obct'])
-        print(postav)
-        print(podraz_item)
-        print(fio_item)
-        print(obct_item)
-        print(date.today())
-        print(nomer.nomer)
         movedoc=Jurnal()
         movedoc.oper=3
         movedoc.nomerdoc=nomer.nomer+1
@@ -1007,10 +1004,21 @@ def PrintMoveDoc(request,pk):
     'summands': s2['summawithnds__sum'], 'summa':s['summa__sum'],'sender':sender,'fio':senderfio,'title':'Печать документа'})
 
 # ///////////////////Отчеты/////////////////////////
+# ///////////////////Наличие ТМЦ на складе/////////////////
+
 def ReportOst(request):
-    category=Category.objects.all()
+    category=Category.objects.exclude(nom__isnull=True)
     uniqset = JurnalDoc.objects\
         .values('title', 'title__title', 'price', 'title__izm__title',
                 'title__category__title','title__category')\
         .annotate(count=Sum('kol')).order_by('title', 'price')
     return render(request,'store/Print/ReportOst.html',{'ost':uniqset,'category':category,'title':'Наличие ТМЦ на складе'})
+
+# //////////////////////// Карточка ///////////////////////////////
+def Kartochka(request,pk,price):
+    kart=JurnalDoc.objects.filter(title=pk).filter(price=price).order_by('oper')
+
+    nom=Nom.objects.get(pk=pk)
+
+
+    return render(request,'store/Print/Kartochka.html',{'kart_data':kart,'naimen':nom,'price':price,'title':'Карточка'})
