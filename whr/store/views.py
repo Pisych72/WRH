@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .models import *
 from .forms import *
-from django.db.models import Sum, ProtectedError
+from django.db.models import Sum, ProtectedError, F
 from django.contrib import messages
 import datetime
 from django.db.models import Q, Count
@@ -1012,13 +1012,46 @@ def ReportOst(request):
         .values('title', 'title__title', 'price', 'title__izm__title',
                 'title__category__title','title__category')\
         .annotate(count=Sum('kol')).order_by('title', 'price')
-    return render(request,'store/Print/ReportOst.html',{'ost':uniqset,'category':category,'title':'Наличие ТМЦ на складе'})
+    return render(request,'store/Print/ReportOst.html',{'ost':uniqset,'category':category,'title':'Наличие ТМЦ на складе',})
 
 # //////////////////////// Карточка ///////////////////////////////
 def Kartochka(request,pk,price):
-    kart=JurnalDoc.objects.filter(title=pk).filter(price=price).order_by('oper')
-
+    kart_ostatok=JurnalDoc.objects.filter(title=pk).filter(price=price).filter(oper=1)
+    kart_prihod = JurnalDoc.objects.filter(title=pk).filter(price=price).filter(oper=2)
+    kart_move = JurnalDoc.objects.filter(title=pk).filter(price=price).filter(oper=3)
     nom=Nom.objects.get(pk=pk)
 
 
-    return render(request,'store/Print/Kartochka.html',{'kart_data':kart,'naimen':nom,'price':price,'title':'Карточка'})
+
+    return render(request,'store/Print/Kartochka.html',{'kart_ostatok':kart_ostatok,'naimen':nom,'price':price,'title':'Карточка','kart_prihod':kart_prihod,'kart_move':kart_move})
+#//////////////////////// ТМЦ по подпазделениям /////////////////////////
+def PodrazReport(request):
+    return render(request,'store/Print/PodrazReport.html',{'title':'ТМЦ по подразделениям','header':'Отчет по подразделениям за период с '})
+def GetPodrazData(request):
+    if request.method=='POST':
+        startdate=request.POST['datastart']
+        enddate=request.POST['dataend']
+        doc=Jurnal.objects.filter(datadoc__range=[startdate,enddate]).values('podraz__title','podraz').annotate(
+            total_ammount=Sum('summawithnds')).order_by('podraz').exclude(oper=1)
+        doclist=list(doc)
+        print(doc)
+
+        return JsonResponse({'status':1,'docs':doclist,})
+def GetObctData(request):
+    if request.method=='POST':
+        startdate=request.POST['datastart']
+        enddate=request.POST['dataend']
+        idpodraz=request.POST['idpodraz']
+       # doc=Jurnal.objects.filter(datadoc__range=[startdate,enddate]).values('podraz__title','podraz').annotate(
+        #    total_ammount=Sum('summawithnds')).order_by('podraz').exclude(oper=1)
+        #doclist=list(doc)
+       # print(doc)
+        doc=Jurnal.objects.filter(podraz=idpodraz).filter(datadoc__range=[startdate,enddate]).values('obct','obct__title').annotate(total_ammount=Sum('summawithnds')).order_by('obct').exclude(oper=1)
+        podraz=Podraz.objects.filter(pk=idpodraz).values('title')
+        doclist = list(doc)
+        podrazlist=list(podraz)
+        print(doclist)
+        print(podrazlist)
+        print(startdate,enddate,idpodraz)
+
+        return JsonResponse({'status':1,'docs':doclist,'header':podrazlist})

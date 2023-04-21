@@ -108,6 +108,9 @@ urlpatterns=[
    # Отчеты
    path('ReportOst/',ReportOst,name='ReportOst'), # Меню отчетов
    path('Kartochka/<str:pk>/<str:price>',Kartochka,name='Kartochka'),
+   path('PodrazReport/',PodrazReport,name='PodrazReport'),
+   path('GetPodrazData/',GetPodrazData,name='GetPodrazData'),
+   path('GetObctData/',GetObctData,name='GetObctData'),
 
 
 ]

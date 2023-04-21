@@ -39,8 +39,8 @@
             <thead class="bg-primary">
             <th style="width:40%" class="text-light" >Наименование, ед.изм.</th>
 
-             <th  class="text-end text-light " style="width:10%" >Цена</th>
-             <th  class="text-end text-light" style="width:10%"  >Кол-во</th>
+             <th  class="text-end text-light " style="width:10%" >Кол-во</th>
+             <th  class="text-end text-light" style="width:10%"  >Цена</th>
              <th  class="text-end text-light" style="width:10%">Сумма</th>
              <th class="text-end  text-light" style="width:10%" >НДС</th>
             <th class="text-end text-light" style="width:10%" >Сумма с НДС</td>
@@ -62,12 +62,12 @@
 
 
           </td>
+ <td><input type="number" id="idkol" class="form-control text-end" step="any" required min="0">
+        </td>
 
            <td> <input type="number" id="idprice" class="form-control text-end" step="any" required min="0" >
         </td></td>
 
-         <td><input type="number" id="idkol" class="form-control text-end" step="any" required min="0">
-        </td>
 
        <td> <input type="number" id="idsumma" class="form-control text-end" step="any" required readonly>
         </td>
@@ -88,8 +88,8 @@
 
 {% for item in items %}
     <tr><td>{{item.title}},{{item.title.izm}}</td>
-    <td class="text-end">{{item.price}}</td>
     <td class="text-end">{{item.kol}}</td>
+    <td class="text-end">{{item.price}}</td>
     <td class="text-end">{{item.summa}}</td>
 
     <td class="text-end " >{{item.nds}}</td>

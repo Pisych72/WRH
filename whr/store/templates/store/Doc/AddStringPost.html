@@ -35,8 +35,8 @@
             <input  type="hidden" id="id_string" value="" >
             <thead class="bg-primary text-light">
             <th style="width:40%" class="" >Наименование, ед.изм.</th>
-            <th  class="text-end " style="width:10%" >Цена</th>
-            <th  class="text-end "style="width:10%"  >Кол-во</th>
+            <th  class="text-end " style="width:10%" >Кол-во</th>
+            <th  class="text-end "style="width:10%"  >Цена</th>
             <th  class="text-end " style="width:10%">Сумма</th>
             <th class="text-end  " style="width:10%" >НДС</th>
             <th class="text-end " style="width:10%" >Сумма с НДС</td>
@@ -55,10 +55,11 @@
                     </div>
                 </div>
             </td>
+     <td><input type="number" id="idkol" class="form-control text-end" step="any" required min="0">
+        </td>
            <td> <input type="number" id="idprice" class="form-control text-end" step="any" required  min="0">
         </td></td>
-         <td><input type="number" id="idkol" class="form-control text-end" step="any" required min="0">
-        </td>
+
        <td> <input type="number" id="idsumma" class="form-control text-end" step="any" required readonly>
         </td>
         <td><input type="number" id="idnds" class="form-control text-end" value="20" required min="0">
@@ -71,8 +72,8 @@
     <tbody id="string-ost" >
 {% for item in items %}
     <tr><td>{{item.title}},{{item.title.izm}}</td>
-    <td class="text-end">{{item.price}}</td>
     <td class="text-end">{{item.kol}}</td>
+    <td class="text-end">{{item.price}}</td>
     <td class="text-end">{{item.summa}}</td>
     <td class="text-end " >{{item.nds}}</td>
     <td class="text-end">{{item.summawithnds}}</td>

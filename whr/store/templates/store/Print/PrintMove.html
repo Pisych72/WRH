@@ -26,8 +26,8 @@
      <thead>
      <th>Наименование</th>
      <th class="text-end">Ед.изм</th>
-     <th class="text-end">Цена</th>
      <th class="text-end">Количество</th>
+     <th class="text-end">Цена</th>
      <th class="text-end">Стоимость</th>
      <th class="text-end">НДС</th>
      <th class="text-end">Итого</th>
@@ -38,8 +38,9 @@
 <tr>
 <td>{{item.title.title}}</td>
 <td class="text-end">{{item.title.izm}}</td>
+<td class="text-end">{% abs_tag item.kol %}</td>
 <td class="text-end">{{item.price}}</td>
- <td class="text-end">{% abs_tag item.kol %}</td>
+
   <td class="text-end">{% abs_tag item.summa %}</td>
     <td class="text-end">{% abs_tag item.percent %}</td>
      <td class="text-end">{% abs_tag item.summawithnds %}</td>

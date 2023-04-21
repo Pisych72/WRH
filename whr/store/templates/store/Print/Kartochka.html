@@ -27,12 +27,12 @@
      </thead>
     <tbody>
 
-{% for item in kart_data %}
+
+  {% if kart_ostatok %}
 <tr>
-{% if item.oper == 1 %}
 <td colspan="7"  style="background-color:Gainsboro;">Начальные остатки</td>
-    {% for item in kart_data %}
-{% if item.oper == 1 %}
+
+    {% for item in kart_ostatok %}
 <tr class="begin">
 <td>{{item.iddoc.datadoc|date:"d.m.Y"}}</td>
 <td class="text-end">{{item.iddoc.nomerdoc}}</td>
@@ -42,43 +42,28 @@
  <td ></td>
 <td class="text-end kol1">{{item.kol}}</td>
 </tr>
-    {% endif %}
     {% endfor %}
 {% endif %}
-
-    {% endfor %}
-
-  {% for item in kart_data %}
+{% if kart_prihod %}
 <tr>
-{% if item.oper == 2 %}
 <td colspan="7" class="text-primary" style="background-color:Gainsboro;">Поступление</td>
-    {% for item in kart_data %}
-{% if item.oper == 2 %}
+{% for item in kart_prihod %}
 <tr class="prihod">
 <td>{{item.iddoc.datadoc|date:"d.m.Y"}}</td>
 <td class="text-end">{{item.iddoc.nomerdoc}}</td>
 <td >{{item.iddoc.postav}}</td>
 <td >{{item.iddoc.podraz}}</td>
 <td >{{item.iddoc.fio}}</td>
- <td ></td>
+<td ></td>
 <td class="text-end text-primary kol">{{item.kol}}</td>
 </tr>
-
-    {% endif %}
-
-    {% endfor %}
-
+{% endfor %}
 {% endif %}
 
-    {% endfor %}
-
-
- {% for item in kart_data %}
+{% if kart_move %}
 <tr>
-{% if item.oper == 3 %}
 <td colspan="7" class="text-danger" style="background-color:Gainsboro;">Передача</td>
-    {% for item in kart_data %}
-{% if item.oper == 3 %}
+{% for item in kart_move%}
 <tr class="move">
 <td>{{item.iddoc.datadoc|date:"d.m.Y"}}</td>
 <td class="text-end">{{item.iddoc.nomerdoc}}</td>
@@ -88,17 +73,12 @@
  <td >{{item.iddoc.obct}}</td>
 <td class="text-end text-danger kol2">{{item.kol}}</td>
 </tr>
-
-
-
-
-
-    {% endif %}
-    {% endfor %}
+{% endfor %}
 {% endif %}
 
 
-    {% endfor %}
+
+
 <tr>
 
     <td colspan="7" class=" text-end" id="prihod" ></td>

@@ -18,8 +18,8 @@
      <thead>
      <th>Наименование</th>
      <th class="text-end">Ед.изм</th>
-     <th class="text-end">Цена</th>
      <th class="text-end">Количество</th>
+     <th class="text-end">Цена</th>
      <th class="text-end d-print-none">Карточка</th>
      </thead>
     <tbody>
@@ -32,8 +32,9 @@
     {% if item.count == 0 %}
       <td class="text-danger">{{item.title__title}}</td>
        <td class="text-end text-danger">{{item.title__izm__title}}</td>
-     <td class="text-end text-danger">{{item.price}}</td>
-     <td class="text-end text-danger">{{item.count}}</td>
+        <td class="text-end text-danger">{{item.count}}</td>
+    <td class="text-end text-danger">{{item.price}}</td>
+
     <td class="text-end d-print-none"><a href="{% url 'Kartochka' item.title item.price%}"><img src="../static/images/report3.png" width="30"></a> </td>
     {% else %}
       <td>{{item.title__title}}</td>
