@@ -1042,10 +1042,6 @@ def GetObctData(request):
         startdate=request.POST['datastart']
         enddate=request.POST['dataend']
         idpodraz=request.POST['idpodraz']
-       # doc=Jurnal.objects.filter(datadoc__range=[startdate,enddate]).values('podraz__title','podraz').annotate(
-        #    total_ammount=Sum('summawithnds')).order_by('podraz').exclude(oper=1)
-        #doclist=list(doc)
-       # print(doc)
         doc=Jurnal.objects.filter(podraz=idpodraz).filter(datadoc__range=[startdate,enddate]).values('obct','obct__title').annotate(total_ammount=Sum('summawithnds')).order_by('obct').exclude(oper=1)
         podraz=Podraz.objects.filter(pk=idpodraz).values('title')
         doclist = list(doc)
@@ -1055,3 +1051,33 @@ def GetObctData(request):
         print(startdate,enddate,idpodraz)
 
         return JsonResponse({'status':1,'docs':doclist,'header':podrazlist})
+def ObctReport(request):
+    return render(request,'store/Print/ObctReport.html',{'title':'ТМЦ по объектам','header':'Отчет по объектам за период с '})
+def GetPodrazData2(request):
+    if request.method=='POST':
+        startdate=request.POST['datastart']
+        enddate=request.POST['dataend']
+        doc=Jurnal.objects.filter(datadoc__range=[startdate,enddate]).values('obct__title','obct').annotate(
+            total_ammount=Sum('summawithnds')).order_by('obct').exclude(oper=1)
+        doclist=list(doc)
+        print(doc)
+
+        return JsonResponse({'status':1,'docs':doclist,})
+
+
+def GetObctData2(request):
+    if request.method == 'POST':
+        startdate = request.POST['datastart']
+        enddate = request.POST['dataend']
+        idpodraz = request.POST['idpodraz']
+        doc = JurnalDoc.objects.filter(obct=idpodraz).filter(iddoc__datadoc__range=[startdate, enddate]).values('title',
+                                                                                                        'title__title','title__izm__title','fio__title').annotate(
+            total_ammount=Sum('kol'),total_sum=Sum('summawithnds')).order_by('title').exclude(oper=1)
+        podraz = Obct.objects.filter(pk=idpodraz).values('title')
+        doclist = list(doc)
+        podrazlist = list(podraz)
+        print(doclist)
+        print(podrazlist)
+        print(startdate, enddate, idpodraz)
+
+        return JsonResponse({'status': 1, 'docs': doclist, 'header': podrazlist})

@@ -110,7 +110,10 @@ urlpatterns=[
    path('Kartochka/<str:pk>/<str:price>',Kartochka,name='Kartochka'),
    path('PodrazReport/',PodrazReport,name='PodrazReport'),
    path('GetPodrazData/',GetPodrazData,name='GetPodrazData'),
+   path('GetPodrazData2/',GetPodrazData2,name='GetPodrazData2'),
    path('GetObctData/',GetObctData,name='GetObctData'),
+   path('GetObctData2/', GetObctData2, name='GetObctData2'),
+   path('ObctReport/',ObctReport,name='ObctReport'),
 
 
 ]
