@@ -21,6 +21,7 @@
 <table class="table-bordered table-hover table" id="podrazTable">
     <thead class="bg-primary text-light">
     <th id="td1">Объект</th>
+
     <th class="text-end">Получено ТМЦ на сумму</th>
     </thead>
     <tbody id="tbody">
@@ -98,7 +99,11 @@ dataType:"json",
 success:function(data){
 if(data.status==1){
 console.log(data.docs);
+$('#izm').remove();
+$('#kol').remove();
+$('#fio').remove();
 docs=data.docs
+
 Reportoutput='';
 for (i=0;i<docs.length;i++){
 console.log(docs[i].obct__title);
@@ -156,6 +161,7 @@ success:function(data){
 if(data.status==1){
 console.log(data.header[0].title);
 $('#header').text('Отчет по объекту ' + data.header[0].title +' за период с ');
+$('#podrazTable th:first-child').after('<th id="izm" class="text-end">Ед.изм.</th>'+'<th id="kol" class="text-end">Количество</th>'+'<th id="fio" class="text-end">Подотчет</th>');
 $('#td1').text('Наименование ТМЦ');
 console.log('OK');
 docs=data.docs
@@ -164,7 +170,7 @@ for (i=0;i<docs.length;i++){
 
 
 console.log(docs[i].obct__title);
-Reportoutput +='<tr><td class="podraz text-primary" >'+ docs[i].title__title +'</td><td class="text-end">'+ Math.abs(docs[i].total_ammount).toFixed(2) + '</td></tr>'
+Reportoutput +='<tr><td class="podraz " >'+ docs[i].title__title+'</td><td class="text-end">' +docs[i].title__izm__title+'</td>'+'<td class="text-end">'+Math.abs(docs[i].total_ammount)+'</td>'+'<td class="text-end">'+docs[i].fio__title+'</td>'+'<td class="text-end">'+ Math.abs(docs[i].total_sum).toFixed(2) + '</td></tr>'
 
 
 }
@@ -178,7 +184,7 @@ TotalCost += parseFloat(Cost);
 FCost=TotalCost.toFixed(2)
 });
 console.log(FCost);
-Reportoutput += '<tr style="background-color:Gainsboro;"><td>Всего за период</td><td id="itog" class="text-end"></td></tr>'
+Reportoutput += '<tr style="background-color:Gainsboro;"><td>Всего за период</td><td id="itog" class="text-end" colspan="4"></td></tr>'
 
 if(docs.length>0){
 $('#tbody').html(Reportoutput);
