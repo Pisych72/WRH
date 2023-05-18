@@ -1,0 +1,207 @@
+{% extends 'store/menu.html' %}
+{% load static %}
+{% block DataArea %}
+{% load store %}
+
+ <div class="bg-primary  " style="position:relative;height:45px;">
+     <div style="position:relative; float:left;"><img src="../../static/images/back.png" width="45px" onclick="history.back();" class="d-print-none"></div>
+<div style="position:relative; float:left;padding-left:250px;" class="mt-2 text-light">
+
+     <form method="post" class="d-print-none">       {% csrf_token %}
+    Отчетный период с:<input type="date" id ='startdate' >
+    по:<input type="date" id ='enddate' >
+     <button type="submit" class="btn btn-sm btn-success " id ="getReport" style="position:relative; float:right; margin-left:10px;" >Сформировать</>
+</form>
+</div>
+     <div style="position:relative; float:right;"><a href="#" class="d-print-none"><img src="../../static/images/print.png" style="width:40px;margin-right:10px;margin-left:10px" id="print-button" ></a>
+
+     </div>
+ </div>
+<h4><span id="header">{{header}}</span> <span id ='stdate'></span> по <span id="endate"></span></h4>
+<table class="table-bordered table-hover table" id="podrazTable">
+    <thead class="bg-primary text-light">
+    <th id="td1">ФИО подотчетника</th>
+
+    <th class="text-end">Получено ТМЦ на сумму</th>
+    </thead>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+
+<script>
+var now = new Date();
+var day2 = ("0" + now.getDate()).slice(-2);
+var month2 = ("0" + (now.getMonth() +1)).slice(-2);
+var today2 = now.getFullYear()+"-"+(month2)+"-"+(day2) ;
+var day1 = ("0" + now.getDate()).slice(-2);
+var month1 = ("0" + (now.getMonth() )).slice(-2);
+var today1 = now.getFullYear()+"-"+(month1)+"-"+(day1) ;
+$('#enddate').val(today2);
+$('#startdate').val(today1);
+let formatDate1='';
+let formatDate2='';
+
+date1= new Date($('#startdate').val());
+    if(date1.getMonth()<10){sep='.0'}
+    if(date1.getMonth()>=10){sep='.'}
+    formatDate1=date1.getDate()+sep+(date1.getMonth()+1)+'.'+date1.getFullYear()
+    $('#stdate').text(formatDate1)
+date2= new Date($('#enddate').val());
+    if(date2.getMonth()<10){sep='.0'}
+    if(date2.getMonth()>=10){sep='.'}
+    formatDate2=date2.getDate()+sep+(date1.getMonth()+2)+'.'+date1.getFullYear()
+    $('#endate').text(formatDate2)
+
+
+
+$('#startdate').on('change',function(){
+   date1=new Date($(this).val());
+    if(date1.getMonth()<10){sep='.0'}
+    if(date1.getMonth()>=10){sep='.'}
+    formatDate1=date1.getDate()+sep+(date1.getMonth()+1)+'.'+date1.getFullYear()
+    $('#stdate').text(formatDate1)
+    });
+$('#enddate').on('change',function(){
+    date2=new Date($(this).val());
+    if(date2.getMonth()<10){sep='.0'}
+    if(date2.getMonth()>=10){sep='.'}
+    formatDate2=date2.getDate()+sep+(date2.getMonth()+1)+'.'+date2.getFullYear()
+    $('#endate').text(formatDate2)
+    });
+
+
+ let Reportoutput='';
+$('#getReport').on('click',function(){
+ event.preventDefault();
+ $('#header').text('Отчет по подотчету за период с ');
+ $('#td1').text('Ф.И.О.');
+ if ( new Date($('#startdate').val())> new Date($('#enddate').val())){
+ alert('Неверно задан период!');
+ } else{
+let _datastart=new Date($('#startdate').val());
+let _formatstart=_datastart.toISOString().slice(0,10)
+let _dataend=new Date($('#enddate').val());
+let _formatend=_dataend.toISOString().slice(0,10)
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+mydata={
+datastart:_formatstart,
+dataend:_formatend,
+csrfmiddlewaretoken:_csr,
+}
+console.log(mydata);
+$.ajax({
+url:'/GetPodrazData3/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status==1){
+console.log(data.docs);
+$('#izm').remove();
+$('#kol').remove();
+$('#fio').remove();
+docs=data.docs
+
+Reportoutput='';
+for (i=0;i<docs.length;i++){
+console.log(docs[i].fio__title);
+Reportoutput +='<tr><td class="podraz text-primary" data-podraz='+docs[i].fio+'>'+ docs[i].fio__title +'</td><td class="text-end">'+ Math.abs(docs[i].total_ammount).toFixed(2) + '</td></tr>'
+
+
+
+}
+
+$('#tbody').html(Reportoutput)
+var TotalCost=0.0;
+$('#podrazTable tbody tr').each(function(){
+var Cost=$(this).find('td:last').text();
+console.log(Cost);
+
+TotalCost += parseFloat(Cost);
+FCost=TotalCost.toFixed(2)
+});
+console.log(FCost);
+Reportoutput += '<tr style="background-color:Gainsboro;"><td>Всего за период</td><td id="itog" class="text-end"></td></tr>'
+
+if(docs.length>0){
+$('#tbody').html(Reportoutput);
+$('#itog').text(FCost);
+};
+}
+}
+});
+
+};
+});
+
+$("tbody").on("click",'.podraz',function(){
+let _idpodraz=$(this).attr('data-podraz');
+let _datastart=new Date($('#startdate').val());
+let _formatstart=_datastart.toISOString().slice(0,10)
+let _dataend=new Date($('#enddate').val());
+let _formatend=_dataend.toISOString().slice(0,10)
+let _csr=$("input[name=csrfmiddlewaretoken]").val();
+ mydata={
+csrfmiddlewaretoken:_csr,
+datastart:_formatstart,
+dataend:_formatend,
+idpodraz:_idpodraz,
+}
+console.log(mydata);
+
+$.ajax({
+url:'/GetObctData3/',
+method:"POST",
+data:mydata,
+dataType:"json",
+
+success:function(data){
+if(data.status==1){
+console.log(data.header[0].title);
+$('#header').text('Отчет по подотчету ' + data.header[0].title +' за период с ');
+$('#podrazTable th:first-child').after('<th id="izm" class="text-end">Ед.изм.</th>'+'<th id="kol" class="text-end">Количество</th>'+'<th id="fio" class="text-end">Объект</th>');
+$('#td1').text('Наименование ТМЦ');
+console.log('OK');
+docs=data.docs
+Reportoutput='';
+for (i=0;i<docs.length;i++){
+
+
+console.log(docs[i].fio__title);
+Reportoutput +='<tr><td class="podraz " >'+ docs[i].title__title+'</td><td class="text-end">' +docs[i].title__izm__title+'</td>'+'<td class="text-end">'+Math.abs(docs[i].total_ammount)+'</td>'+'<td class="text-end">'+docs[i].obct__title+'</td>'+'<td class="text-end">'+ Math.abs(docs[i].total_sum).toFixed(2) + '</td></tr>'
+
+
+}
+$('#tbody').html(Reportoutput)
+var TotalCost=0.0;
+$('#podrazTable tbody tr').each(function(){
+var Cost=$(this).find('td:last').text();
+console.log(Cost);
+
+TotalCost += parseFloat(Cost);
+FCost=TotalCost.toFixed(2)
+});
+console.log(FCost);
+Reportoutput += '<tr style="background-color:Gainsboro;"><td>Всего за период</td><td id="itog" class="text-end" colspan="4"></td></tr>'
+
+if(docs.length>0){
+$('#tbody').html(Reportoutput);
+$('#itog').text(FCost);
+};
+}
+}
+});
+    });
+</script>
+
+<script>
+    const printButton = document.getElementById('print-button')
+    printButton.addEventListener('click', () => {
+      window.print()
+    });
+</script>
+
+
+{% endblock DataArea %}

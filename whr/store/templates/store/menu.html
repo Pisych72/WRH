@@ -11,7 +11,7 @@
 <a href="{% url 'SpravMenu' %}" class="btn btn-secondary text-white  nav-link mb-1 shadow ">Справочники</a>
 
 {% else %}
- <a href="#" class="btn btn-light border border-white  nav-link mb-2 shadow ">Отчеты</a>
+ <a href="{% url 'ReportMenu' %}" class="btn btn-light border border-white  nav-link mb-2 shadow ">Отчеты</a>
 {% endif %}
 </div>
 {% endblock LinkArea %}

@@ -114,6 +114,9 @@ urlpatterns=[
    path('GetObctData/',GetObctData,name='GetObctData'),
    path('GetObctData2/', GetObctData2, name='GetObctData2'),
    path('ObctReport/',ObctReport,name='ObctReport'),
+   path('FioReport/',FioReport,name='FioReport'),
+   path('GetPodrazData3/', GetPodrazData3, name='GetPodrazData3'),
+   path('GetObctData3/', GetObctData3, name='GetObctData3'),
 
 
 ]

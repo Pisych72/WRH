@@ -1081,3 +1081,35 @@ def GetObctData2(request):
         print(startdate, enddate, idpodraz)
 
         return JsonResponse({'status': 1, 'docs': doclist, 'header': podrazlist})
+def FioReport(request):
+    return render(request,'store/Print/FioReport.html',{'title':'ТМЦ по подотчету','header':'Отчет по подотчету за период с '})
+
+
+def GetObctData3(request):
+    if request.method == 'POST':
+        startdate = request.POST['datastart']
+        enddate = request.POST['dataend']
+        idpodraz = request.POST['idpodraz']
+        doc = JurnalDoc.objects.filter(fio=idpodraz).filter(iddoc__datadoc__range=[startdate, enddate]).values('title','obct__title',
+                                                                                                        'title__title','title__izm__title','fio__title').annotate(
+            total_ammount=Sum('kol'),total_sum=Sum('summawithnds')).order_by('title').exclude(oper=1)
+        podraz = Fio.objects.filter(pk=idpodraz).values('title')
+        doclist = list(doc)
+        podrazlist = list(podraz)
+        print('Test')
+        print(doclist)
+        print(podrazlist)
+        print(startdate, enddate, idpodraz)
+        print('EndTest')
+        return JsonResponse({'status': 1, 'docs': doclist, 'header': podrazlist})
+
+def GetPodrazData3(request):
+    if request.method=='POST':
+        startdate=request.POST['datastart']
+        enddate=request.POST['dataend']
+        doc=Jurnal.objects.filter(datadoc__range=[startdate,enddate]).values('fio__title','fio').annotate(
+            total_ammount=Sum('summawithnds')).order_by('fio').exclude(oper=1)
+        doclist=list(doc)
+        print(doc)
+
+        return JsonResponse({'status':1,'docs':doclist,})
